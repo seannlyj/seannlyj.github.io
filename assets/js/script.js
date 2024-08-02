@@ -163,3 +163,64 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
   });
 });
+
+/* MODAL */
+
+
+// Get the modal
+var modal = document.getElementById("projectModal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// Get the modal content elements
+var modalTitle = document.getElementById("modalTitle");
+var modalSubtitle = document.getElementById("modalSubtitle");
+var modalDescription = document.getElementById("modalDescription");
+var modalImage = document.getElementById("modalImage");
+
+// Function to open the modal with specific content
+function openModal(title, subtitle, description, imageSrc) {
+  modalTitle.textContent = title;
+  modalSubtitle.textContent = subtitle;
+  modalDescription.textContent = description;
+  modalImage.src = imageSrc;    
+  modal.style.display = "block";
+  modal.querySelector('.modal-content').style.animation = 'popUp 0.2s ease';
+
+}
+
+// Function to close the modal with animation
+function closeModal() {
+  var modalContent = modal.querySelector('.modal-content');
+  modalContent.style.animation = 'popDown 0.15s ease';
+  modalContent.addEventListener('animationend', function() {
+    modal.style.display = "none";
+  }, { once: true });
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  closeModal();
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    closeModal();
+  }
+}
+
+// Add event listeners to project items
+document.querySelectorAll('.project-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    var title = item.getAttribute('data-title');
+    var subtitle = item.getAttribute('data-subtitle');
+    var description = item.getAttribute('data-description');
+    var imageSrc = item.getAttribute('data-image');
+    openModal(title, subtitle, description, imageSrc);
+  });
+});
+
+/* END OF MODAL */
+

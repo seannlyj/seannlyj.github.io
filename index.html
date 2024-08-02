@@ -10,7 +10,7 @@
   <!--
     - favicon
   -->
-  <link rel="shortcut icon" href="./assets/images/logo.svg" type="image/x-icon">
+  <link rel="shortcut icon" href="./assets/images/icon.svg" type="image/x-icon">
 
   <!--
     - custom css link
@@ -26,6 +26,8 @@
 </head>
 
 <body>
+
+  <div id="particles-js"></div>
 
   <!--
     - #MAIN
@@ -166,9 +168,6 @@
       </nav>
 
 
-
-
-
       <!--
         - #ABOUT
       -->
@@ -274,9 +273,6 @@
         </section>
 
       </article>
-
-
-
 
 
       <!--
@@ -427,9 +423,6 @@
       </article>
 
 
-
-
-
       <!--
         - #PORTFOLIO
       -->
@@ -490,7 +483,11 @@
 
           <ul class="project-list">
 
-            <li class="project-item  active" data-filter-item data-category="other applications">
+            <li class="project-item  active" data-filter-item data-category="other applications" 
+            data-title="Pomosimple" 
+            data-subtitle="Android Studio, Firebase, Java" 
+            data-description="Description for Project 1"
+            data-image="./assets/images/featuregraphic-pomosimple.png"> 
               <a href="#">
 
                 <figure class="project-img">
@@ -526,7 +523,16 @@
               </a>
             </li>
 
-            <li class="project-item  active" data-filter-item data-category="games">
+            <li class="project-item  active" data-filter-item data-category="games"
+            data-title="Downtime" 
+            data-subtitle="FPS, Unity" 
+            data-description= "A game that I have worked on during 
+            my final year at NYP for a module, where students are required to work on a 17-week project independently.
+             I managed to develop a polished game whilst applying my own unique concepts and features to the 
+            genre of First-person Shooters.
+            "
+            data-image="./assets/images/featuregraphic-pomosimple.png"
+            >
               <a href="#">
 
                 <figure class="project-img">
@@ -642,6 +648,24 @@
       </article>
 
 
+      <!--
+        - Portfolio modal
+      -->
+
+      <!-- Modal Structure -->
+      <div id="projectModal" class="modal">
+        <div class="modal-content">
+
+          <img id="modalImage" src="" alt="Project Image" class="modal-header-image">
+          <span class="close">&times;</span>
+          <div class="modal-body">
+            <h2 id="modalTitle"></h2>
+            <p id="modalSubtitle"></p>
+            <p id="modalDescription"></p>
+
+          </div>
+        </div>
+      </div>
 
       <!--
         - #CONTACT
@@ -690,10 +714,15 @@
 
   </main>
 
-
-
-
-
+  <!--
+    - custom particle animations
+  -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS.load('particles-js', 'particles-config.json', function() {
+      console.log('particles.js loaded - callback');
+    });
+  </script>
 
   <!--
     - custom js link
