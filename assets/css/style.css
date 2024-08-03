@@ -1582,7 +1582,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   padding: 0; /* Remove padding to allow the image to span the full width */
 
   width: 60%;
-  height: 70%;
+  height: auto;
   border-radius: 15px;
   overflow: hidden; /* Ensure content is clipped */
   position: relative; /* Required for absolute positioning of the image */
@@ -1596,6 +1596,22 @@ textarea.form-input::-webkit-resizer { display: none; }
 
 .modal-body {
   padding: 20px;
+}
+
+.modal-description{
+  margin-bottom: 20px;
+}
+
+.modal-video-link,
+.modal-site-link {
+  display: inline-block; /* Make them block elements */
+  margin-top: 10px; /* Space above the links */
+  margin-right: 10px; /* Space between the links */
+  background-color: #f1f1f1;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #333;
 }
 
 

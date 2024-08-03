@@ -178,13 +178,31 @@ var modalTitle = document.getElementById("modalTitle");
 var modalSubtitle = document.getElementById("modalSubtitle");
 var modalDescription = document.getElementById("modalDescription");
 var modalImage = document.getElementById("modalImage");
+var modalVideoLink = document.getElementById("modalVideoLink");
+var modalSiteLink = document.getElementById("modalSiteLink");
 
 // Function to open the modal with specific content
-function openModal(title, subtitle, description, imageSrc) {
+function openModal(title, subtitle, description, imageSrc, videoLink, siteLink) {
   modalTitle.textContent = title;
   modalSubtitle.textContent = subtitle;
   modalDescription.textContent = description;
   modalImage.src = imageSrc;    
+
+  //If there is a link provided, show the link button
+  if(videoLink){
+    modalVideoLink.href = videoLink; // Set the href attribute
+    modalVideoLink.style.display = "inline";
+  } else {
+    modalVideoLink.style.display = "none";
+  }
+
+  if(siteLink){
+    modalSiteLink.href = siteLink; // Set the href attribute
+    modalSiteLink.style.display = "inline";
+  } else {
+    modalSiteLink.style.display = "none";
+  }
+
   modal.style.display = "block";
   modal.querySelector('.modal-content').style.animation = 'popUp 0.2s ease';
 
@@ -218,7 +236,9 @@ document.querySelectorAll('.project-item').forEach(function(item) {
     var subtitle = item.getAttribute('data-subtitle');
     var description = item.getAttribute('data-description');
     var imageSrc = item.getAttribute('data-image');
-    openModal(title, subtitle, description, imageSrc);
+    var videoLink = item.getAttribute('data-video-link');
+    var siteLink = item.getAttribute('data-site-link');
+    openModal(title, subtitle, description, imageSrc, videoLink, siteLink);
   });
 });
 
