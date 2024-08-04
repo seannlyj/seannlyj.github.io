@@ -530,10 +530,10 @@ main {
 
 .navbar-mini-circle{
   position: absolute;
-  bottom: 0;
+  bottom: 8px;
   left: 0;
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   background-color: var(--jet);
   border-radius: 50%;
   transition: transform 0.3s ease;
@@ -1594,27 +1594,39 @@ textarea.form-input::-webkit-resizer { display: none; }
   height: auto;
 }
 
+.modal-title{
+  color: var(--eerieblack);
+  font-size: var(--fs-3);  
+}
+
+.modal-subtitle{
+  color: var(--coolgray);
+  font-size: var(--fs-4);  
+
+}
+
 .modal-body {
   padding: 20px;
 }
 
 .modal-description{
   margin-bottom: 20px;
+  color: var(--jet);
+  font-size: var(--fs-6);
 }
 
 .modal-video-link,
 .modal-site-link {
   display: inline-block; /* Make them block elements */
-  margin-top: 10px; /* Space above the links */
+  margin-top: 15px; /* Space above the links */
   margin-right: 10px; /* Space between the links */
-  background-color: #f1f1f1;
-  padding: 10px 20px;
-  border-radius: 10px;
+  background-color: var(--coolgray-lighter);
+  padding: 10px 15px;
+  border-radius: 5px;
   text-decoration: none;
-  color: #333;
+  color: var(--purewhite);
+  font-weight: lighter;
 }
-
-
 
 .close {
   color: #aaa;
