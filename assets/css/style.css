@@ -1601,12 +1601,12 @@ textarea.form-input::-webkit-resizer { display: none; }
 
 .modal-subtitle{
   color: var(--coolgray);
-  font-size: var(--fs-4);  
+  font-size: var(--fs-6);  
 
 }
 
 .modal-body {
-  padding: 20px;
+  padding: 25px;
 }
 
 .modal-description{
