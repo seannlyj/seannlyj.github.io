@@ -185,7 +185,7 @@ var modalSiteLink = document.getElementById("modalSiteLink");
 function openModal(title, subtitle, description, imageSrc, videoLink, siteLink) {
   modalTitle.textContent = title;
   modalSubtitle.textContent = subtitle;
-  modalDescription.textContent = description;
+  modalDescription.innerHTML = description;
   modalImage.src = imageSrc;    
 
   //If there is a link provided, show the link button
@@ -232,6 +232,9 @@ window.onclick = function(event) {
 // Add event listeners to project items
 document.querySelectorAll('.project-item').forEach(function(item) {
   item.addEventListener('click', function() {
+
+    event.preventDefault(); // Prevent the default action (scrolling to the top)
+
     var title = item.getAttribute('data-title');
     var subtitle = item.getAttribute('data-subtitle');
     var description = item.getAttribute('data-description');

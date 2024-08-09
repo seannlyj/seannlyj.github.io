@@ -996,9 +996,109 @@ main {
   font-weight: var(--fw-300);
 }
 
+@keyframes popUp {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 
+@keyframes popDown {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+}
 
+/* Modal styles */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1000; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.7); 
+}
 
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 0; /* Remove padding to allow the image to span the full width */
+
+  width: 60%;
+  height: auto;
+  border-radius: 15px;
+  overflow: hidden; /* Ensure content is clipped */
+  position: relative; /* Required for absolute positioning of the image */
+  animation: popUp 0.3s ease-out; /* Apply the pop-up animation */
+}
+
+.modal-header-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.modal-title{
+  color: var(--eerieblack);
+  font-size: var(--fs-3);  
+}
+
+.modal-subtitle{
+  color: var(--coolgray);
+  font-size: var(--fs-6);  
+
+}
+
+.modal-body {
+  padding: 25px;
+}
+
+.modal-description{
+  margin-bottom: 20px;
+  color: var(--jet);
+  font-size: var(--fs-6);
+}
+
+.modal-video-link,
+.modal-site-link {
+  display: inline-block; /* Make them block elements */
+  margin-top: 15px; /* Space above the links */
+  margin-right: 10px; /* Space between the links */
+  background-color: var(--coolgray);
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: var(--purewhite);
+  font-weight: lighter;
+}
+
+.close {
+  z-index: 5;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  padding:20px;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
 
 /*-----------------------------------*\
   #BLOG
@@ -1218,6 +1318,8 @@ textarea.form-input::-webkit-resizer { display: none; }
   .project-img,
   .blog-banner-box { height: auto; }
 
+
+
 }
 
 
@@ -1233,6 +1335,8 @@ textarea.form-input::-webkit-resizer { display: none; }
   /**
    * CUSTOM PROPERTY
    */
+
+
 
   :root {
 
@@ -1563,110 +1667,6 @@ textarea.form-input::-webkit-resizer { display: none; }
   .project-list, .blog-posts-list { grid-template-columns: 1fr 1fr; }
 
 
-/* Modal styles */
-.modal {
-  display: none; 
-  position: fixed; 
-  z-index: 1000; 
-  left: 0;
-  top: 0;
-  width: 100%; 
-  height: 100%; 
-  overflow: auto; 
-  background-color: rgba(0,0,0,0.7); 
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 0; /* Remove padding to allow the image to span the full width */
-
-  width: 60%;
-  height: auto;
-  border-radius: 15px;
-  overflow: hidden; /* Ensure content is clipped */
-  position: relative; /* Required for absolute positioning of the image */
-  animation: popUp 0.3s ease-out; /* Apply the pop-up animation */
-}
-
-.modal-header-image {
-  width: 100%;
-  height: auto;
-}
-
-.modal-title{
-  color: var(--eerieblack);
-  font-size: var(--fs-3);  
-}
-
-.modal-subtitle{
-  color: var(--coolgray);
-  font-size: var(--fs-6);  
-
-}
-
-.modal-body {
-  padding: 25px;
-}
-
-.modal-description{
-  margin-bottom: 20px;
-  color: var(--jet);
-  font-size: var(--fs-6);
-}
-
-.modal-video-link,
-.modal-site-link {
-  display: inline-block; /* Make them block elements */
-  margin-top: 15px; /* Space above the links */
-  margin-right: 10px; /* Space between the links */
-  background-color: var(--coolgray-lighter);
-  padding: 10px 15px;
-  border-radius: 5px;
-  text-decoration: none;
-  color: var(--purewhite);
-  font-weight: lighter;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  padding:20px;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-
-@keyframes popUp {
-  0% {
-    transform: scale(0.7);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes popDown {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0.7);
-    opacity: 0;
-  }
-}
-
-
   /**
    * CONTACT
    */
@@ -1805,6 +1805,8 @@ textarea.form-input::-webkit-resizer { display: none; }
 
 @media (min-width: 1250px) {
 
+  
+
   /**
    * RESET
    */
@@ -1918,4 +1920,36 @@ textarea.form-input::-webkit-resizer { display: none; }
   .timeline-text { max-width: 700px; }
 
 
+
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .modal-video-link,
+  .modal-site-link {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+    text-align: center;
+    padding: 8px 12px; /* Smaller padding */
+    font-size: 14px; /* Smaller font size */
+  }
+
+  .modal-content{   
+    width: 90%;
+  }
+
+  .modal-description {
+    font-size: var(--fs-8); /* Smaller font size for screens 768px or smaller */
+  }
+
+  .modal-title {
+    font-size: var(--fs-5); /* Smaller font size for screens 768px or smaller */
+  }
+  
+  .modal-subtitle{
+    font-size: var(--fs-8); /* Smaller font size for screens 768px or smaller */
+  }
+}
+

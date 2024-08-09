@@ -433,6 +433,26 @@
 
         <section class="projects">
 
+        <!--
+          - Portfolio modal
+        -->
+
+        <!-- Modal Structure -->
+        <div id="projectModal" class="modal">
+          <div class="modal-content">
+
+            <img id="modalImage" src="" alt="Project Image" class="modal-header-image">
+            <span class="close">&times;</span>
+            <div class="modal-body">
+              <h2 id="modalTitle" class="modal-title"></h2>
+              <p id="modalSubtitle" class="modal-subtitle"></p>
+              <p id="modalDescription" class="modal-description"></p>
+              <a id="modalVideoLink" href="#" target="_blank" class="modal-video-link">Video Demo</a>
+              <a id="modalSiteLink" href="#" target="_blank" class="modal-site-link">Learn More</a>
+            </div>
+          </div>
+        </div>
+
           <ul class="filter-list">
 
             <li class="filter-item">
@@ -484,10 +504,13 @@
             <li class="project-item  active" data-filter-item data-category="other applications" 
             data-title="Pomosimple" 
             data-subtitle="Android Studio, Firebase, Java" 
-            data-description="Pomosimple was developed as a personal project to help students manage their time and study periods more efficiently. 
-            As a university student myself, I noticed that most Pomodoro timer apps lacked the features that I needed such as a well-designed user interface with good 
-            customizability of their timers. I decided to develop my own Pomodoro timer app to cater to my needs and to learn more about Android development and production of apps on the Google Play Store. 
-            The app is also integrated with Firebase to store user data and settings, providing side-goals that can help boost user productivity."
+            data-description="
+            <p>Pomosimple was developed as a personal project to help students manage their time and study periods more efficiently. </p>
+            <br>
+            <p>As a university student myself, I noticed that most Pomodoro timer apps lacked the features that I needed such as a well-designed user interface with good 
+            customizability of their timers. I decided to develop my own Pomodoro timer app to cater to my needs and to learn more about Android development and production of apps on the Google Play Store. </p>
+            <br>
+            <p>The app is also integrated with Firebase to store user data and settings, providing side-goals that can help boost user productivity.</p>"
             data-image="./assets/images/featuregraphic-pomosimple.png"> 
               <a href="#">
 
@@ -509,10 +532,13 @@
             <li class="project-item  active" data-filter-item data-category="other applications"
             data-title="Vocal Insights" 
             data-subtitle="AI/NLP(Whisper, NLTK, Transformer), Flask, SQLite, Python" 
-            data-description="Vocal Insights is a smart sales helper application that transcribes audio recordings of customer calls and analyzes the sentiment of the conversations. 
-            It uses Whisper for accurate transcription, Transformer models for summarizing the call content, and NLTK for performing sentiment analysis to gauge the customer's mood. 
-            The app then tracks these sentiments over time by uploading them to a database, allowing sales teams to track and identify customers at risk of losing interest. 
-            This project was developed for TikTok TechJam 2024."
+            data-description="
+            <p>Vocal Insights is a smart sales helper application that transcribes audio recordings of customer calls and analyzes the sentiment of the conversations.</p>
+            <br>
+            <p>It uses Whisper for accurate transcription, Transformer models for summarizing the call content, and NLTK for performing sentiment analysis to gauge the customer's mood. 
+            The app then tracks these sentiments over time by uploading them to a database, allowing sales teams to track and identify customers at risk of losing interest. </p>
+            <br>
+            <p>This project was developed for TikTok TechJam 2024.</p>"
             data-image="./assets/images/featuregraphic-vocal-insights.png"
             data-video-link="https://www.youtube.com/watch?v=23vTC4eCH6Y&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE"
             data-site-link="https://devpost.com/software/vocal-insights?ref_content=user-portfolio&ref_feature=in_progress">
@@ -536,11 +562,13 @@
             <li class="project-item  active" data-filter-item data-category="games"
             data-title="Downtime" 
             data-subtitle="FPS, Unity" 
-            data-description= "A game that I have worked on during 
-            my final year at Nanyang Polytechnic for a module, where students are required to work on a 17-week project independently.
-            Throughout development, I dedicated myself to crafting a highly polished game that stood out in the genre of First-person Shooters.
-             I incorporated my own innovative concepts and distinctive features along with inspirations from several popular games to elevate gameplay experience. 
-             This project was featured several times on a YouTube channel, and was also further shared on Instagram."
+            data-description= "
+            <p>A game that I have worked on during my final year at Nanyang Polytechnic for a module, where students are required to work on a 17-week project independently.</p>
+            <br>
+            <p>Throughout development, I dedicated myself to crafting a highly polished game that stood out in the genre of First-person Shooters.
+             I incorporated my own innovative concepts and distinctive features along with inspirations from several popular games to elevate gameplay experience. </p>
+            <br>
+            <p>This project was featured several times on a YouTube channel, and was also further shared on Instagram.</p>"
             data-image="./assets/images/featuregraphic-downtime.png"
             data-video-link="https://www.youtube.com/watch?v=LfGkPay0ZP0"
             data-site-link="https://na-es.itch.io/downtime"
@@ -565,9 +593,11 @@
             <li class="project-item  active" data-filter-item data-category="games"
             data-title="Slime Arena" 
             data-subtitle="Action, Arena, Unity, Game Jam Submission" 
-            data-description= "Slime Arena is a fast-paced first-person game where you fight for your survival against incoming hordes of slime.
-             You as the player can conjure three elemental spells to fend off different types of slimes, each elemental works better on different types of slimes. 
-             This game was made for the 7DFPS 2023, a 7-day FPS-themed Game Jam.
+            data-description= "
+            <p>Slime Arena is a fast-paced first-person game where you fight for your survival against incoming hordes of slime.
+             You as the player can conjure three elemental spells to fend off different types of slimes, each elemental works better on different types of slimes.</p> 
+            <br>
+             <p>This game was made for the 7DFPS 2023, a 7-day FPS-themed Game Jam.</p>
             "
             data-image="./assets/images/featuregraphic-slimearena.png"
             data-site-link="https://na-es.itch.io/slimearena">
@@ -591,9 +621,10 @@
             <li class="project-item  active" data-filter-item data-category="games"
             data-title="WASD+E" 
             data-subtitle="Puzzle, 2D, Unity, Game Jam Submission" 
-            data-description= "WASD+E is a 2D puzzle game where players have to pick and lose certain controls 
+            data-description= "
+            <p>WASD+E is a 2D puzzle game where players have to pick and lose certain controls 
             of their character in exchange for others that benegit them in progressing through the level. This game finished
-            2nd out of 65 in overall rankings in Mini-Jam 96: Losing is Good.
+            2nd out of 65 in overall rankings in Mini-Jam 96: Losing is Good.</p>
             "
             data-image="./assets/images/featuregraphic-wasde.png"
             data-site-link="https://na-es.itch.io/wasde">
@@ -617,9 +648,9 @@
             <li class="project-item  active" data-filter-item data-category="games"
             data-title="Monochrome" 
             data-subtitle="2D, Platformer, Unity" 
-            data-description= "A 2D platformer game where players can teleport to a projectile that they can fire. 
+            data-description= "<p>A 2D platformer game where players can teleport to a projectile that they can fire. 
             This 4-week project was worked on during my school break. The game was made to prepare and familiarize myself with
-            the Unity game engine before the start of the semester where I had to use it.
+            the Unity game engine before the start of the semester where I had to use it.</p>
             "
             data-image="./assets/images/featuregraphic-monochrome.png"
             data-video-link="https://www.youtube.com/watch?v=Qqa2SdD7biI">
@@ -642,10 +673,10 @@
 
             <li class="project-item  active" data-filter-item data-category="games"
             data-title="Pathfinder" 
-            data-subtitle="3D, Multiplayer, Puzzle, Unity" 
-            data-description= " Pathfinder is a multiplayer, tile-based game where 2 players have to rely on each other to get to their individual end point. 
+            data-subtitle="3D, Multiplayer(Photon), Puzzle, Unity" 
+            data-description= "<p>Pathfinder is a multiplayer, tile-based game where 2 players have to rely on each other to get to their individual end point. 
             I worked on features such as the game design, gameplay algorithm, user interface, and graphical look of the game. 
-            This was my first experience working on a Multiplayer game."
+            This was my first experience working on a Multiplayer game using Photon.</p>"
             data-image="./assets/images/featuregraphic-pathfinder.png"
             data-video-link="https://www.youtube.com/watch?v=h3zYvY9v424">
               <a href="#">
@@ -668,10 +699,15 @@
             <li class="project-item  active" data-filter-item data-category="games"
             data-title="Vital Blue" 
             data-subtitle="2D, Education, Healthcare, Unity" 
-            data-description= "Vital Blue is a 2D educational game for healthcare professionals to practice the procedures of a code blue scenario.
-            My team partnered with the Institute of Mental Health (IMH) to develop the project. I was involved in the process of designing game mechanics and
+            data-description = "
+            <p>Vital Blue is a 2D educational game for healthcare professionals to practice the procedures of a code blue scenario.</p>
+            <br>
+            <p>
+              My team partnered with the Institute of Mental Health (IMH) to develop the project. I was involved in the process of designing game mechanics and
              writing code for the game. I also took charge leading a team, and acted as a intermediary for my team and the client. 
-             This project was also further nominated to represent NYP in the 2021 Lee Hsien Loong Smart Nation Awards."
+            </p>
+            <br>
+            <p>This project was also further nominated to represent NYP in the 2021 Lee Hsien Loong Smart Nation Awards.</p>"
              data-image="./assets/images/featuregraphic-codeblue.png"
             data-video-link="https://www.youtube.com/watch?v=LtsA_CYyad8">
               <a href="#">
@@ -698,25 +734,7 @@
       </article>
 
 
-      <!--
-        - Portfolio modal
-      -->
 
-      <!-- Modal Structure -->
-      <div id="projectModal" class="modal">
-        <div class="modal-content">
-
-          <img id="modalImage" src="" alt="Project Image" class="modal-header-image">
-          <span class="close">&times;</span>
-          <div class="modal-body">
-            <h2 id="modalTitle" class="modal-title"></h2>
-            <p id="modalSubtitle" class="modal-subtitle"></p>
-            <p id="modalDescription" class="modal-description"></p>
-            <a id="modalVideoLink" href="#" target="_blank" class="modal-video-link">Video Demo</a>
-            <a id="modalSiteLink" href="#" target="_blank" class="modal-site-link">Learn More</a>
-          </div>
-        </div>
-      </div>
 
       <!--
         - #CONTACT
