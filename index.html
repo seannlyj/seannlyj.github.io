@@ -377,7 +377,24 @@
 
             <li class="timeline-item">
 
-              <h4 class="h4 timeline-item-title">Unity developer</h4>
+              <h4 class="h4 timeline-item-title">Game Developer Intern</h4>
+
+              <span>May 2025 - Aug. 2025</span>
+
+              <p class="timeline-text-italic">
+                HABBY
+              </p>
+
+              <ul class="experience-list">
+                <li>Prototyped and developed an internal gameplay prototype, working closely with designers to implement engaging features in Unity</li>
+                <li>Analyzed core gameplay mechanics and player engagement strategies from top-performing mobile titles to guide internal game design</li>
+                <li>Drove rapid iteration cycles to refine moment-to-moment gameplay, enhancing overall game feel based on data-informed decisions</li>
+              </ul>
+            </li>
+
+            <li class="timeline-item">
+
+              <h4 class="h4 timeline-item-title">Unity Developer</h4>
 
               <span>May 2023 — Nov. 2023</span>
 
@@ -395,7 +412,7 @@
 
             <li class="timeline-item">
 
-              <h4 class="h4 timeline-item-title">Programming intern</h4>
+              <h4 class="h4 timeline-item-title">Programming Intern</h4>
 
               <span>Nov. 2020 — Feb. 2021</span>
 
@@ -441,7 +458,30 @@
         <div id="projectModal" class="modal">
           <div class="modal-content">
 
-            <img id="modalImage" src="" alt="Project Image" class="modal-header-image">
+            <div class="modal-media-container">
+              <img id="modalImage" src="" alt="Project Image" class="modal-header-image">
+              <video id="modalVideo" class="modal-header-video" controls style="display: none;">
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <iframe id="modalIframe" class="modal-header-iframe" style="display: none;" frameborder="0" allowfullscreen></iframe>
+              
+              <!-- Media Navigation -->
+              <div class="modal-media-nav">
+                <button class="modal-nav-btn modal-nav-prev" id="modalNavPrev">
+                  <ion-icon name="chevron-back"></ion-icon>
+                </button>
+                <button class="modal-nav-btn modal-nav-next" id="modalNavNext">
+                  <ion-icon name="chevron-forward"></ion-icon>
+                </button>
+              </div>
+              
+              <!-- Media Indicators -->
+              <div class="modal-media-indicators" id="modalMediaIndicators">
+                <!-- Indicators will be generated dynamically -->
+              </div>
+            </div>
+            
             <span class="close">&times;</span>
             <div class="modal-body">
               <h2 id="modalTitle" class="modal-title"></h2>
@@ -510,7 +550,12 @@
             The app uses a real-time weather API from NEA to help filter activities that suit the current conditions of the weather.</p>
             <br>
             <p>The server back-end is built using NodeJS, and utilizeds MongoDB as our database solution which is being hosted on the cloud.</p>"
-            data-image="./assets/images/featuregraphic-sunnyside.png"
+            data-media='[
+              {"type": "image", "src": "./assets/images/featuregraphic-sunnyside.png", "alt": "SunnySide Feature Graphic"},
+              {"type": "image", "src": "./assets/images/featuregraphic-sunnyside-signuplogin.png", "alt": "SunnySide Feature Graphic"},
+              {"type": "image", "src": "./assets/images/featuregraphic-sunnyside-landing.png", "alt": "SunnySide Feature Graphic"},
+              {"type": "video", "src": "https://youtu.be/zVc8yq4cGzw", "alt": "SunnySide Demo Video"}
+            ]'
             data-video-link="https://youtu.be/zVc8yq4cGzw"
             loading="eager"> 
               <a href="#">
@@ -540,7 +585,9 @@
             customizability of their timers. I decided to develop my own Pomodoro timer app to cater to my needs and to learn more about Android development and production of apps on the Google Play Store. </p>
             <br>
             <p>The app is also integrated with Firebase to store user data and settings, providing side-goals that can help boost user productivity.</p>"
-            data-image="./assets/images/featuregraphic-pomosimple.png"
+            data-media='[
+              {"type": "image", "src": "./assets/images/featuregraphic-pomosimple.png", "alt": "Pomosimple Feature Graphic"}
+            ]'
             data-site-link="https://play.google.com/store/apps/details?id=com.seannlyj.pomosimple&hl=en"
             loading="eager"> 
               <a href="#">
@@ -570,7 +617,10 @@
             The app then tracks these sentiments over time by uploading them to a database, allowing sales teams to track and identify customers at risk of losing interest. </p>
             <br>
             <p>This project was developed for TikTok TechJam 2024.</p>"
-            data-image="./assets/images/featuregraphic-vocal-insights.png"
+            data-media='[
+              {"type": "image", "src": "./assets/images/featuregraphic-vocal-insights.png", "alt": "Vocal Insights Feature Graphic"},
+              {"type": "video", "src": "https://www.youtube.com/watch?v=23vTC4eCH6Y&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE", "alt": "Vocal Insights Demo Video"}
+            ]'
             data-video-link="https://www.youtube.com/watch?v=23vTC4eCH6Y&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE"
             data-site-link="https://devpost.com/software/vocal-insights?ref_content=user-portfolio&ref_feature=in_progress"
             loading="eager">
@@ -601,7 +651,12 @@
              I incorporated my own innovative concepts and distinctive features along with inspirations from several popular games to elevate gameplay experience. </p>
             <br>
             <p>This project was featured several times on a YouTube channel, and was also further shared on Instagram.</p>"
-            data-image="./assets/images/featuregraphic-downtime.png"
+            data-media='[
+              {"type": "image", "src": "./assets/images/featuregraphic-downtime.png", "alt": "Downtime Feature Graphic"},
+              {"type": "image", "src": "./assets/images/featuregraphic-downtime-1.png", "alt": "Downtime Feature Graphic"},
+              {"type": "image", "src": "./assets/images/featuregraphic-downtime-2.png", "alt": "Downtime Feature Graphic"},
+              {"type": "video", "src": "https://www.youtube.com/watch?v=LfGkPay0ZP0", "alt": "Downtime Gameplay Video"}
+            ]'
             data-video-link="https://www.youtube.com/watch?v=LfGkPay0ZP0"
             data-site-link="https://na-es.itch.io/downtime"
             loading="eager">
@@ -631,7 +686,9 @@
             <br>
              <p>This game was made for the 7DFPS 2023, a 7-day FPS-themed Game Jam.</p>
             "
-            data-image="./assets/images/featuregraphic-slimearena.png"
+            data-media='[
+              {"type": "image", "src": "./assets/images/featuregraphic-slimearena.png", "alt": "Slime Arena Feature Graphic"}
+            ]'
             data-site-link="https://na-es.itch.io/slimearena"
             loading="eager">
               <a href="#">
@@ -659,7 +716,9 @@
             of their character in exchange for others that benegit them in progressing through the level. This game finished
             2nd out of 65 in overall rankings in Mini-Jam 96: Losing is Good.</p>
             "
-            data-image="./assets/images/featuregraphic-wasde.png"
+            data-media='[
+              {"type": "image", "src": "./assets/images/featuregraphic-wasde.png", "alt": "WASD+E Feature Graphic"}
+            ]'
             data-site-link="https://na-es.itch.io/wasde"
             loading="eager">
               <a href="#">
@@ -686,7 +745,10 @@
             This 4-week project was worked on during my school break. The game was made to prepare and familiarize myself with
             the Unity game engine before the start of the semester where I had to use it.</p>
             "
-            data-image="./assets/images/featuregraphic-monochrome.png"
+            data-media='[
+              {"type": "image", "src": "./assets/images/featuregraphic-monochrome.png", "alt": "Monochrome Feature Graphic"},
+              {"type": "video", "src": "https://www.youtube.com/watch?v=Qqa2SdD7biI", "alt": "Monochrome Gameplay Video"}
+            ]'
             data-video-link="https://www.youtube.com/watch?v=Qqa2SdD7biI"
             loading="eager">
               <a href="#">
@@ -712,7 +774,10 @@
             data-description= "<p>Pathfinder is a multiplayer, tile-based game where 2 players have to rely on each other to get to their individual end point. 
             I worked on features such as the game design, gameplay algorithm, user interface, and graphical look of the game. 
             This was my first experience working on a Multiplayer game using Photon.</p>"
-            data-image="./assets/images/featuregraphic-pathfinder.png"
+            data-media='[
+              {"type": "image", "src": "./assets/images/featuregraphic-pathfinder.png", "alt": "Pathfinder Feature Graphic"},
+              {"type": "video", "src": "https://www.youtube.com/watch?v=h3zYvY9v424", "alt": "Pathfinder Gameplay Video"}
+            ]'
             data-video-link="https://www.youtube.com/watch?v=h3zYvY9v424"
             loading="eager">
               <a href="#">
@@ -744,7 +809,10 @@
             </p>
             <br>
             <p>This project was also further nominated to represent NYP in the 2021 Lee Hsien Loong Smart Nation Awards.</p>"
-            data-image="./assets/images/featuregraphic-codeblue.png"
+            data-media='[
+              {"type": "image", "src": "./assets/images/featuregraphic-codeblue.png", "alt": "Vital Blue Feature Graphic"},
+              {"type": "video", "src": "https://www.youtube.com/watch?v=LtsA_CYyad8", "alt": "Vital Blue Demo Video"}
+            ]'
             data-video-link="https://www.youtube.com/watch?v=LtsA_CYyad8"
             loading="eager">
               <a href="#">
