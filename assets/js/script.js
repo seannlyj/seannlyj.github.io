@@ -162,10 +162,51 @@ document.addEventListener('DOMContentLoaded', ()=>{
       moveMiniCircle(activeLink);
     }
   });
+
+  // Preload all modal images for instant display
+  preloadAllModalImages();
 });
 
 /* MODAL */
 
+// Image preloading system
+const preloadedImages = new Map();
+
+// Function to preload images
+function preloadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      preloadedImages.set(src, img);
+      resolve(img);
+    };
+    img.onerror = () => {
+      console.warn(`Failed to preload image: ${src}`);
+      reject(new Error(`Failed to preload image: ${src}`));
+    };
+    img.src = src;
+  });
+}
+
+// Preload all modal images when the page loads
+function preloadAllModalImages() {
+  const projectItems = document.querySelectorAll('.project-item');
+  const imagePromises = [];
+  
+  projectItems.forEach(item => {
+    const imageSrc = item.getAttribute('data-image');
+    if (imageSrc && !preloadedImages.has(imageSrc)) {
+      imagePromises.push(preloadImage(imageSrc));
+    }
+  });
+  
+  // Log progress (optional)
+  Promise.allSettled(imagePromises).then(results => {
+    const successful = results.filter(result => result.status === 'fulfilled').length;
+    const total = results.length;
+    console.log(`Preloaded ${successful}/${total} modal images`);
+  });
+}
 
 // Get the modal
 var modal = document.getElementById("projectModal");
@@ -186,7 +227,15 @@ function openModal(title, subtitle, description, imageSrc, videoLink, siteLink) 
   modalTitle.textContent = title;
   modalSubtitle.textContent = subtitle;
   modalDescription.innerHTML = description;
-  modalImage.src = imageSrc;    
+  
+  // Use preloaded image if available, otherwise load normally
+  if (preloadedImages.has(imageSrc)) {
+    modalImage.src = imageSrc;
+    // The image is already loaded, so it will display immediately
+  } else {
+    // Fallback: load the image normally if it wasn't preloaded
+    modalImage.src = imageSrc;
+  }
 
   //If there is a link provided, show the link button
   if(videoLink){
@@ -231,8 +280,15 @@ window.onclick = function(event) {
 
 // Add event listeners to project items
 document.querySelectorAll('.project-item').forEach(function(item) {
-  item.addEventListener('click', function() {
+  // Preload image on hover for even faster loading
+  item.addEventListener('mouseenter', function() {
+    const imageSrc = item.getAttribute('data-image');
+    if (imageSrc && !preloadedImages.has(imageSrc)) {
+      preloadImage(imageSrc);
+    }
+  });
 
+  item.addEventListener('click', function() {
     event.preventDefault(); // Prevent the default action (scrolling to the top)
 
     var title = item.getAttribute('data-title');
