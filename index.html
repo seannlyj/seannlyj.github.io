@@ -7,19 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sean Neo - Portfolio</title>
 
-  <!--
-    - favicon
-  -->
+  <!-- Favicon -->
   <link rel="shortcut icon" href="./assets/images/icon.svg" type="image/x-icon">
 
-  <!--
-    - custom css link
-  -->
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="./assets/css/style.css">
 
-  <!--
-    - google font link
-  -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -27,15 +21,15 @@
 
 <body>
 
-  <!--
-    - #MAIN
-  -->
+  <!-- ============================================================================
+       MAIN CONTAINER
+       ============================================================================ -->
 
   <main>
 
-    <!--
-      - #SIDEBAR
-    -->
+    <!-- ============================================================================
+         SIDEBAR
+         ============================================================================ -->
 
     <aside class="sidebar" data-sidebar>
 
@@ -47,13 +41,11 @@
 
         <div class="info-content">
           <h1 class="name" title="Sean Neo">Sean Neo</h1>
-
           <p class="title">Software developer</p>
         </div>
 
         <button class="info_more-btn" data-sidebar-btn>
           <span>Show Contacts</span>
-
           <ion-icon name="chevron-down"></ion-icon>
         </button>
 
@@ -63,90 +55,72 @@
 
         <div class="separator"></div>
 
+        <!-- Contact Information -->
         <ul class="contacts-list">
 
           <li class="contact-item">
-
             <div class="icon-box">
               <ion-icon name="mail-outline"></ion-icon>
             </div>
-
             <div class="contact-info">
               <p class="contact-title">Email</p>
-
               <a href="mailto:seann.lyj@gmail.com" class="contact-link">seann.lyj@gmail.com</a>
             </div>
-
           </li>
 
           <li class="contact-item">
-
             <div class="icon-box">
               <ion-icon name="call-outline"></ion-icon>
             </div>
-
             <div class="contact-info">
               <p class="contact-title">Phone</p>
-
               <a href="tel:+6592321726" class="contact-link">+65 9232 1726</a>
             </div>
-
           </li>
 
-
-
           <li class="contact-item">
-
             <div class="icon-box">
               <ion-icon name="location-outline"></ion-icon>
             </div>
-
             <div class="contact-info">
               <p class="contact-title">Location</p>
-
               <address>Singapore</address>
             </div>
-
           </li>
 
         </ul>
 
         <div class="separator"></div>
 
+        <!-- Social Links -->
         <ul class="social-list">
-
           <li class="social-item">
             <a href="https://www.linkedin.com/in/sean-neo-970198160/" class="social-link">
               <ion-icon name="logo-linkedin"></ion-icon>
             </a>
           </li>
-
         </ul>
 
       </div>
 
     </aside>
 
-
-
-
-
-    <!--
-      - #main-content
-    -->
+    <!-- ============================================================================
+         MAIN CONTENT
+         ============================================================================ -->
 
     <div class="main-content">
 
-      <!--
-        - #NAVBAR
-      -->
+      <!-- ============================================================================
+           NAVIGATION BAR
+           ============================================================================ -->
 
       <nav class="navbar">
 
         <ul class="navbar-list">
 
           <li class="navbar-item">
-            <button class="navbar-link  active" data-nav-link>About</button>
+            <button class="navbar-link active" data-nav-link>About</button>
           </li>
 
           <li class="navbar-item">
@@ -157,20 +131,23 @@
             <button class="navbar-link" data-nav-link>Portfolio</button>
           </li>
 
-          <!--<li class="navbar-item">
+          <!-- Contact navigation (commented out)
+          <li class="navbar-item">
             <button class="navbar-link" data-nav-link>Contact</button>
-          </li>-->
+          </li>
+          -->
 
         </ul>
+
         <div id="navbar-mini-circle" class="navbar-mini-circle"></div>
+
       </nav>
 
+      <!-- ============================================================================
+           ABOUT SECTION
+           ============================================================================ -->
 
-      <!--
-        - #ABOUT
-      -->
-
-      <article class="about  active" data-page="about">
+      <article class="about active" data-page="about">
 
         <header>
           <h2 class="h2 article-title">About me</h2>
@@ -190,10 +167,9 @@
           </p>
         </section>
 
-
-        <!--
-          - service
-        -->
+        <!-- ============================================================================
+             SERVICES SECTION
+             ============================================================================ -->
 
         <section class="service">
 
@@ -202,68 +178,51 @@
           <ul class="service-list">
 
             <li class="service-item">
-
               <div class="service-icon-box">
-                <img src="./assets/images/icon-programming.svg
-                " alt="game dev icon" width="40">
+                <img src="./assets/images/icon-programming.svg" alt="game dev icon" width="40">
               </div>
-
               <div class="service-content-box">
                 <h4 class="h4 service-item-title">Game development</h4>
-
                 <p class="service-item-text">
                   Crafting unique and interactive experiences for players through coding.
                 </p>
               </div>
-
             </li>
 
             <li class="service-item">
-
               <div class="service-icon-box">
                 <img src="./assets/images/icon-game.svg" alt="game design icon" width="40">
               </div>
-
               <div class="service-content-box">
                 <h4 class="h4 service-item-title">Game design</h4>
-
                 <p class="service-item-text">
                   Designing engaging gameplay experiences and intuitive user interfaces.
                 </p>
               </div>
-
             </li>
 
             <li class="service-item">
-
               <div class="service-icon-box">
                 <img src="./assets/images/icon-phone.svg" alt="mobile app icon" width="40">
               </div>
-
               <div class="service-content-box">
                 <h4 class="h4 service-item-title">Mobile app development</h4>
-
                 <p class="service-item-text">
                   Creating user-friendly mobile applications with sleek and intuitive designs.
                 </p>
               </div>
-
             </li>
 
             <li class="service-item">
-
               <div class="service-icon-box">
                 <img src="./assets/images/icon-web.svg" alt="web dev icon" width="40">
               </div>
-
               <div class="service-content-box">
                 <h4 class="h4 service-item-title">Web development</h4>
-
                 <p class="service-item-text">
                   Developing dynamic and responsive websites for an optimal user experience.
                 </p>
               </div>
-
             </li>
 
           </ul>
@@ -272,10 +231,9 @@
 
       </article>
 
-
-      <!--
-        - #RESUME
-      -->
+      <!-- ============================================================================
+           RESUME SECTION
+           ============================================================================ -->
 
       <article class="resume" data-page="resume">
 
@@ -283,6 +241,7 @@
           <h2 class="h2 article-title">Resume</h2>
         </header>
 
+        <!-- Technical Skills -->
         <section class="skill">
 
           <h3 class="h3 skills-title">Technical skills</h3>
@@ -314,77 +273,62 @@
 
         </section>
 
+        <!-- Education Timeline -->
         <section class="timeline">
 
           <div class="title-wrapper">
             <div class="icon-box">
               <ion-icon name="book-outline"></ion-icon>
             </div>
-
             <h3 class="h3">Education</h3>
           </div>
 
           <ol class="timeline-list">
 
             <li class="timeline-item">
-
               <h4 class="h4 timeline-item-title">Nanyang Technological University</h4>
-
               <span>Aug. 2023 — Present</span>
-
               <p class="timeline-text">
                 Bachelor of Computing(Hons) in Computer Science.
               </p>
-
-              
               <p class="timeline-text-italic">
                 CGPA 4.00/5.00
               </p>
-
             </li>
 
             <li class="timeline-item">
-
               <h4 class="h4 timeline-item-title">Nanyang Polytechnic</h4>
-
               <span>Apr. 2017 — Apr. 2021</span>
-
               <p class="timeline-text">
                 Diploma in Game Development & Technlogy
               </p>
-
               <p class="timeline-text-italic">
                 CGPA 3.89/4.00
               </p>
-
             </li>
 
           </ol>
 
         </section>
 
+        <!-- Experience Timeline -->
         <section class="timeline">
 
           <div class="title-wrapper">
             <div class="icon-box">
               <ion-icon name="briefcase-outline"></ion-icon>
             </div>
-
             <h3 class="h3">Experience</h3>
           </div>
 
           <ol class="timeline-list">
 
             <li class="timeline-item">
-
               <h4 class="h4 timeline-item-title">Game Developer Intern</h4>
-
               <span>May 2025 - Aug. 2025</span>
-
               <p class="timeline-text-italic">
                 HABBY
               </p>
-
               <ul class="experience-list">
                 <li>Prototyped and developed an internal gameplay prototype, working closely with designers to implement engaging features in Unity</li>
                 <li>Analyzed core gameplay mechanics and player engagement strategies from top-performing mobile titles to guide internal game design</li>
@@ -393,15 +337,11 @@
             </li>
 
             <li class="timeline-item">
-
               <h4 class="h4 timeline-item-title">Unity Developer</h4>
-
               <span>May 2023 — Nov. 2023</span>
-
               <p class="timeline-text-italic">
                 World Overlay Studios
               </p>
-
               <ul class="experience-list">
                 <li>Transitioned from an internship to a part-time role upon commencing university studies</li>
                 <li>Integrated and implemented gameplay features such as water simulations and runtime character customization</li>
@@ -411,36 +351,28 @@
             </li>
 
             <li class="timeline-item">
-
               <h4 class="h4 timeline-item-title">Programming Intern</h4>
-
               <span>Nov. 2020 — Feb. 2021</span>
-
               <p class="timeline-text-italic">
                 Kingmaker Entertainment
               </p>
-
               <ul class="experience-list">
                 <li>Assisted in the development of a mobile game, contributing to the implementation of gameplay features</li>
                 <li>Managed the migration of a project from Cocos Creator to Unity</li>
                 <li>Conducted research and optimization processes for the project</li>
                 <li>Documented the process of migrating the project from one engine to another</li>
               </ul>
-
             </li>
 
           </ol>
 
         </section>
 
-
-
       </article>
 
-
-      <!--
-        - #PORTFOLIO  
-      -->
+      <!-- ============================================================================
+           PORTFOLIO SECTION
+           ============================================================================ -->
 
       <article class="portfolio" data-page="portfolio">
 
@@ -450,48 +382,53 @@
 
         <section class="projects">
 
-        <!--
-          - Portfolio modal
-        -->
+          <!-- ============================================================================
+               PORTFOLIO MODAL
+               ============================================================================ -->
 
-        <!-- Modal Structure -->
-        <div id="projectModal" class="modal">
-          <div class="modal-content">
+          <div id="projectModal" class="modal">
+            <div class="modal-content">
 
-            <div class="modal-media-container">
-              <img id="modalImage" src="" alt="Project Image" class="modal-header-image">
-              <video id="modalVideo" class="modal-header-video" controls style="display: none;">
-                <source src="" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-              <iframe id="modalIframe" class="modal-header-iframe" style="display: none;" frameborder="0" allowfullscreen></iframe>
-              
-              <!-- Media Navigation -->
-              <div class="modal-media-nav">
-                <button class="modal-nav-btn modal-nav-prev" id="modalNavPrev">
-                  <ion-icon name="chevron-back"></ion-icon>
-                </button>
-                <button class="modal-nav-btn modal-nav-next" id="modalNavNext">
-                  <ion-icon name="chevron-forward"></ion-icon>
-                </button>
+              <div class="modal-media-container">
+                <img id="modalImage" src="" alt="Project Image" class="modal-header-image">
+                <video id="modalVideo" class="modal-header-video" controls style="display: none;">
+                  <source src="" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                <iframe id="modalIframe" class="modal-header-iframe" style="display: none;" frameborder="0" allowfullscreen></iframe>
+                
+                <!-- Media Navigation -->
+                <div class="modal-media-nav">
+                  <button class="modal-nav-btn modal-nav-prev" id="modalNavPrev">
+                    <ion-icon name="chevron-back"></ion-icon>
+                  </button>
+                  <button class="modal-nav-btn modal-nav-next" id="modalNavNext">
+                    <ion-icon name="chevron-forward"></ion-icon>
+                  </button>
+                </div>
+                
+                <!-- Media Indicators -->
+                <div class="modal-media-indicators" id="modalMediaIndicators">
+                  <!-- Indicators will be generated dynamically -->
+                </div>
               </div>
               
-              <!-- Media Indicators -->
-              <div class="modal-media-indicators" id="modalMediaIndicators">
-                <!-- Indicators will be generated dynamically -->
+              <span class="close">&times;</span>
+              
+              <div class="modal-body">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <p id="modalSubtitle" class="modal-subtitle"></p>
+                <p id="modalDescription" class="modal-description"></p>
+                <a id="modalVideoLink" href="#" target="_blank" class="modal-video-link">Video Demo</a>
+                <a id="modalSiteLink" href="#" target="_blank" class="modal-site-link">Learn More</a>
               </div>
-            </div>
-            
-            <span class="close">&times;</span>
-            <div class="modal-body">
-              <h2 id="modalTitle" class="modal-title"></h2>
-              <p id="modalSubtitle" class="modal-subtitle"></p>
-              <p id="modalDescription" class="modal-description"></p>
-              <a id="modalVideoLink" href="#" target="_blank" class="modal-video-link">Video Demo</a>
-              <a id="modalSiteLink" href="#" target="_blank" class="modal-site-link">Learn More</a>
+
             </div>
           </div>
-        </div>
+
+          <!-- ============================================================================
+               FILTER CONTROLS
+               ============================================================================ -->
 
           <ul class="filter-list">
 
@@ -539,296 +476,260 @@
 
           </div>
 
+          <!-- ============================================================================
+               PROJECT LIST
+               ============================================================================ -->
+
           <ul class="project-list">
 
-            <li class="project-item  active" data-filter-item data-category="other applications" 
-            data-title="SunnySide" 
-            data-subtitle="React, MongoDB, NodeJS" 
-            data-description="
-
-            <p> Utilizing React for the front-end along with Leaflet API as the map provider, users can easily find nearby fitness activities.
-            The app uses a real-time weather API from NEA to help filter activities that suit the current conditions of the weather.</p>
-            <br>
-            <p>The server back-end is built using NodeJS, and utilizeds MongoDB as our database solution which is being hosted on the cloud.</p>"
-            data-media='[
-              {"type": "image", "src": "./assets/images/featuregraphic-sunnyside.png", "alt": "SunnySide Feature Graphic"},
-              {"type": "image", "src": "./assets/images/featuregraphic-sunnyside-signuplogin.png", "alt": "SunnySide Feature Graphic"},
-              {"type": "image", "src": "./assets/images/featuregraphic-sunnyside-landing.png", "alt": "SunnySide Feature Graphic"},
-              {"type": "video", "src": "https://youtu.be/zVc8yq4cGzw", "alt": "SunnySide Demo Video"}
-            ]'
-            data-video-link="https://youtu.be/zVc8yq4cGzw"
-            loading="eager"> 
+            <!-- SunnySide Project -->
+            <li class="project-item active" data-filter-item data-category="other applications" 
+                data-title="SunnySide" 
+                data-subtitle="React, MongoDB, NodeJS" 
+                data-description="
+                <p>Utilizing React for the front-end along with Leaflet API as the map provider, users can easily find nearby fitness activities.
+                The app uses a real-time weather API from NEA to help filter activities that suit the current conditions of the weather.</p>
+                <br>
+                <p>The server back-end is built using NodeJS, and utilizeds MongoDB as our database solution which is being hosted on the cloud.</p>"
+                data-media='[
+                  {"type": "image", "src": "./assets/images/featuregraphic-sunnyside.png", "alt": "SunnySide Feature Graphic"},
+                  {"type": "image", "src": "./assets/images/featuregraphic-sunnyside-signuplogin.png", "alt": "SunnySide Feature Graphic"},
+                  {"type": "image", "src": "./assets/images/featuregraphic-sunnyside-landing.png", "alt": "SunnySide Feature Graphic"},
+                  {"type": "video", "src": "https://youtu.be/zVc8yq4cGzw", "alt": "SunnySide Demo Video"}
+                ]'
+                data-video-link="https://youtu.be/zVc8yq4cGzw"
+                loading="eager"> 
               <a href="#">
-
                 <figure class="project-img">
                   <div class="project-item-icon-box">
                     <ion-icon name="eye"></ion-icon>
                   </div>
-
                   <img src="./assets/images/project-sunnyside.png" alt="sunnyside" loading="eager">
                 </figure>
-
                 <h3 class="project-title">SunnySide</h3>
-
                 <p class="project-category">React, MongoDB, NodeJS</p>
-
               </a>
             </li>
 
-            <li class="project-item  active" data-filter-item data-category="other applications" 
-            data-title="Pomosimple" 
-            data-subtitle="Android Studio, Firebase, Java" 
-            data-description="
-            <p>Pomosimple was developed as a personal project to help students manage their time and study periods more efficiently. </p>
-            <br>
-            <p>As a university student myself, I noticed that most Pomodoro timer apps lacked the features that I needed such as a well-designed user interface with good 
-            customizability of their timers. I decided to develop my own Pomodoro timer app to cater to my needs and to learn more about Android development and production of apps on the Google Play Store. </p>
-            <br>
-            <p>The app is also integrated with Firebase to store user data and settings, providing side-goals that can help boost user productivity.</p>"
-            data-media='[
-              {"type": "image", "src": "./assets/images/featuregraphic-pomosimple.png", "alt": "Pomosimple Feature Graphic"}
-            ]'
-            data-site-link="https://play.google.com/store/apps/details?id=com.seannlyj.pomosimple&hl=en"
-            loading="eager"> 
+            <!-- Pomosimple Project -->
+            <li class="project-item active" data-filter-item data-category="other applications" 
+                data-title="Pomosimple" 
+                data-subtitle="Android Studio, Firebase, Java" 
+                data-description="
+                <p>Pomosimple was developed as a personal project to help students manage their time and study periods more efficiently. </p>
+                <br>
+                <p>As a university student myself, I noticed that most Pomodoro timer apps lacked the features that I needed such as a well-designed user interface with good 
+                customizability of their timers. I decided to develop my own Pomodoro timer app to cater to my needs and to learn more about Android development and production of apps on the Google Play Store. </p>
+                <br>
+                <p>The app is also integrated with Firebase to store user data and settings, providing side-goals that can help boost user productivity.</p>"
+                data-media='[
+                  {"type": "image", "src": "./assets/images/featuregraphic-pomosimple.png", "alt": "Pomosimple Feature Graphic"}
+                ]'
+                data-site-link="https://play.google.com/store/apps/details?id=com.seannlyj.pomosimple&hl=en"
+                loading="eager"> 
               <a href="#">
-
                 <figure class="project-img">
                   <div class="project-item-icon-box">
                     <ion-icon name="eye"></ion-icon>
                   </div>
-
                   <img src="./assets/images/project-pomosimple.png" alt="pomosimple" loading="eager">
                 </figure>
-
                 <h3 class="project-title">Pomosimple</h3>
-
                 <p class="project-category">Android Studio, Firebase, Java</p>
-
               </a>
             </li>
 
-            <li class="project-item  active" data-filter-item data-category="other applications"
-            data-title="Vocal Insights" 
-            data-subtitle="AI/NLP(Whisper, NLTK, Transformer), Flask, SQLite, Python" 
-            data-description="
-            <p>Vocal Insights is a smart sales helper application that transcribes audio recordings of customer calls and analyzes the sentiment of the conversations.</p>
-            <br>
-            <p>It uses Whisper for accurate transcription, Transformer models for summarizing the call content, and NLTK for performing sentiment analysis to gauge the customer's mood. 
-            The app then tracks these sentiments over time by uploading them to a database, allowing sales teams to track and identify customers at risk of losing interest. </p>
-            <br>
-            <p>This project was developed for TikTok TechJam 2024.</p>"
-            data-media='[
-              {"type": "image", "src": "./assets/images/featuregraphic-vocal-insights.png", "alt": "Vocal Insights Feature Graphic"},
-              {"type": "video", "src": "https://www.youtube.com/watch?v=23vTC4eCH6Y&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE", "alt": "Vocal Insights Demo Video"}
-            ]'
-            data-video-link="https://www.youtube.com/watch?v=23vTC4eCH6Y&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE"
-            data-site-link="https://devpost.com/software/vocal-insights?ref_content=user-portfolio&ref_feature=in_progress"
-            loading="eager">
+            <!-- Vocal Insights Project -->
+            <li class="project-item active" data-filter-item data-category="other applications"
+                data-title="Vocal Insights" 
+                data-subtitle="AI/NLP(Whisper, NLTK, Transformer), Flask, SQLite, Python" 
+                data-description="
+                <p>Vocal Insights is a smart sales helper application that transcribes audio recordings of customer calls and analyzes the sentiment of the conversations.</p>
+                <br>
+                <p>It uses Whisper for accurate transcription, Transformer models for summarizing the call content, and NLTK for performing sentiment analysis to gauge the customer's mood. 
+                The app then tracks these sentiments over time by uploading them to a database, allowing sales teams to track and identify customers at risk of losing interest. </p>
+                <br>
+                <p>This project was developed for TikTok TechJam 2024.</p>"
+                data-media='[
+                  {"type": "image", "src": "./assets/images/featuregraphic-vocal-insights.png", "alt": "Vocal Insights Feature Graphic"},
+                  {"type": "video", "src": "https://www.youtube.com/watch?v=23vTC4eCH6Y&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE", "alt": "Vocal Insights Demo Video"}
+                ]'
+                data-video-link="https://www.youtube.com/watch?v=23vTC4eCH6Y&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE"
+                data-site-link="https://devpost.com/software/vocal-insights?ref_content=user-portfolio&ref_feature=in_progress"
+                loading="eager">
               <a href="#">
-
                 <figure class="project-img">
                   <div class="project-item-icon-box">
                     <ion-icon name="eye"></ion-icon>
                   </div>
-
                   <img src="./assets/images/project-vocal-insights.png" alt="vocal insights" loading="eager">
                 </figure>
-
                 <h3 class="project-title">Vocal Insights</h3>
-
                 <p class="project-category">AI/NLP, Flask, SQLite, Python</p>
-
               </a>
             </li>
 
-            <li class="project-item  active" data-filter-item data-category="games"
-            data-title="Downtime" 
-            data-subtitle="FPS, Unity" 
-            data-description= "
-            <p>A game that I have worked on during my final year at Nanyang Polytechnic for a module, where students are required to work on a 17-week project independently.</p>
-            <br>
-            <p>Throughout development, I dedicated myself to crafting a highly polished game that stood out in the genre of First-person Shooters.
-             I incorporated my own innovative concepts and distinctive features along with inspirations from several popular games to elevate gameplay experience. </p>
-            <br>
-            <p>This project was featured several times on a YouTube channel, and was also further shared on Instagram.</p>"
-            data-media='[
-              {"type": "image", "src": "./assets/images/featuregraphic-downtime.png", "alt": "Downtime Feature Graphic"},
-              {"type": "image", "src": "./assets/images/featuregraphic-downtime-1.png", "alt": "Downtime Feature Graphic"},
-              {"type": "image", "src": "./assets/images/featuregraphic-downtime-2.png", "alt": "Downtime Feature Graphic"},
-              {"type": "video", "src": "https://www.youtube.com/watch?v=LfGkPay0ZP0", "alt": "Downtime Gameplay Video"}
-            ]'
-            data-video-link="https://www.youtube.com/watch?v=LfGkPay0ZP0"
-            data-site-link="https://na-es.itch.io/downtime"
-            loading="eager">
+            <!-- Downtime Project -->
+            <li class="project-item active" data-filter-item data-category="games"
+                data-title="Downtime" 
+                data-subtitle="FPS, Unity" 
+                data-description="
+                <p>A game that I have worked on during my final year at Nanyang Polytechnic for a module, where students are required to work on a 17-week project independently.</p>
+                <br>
+                <p>Throughout development, I dedicated myself to crafting a highly polished game that stood out in the genre of First-person Shooters.
+                 I incorporated my own innovative concepts and distinctive features along with inspirations from several popular games to elevate gameplay experience. </p>
+                <br>
+                <p>This project was featured several times on a YouTube channel, and was also further shared on Instagram.</p>"
+                data-media='[
+                  {"type": "image", "src": "./assets/images/featuregraphic-downtime.png", "alt": "Downtime Feature Graphic"},
+                  {"type": "image", "src": "./assets/images/featuregraphic-downtime-1.png", "alt": "Downtime Feature Graphic"},
+                  {"type": "image", "src": "./assets/images/featuregraphic-downtime-2.png", "alt": "Downtime Feature Graphic"},
+                  {"type": "video", "src": "https://www.youtube.com/watch?v=LfGkPay0ZP0", "alt": "Downtime Gameplay Video"}
+                ]'
+                data-video-link="https://www.youtube.com/watch?v=LfGkPay0ZP0"
+                data-site-link="https://na-es.itch.io/downtime"
+                loading="eager">
               <a href="#">
-
                 <figure class="project-img">
                   <div class="project-item-icon-box">
                     <ion-icon name="eye"></ion-icon>
                   </div>
-
                   <img src="./assets/images/project-downtime.png" alt="downtime" loading="eager">
                 </figure>
-
                 <h3 class="project-title">Downtime</h3>
-
                 <p class="project-category">FPS, Unity</p>
-
               </a>
             </li>
 
-            <li class="project-item  active" data-filter-item data-category="games"
-            data-title="Slime Arena" 
-            data-subtitle="Action, Arena, Unity, Game Jam Submission" 
-            data-description= "
-            <p>Slime Arena is a fast-paced first-person game where you fight for your survival against incoming hordes of slime.
-             You as the player can conjure three elemental spells to fend off different types of slimes, each elemental works better on different types of slimes.</p> 
-            <br>
-             <p>This game was made for the 7DFPS 2023, a 7-day FPS-themed Game Jam.</p>
-            "
-            data-media='[
-              {"type": "image", "src": "./assets/images/featuregraphic-slimearena.png", "alt": "Slime Arena Feature Graphic"}
-            ]'
-            data-site-link="https://na-es.itch.io/slimearena"
-            loading="eager">
+            <!-- Slime Arena Project -->
+            <li class="project-item active" data-filter-item data-category="games"
+                data-title="Slime Arena" 
+                data-subtitle="Action, Arena, Unity, Game Jam Submission" 
+                data-description="
+                <p>Slime Arena is a fast-paced first-person game where you fight for your survival against incoming hordes of slime.
+                 You as the player can conjure three elemental spells to fend off different types of slimes, each elemental works better on different types of slimes.</p> 
+                <br>
+                 <p>This game was made for the 7DFPS 2023, a 7-day FPS-themed Game Jam.</p>"
+                data-media='[
+                  {"type": "image", "src": "./assets/images/featuregraphic-slimearena.png", "alt": "Slime Arena Feature Graphic"}
+                ]'
+                data-site-link="https://na-es.itch.io/slimearena"
+                loading="eager">
               <a href="#">
-
                 <figure class="project-img">
                   <div class="project-item-icon-box">
                     <ion-icon name="eye"></ion-icon>
                   </div>
-
                   <img src="./assets/images/project-slimearena.png" alt="slime arena" loading="eager">
                 </figure>
-
                 <h3 class="project-title">Slime Arena</h3>
-
                 <p class="project-category">Action, Arena, Unity, Game Jam Submission</p>
-
               </a>
             </li>
 
-            <li class="project-item  active" data-filter-item data-category="games"
-            data-title="WASD+E" 
-            data-subtitle="Puzzle, 2D, Unity, Game Jam Submission" 
-            data-description= "
-            <p>WASD+E is a 2D puzzle game where players have to pick and lose certain controls 
-            of their character in exchange for others that benegit them in progressing through the level. This game finished
-            2nd out of 65 in overall rankings in Mini-Jam 96: Losing is Good.</p>
-            "
-            data-media='[
-              {"type": "image", "src": "./assets/images/featuregraphic-wasde.png", "alt": "WASD+E Feature Graphic"}
-            ]'
-            data-site-link="https://na-es.itch.io/wasde"
-            loading="eager">
+            <!-- WASD+E Project -->
+            <li class="project-item active" data-filter-item data-category="games"
+                data-title="WASD+E" 
+                data-subtitle="Puzzle, 2D, Unity, Game Jam Submission" 
+                data-description="
+                <p>WASD+E is a 2D puzzle game where players have to pick and lose certain controls 
+                of their character in exchange for others that benegit them in progressing through the level. This game finished
+                2nd out of 65 in overall rankings in Mini-Jam 96: Losing is Good.</p>"
+                data-media='[
+                  {"type": "image", "src": "./assets/images/featuregraphic-wasde.png", "alt": "WASD+E Feature Graphic"}
+                ]'
+                data-site-link="https://na-es.itch.io/wasde"
+                loading="eager">
               <a href="#">
-
                 <figure class="project-img">
                   <div class="project-item-icon-box">
                     <ion-icon name="eye"></ion-icon>
                   </div>
-
                   <img src="./assets/images/project-wasde.png" alt="wasd+e" loading="eager">
                 </figure>
-
                 <h3 class="project-title">WASD+E</h3>
-
                 <p class="project-category">Puzzle, 2D, Unity, Game Jam Submission</p>
-
               </a>
             </li>
 
-            <li class="project-item  active" data-filter-item data-category="games"
-            data-title="Monochrome" 
-            data-subtitle="2D, Platformer, Unity" 
-            data-description= "<p>A 2D platformer game where players can teleport to a projectile that they can fire. 
-            This 4-week project was worked on during my school break. The game was made to prepare and familiarize myself with
-            the Unity game engine before the start of the semester where I had to use it.</p>
-            "
-            data-media='[
-              {"type": "image", "src": "./assets/images/featuregraphic-monochrome.png", "alt": "Monochrome Feature Graphic"},
-              {"type": "video", "src": "https://www.youtube.com/watch?v=Qqa2SdD7biI", "alt": "Monochrome Gameplay Video"}
-            ]'
-            data-video-link="https://www.youtube.com/watch?v=Qqa2SdD7biI"
-            loading="eager">
+            <!-- Monochrome Project -->
+            <li class="project-item active" data-filter-item data-category="games"
+                data-title="Monochrome" 
+                data-subtitle="2D, Platformer, Unity" 
+                data-description="<p>A 2D platformer game where players can teleport to a projectile that they can fire. 
+                This 4-week project was worked on during my school break. The game was made to prepare and familiarize myself with
+                the Unity game engine before the start of the semester where I had to use it.</p>"
+                data-media='[
+                  {"type": "image", "src": "./assets/images/featuregraphic-monochrome.png", "alt": "Monochrome Feature Graphic"},
+                  {"type": "video", "src": "https://www.youtube.com/watch?v=Qqa2SdD7biI", "alt": "Monochrome Gameplay Video"}
+                ]'
+                data-video-link="https://www.youtube.com/watch?v=Qqa2SdD7biI"
+                loading="eager">
               <a href="#">
-
                 <figure class="project-img">
                   <div class="project-item-icon-box">
                     <ion-icon name="eye"></ion-icon>
                   </div>
-
                   <img src="./assets/images/project-monochrome.png" alt="monochrome" loading="eager">
                 </figure>
-
                 <h3 class="project-title">Monochrome</h3>
-
                 <p class="project-category">2D, Platformer, Unity</p>
-
               </a>
             </li>
 
-            <li class="project-item  active" data-filter-item data-category="games"
-            data-title="Pathfinder" 
-            data-subtitle="3D, Multiplayer(Photon), Puzzle, Unity" 
-            data-description= "<p>Pathfinder is a multiplayer, tile-based game where 2 players have to rely on each other to get to their individual end point. 
-            I worked on features such as the game design, gameplay algorithm, user interface, and graphical look of the game. 
-            This was my first experience working on a Multiplayer game using Photon.</p>"
-            data-media='[
-              {"type": "image", "src": "./assets/images/featuregraphic-pathfinder.png", "alt": "Pathfinder Feature Graphic"},
-              {"type": "video", "src": "https://www.youtube.com/watch?v=h3zYvY9v424", "alt": "Pathfinder Gameplay Video"}
-            ]'
-            data-video-link="https://www.youtube.com/watch?v=h3zYvY9v424"
-            loading="eager">
+            <!-- Pathfinder Project -->
+            <li class="project-item active" data-filter-item data-category="games"
+                data-title="Pathfinder" 
+                data-subtitle="3D, Multiplayer(Photon), Puzzle, Unity" 
+                data-description="<p>Pathfinder is a multiplayer, tile-based game where 2 players have to rely on each other to get to their individual end point. 
+                I worked on features such as the game design, gameplay algorithm, user interface, and graphical look of the game. 
+                This was my first experience working on a Multiplayer game using Photon.</p>"
+                data-media='[
+                  {"type": "image", "src": "./assets/images/featuregraphic-pathfinder.png", "alt": "Pathfinder Feature Graphic"},
+                  {"type": "video", "src": "https://www.youtube.com/watch?v=h3zYvY9v424", "alt": "Pathfinder Gameplay Video"}
+                ]'
+                data-video-link="https://www.youtube.com/watch?v=h3zYvY9v424"
+                loading="eager">
               <a href="#">
-
                 <figure class="project-img">
                   <div class="project-item-icon-box">
                     <ion-icon name="eye"></ion-icon>
                   </div>
-
                   <img src="./assets/images/project-pathfinder.png" alt="pathfinder" loading="eager">
                 </figure>
-
                 <h3 class="project-title">Pathfinder</h3>
-
                 <p class="project-category">3D, Multiplayer, Puzzle, Unity</p>
-
               </a>
             </li>
 
-            <li class="project-item  active" data-filter-item data-category="games"
-            data-title="Vital Blue" 
-            data-subtitle="2D, Education, Healthcare, Unity" 
-            data-description = "
-            <p>Vital Blue is a 2D educational game for healthcare professionals to practice the procedures of a code blue scenario.</p>
-            <br>
-            <p>
-              My team partnered with the Institute of Mental Health (IMH) to develop the project. I was involved in the process of designing game mechanics and
-             writing code for the game. I also took charge leading a team, and acted as a intermediary for my team and the client. 
-            </p>
-            <br>
-            <p>This project was also further nominated to represent NYP in the 2021 Lee Hsien Loong Smart Nation Awards.</p>"
-            data-media='[
-              {"type": "image", "src": "./assets/images/featuregraphic-codeblue.png", "alt": "Vital Blue Feature Graphic"},
-              {"type": "video", "src": "https://www.youtube.com/watch?v=LtsA_CYyad8", "alt": "Vital Blue Demo Video"}
-            ]'
-            data-video-link="https://www.youtube.com/watch?v=LtsA_CYyad8"
-            loading="eager">
+            <!-- Vital Blue Project -->
+            <li class="project-item active" data-filter-item data-category="games"
+                data-title="Vital Blue" 
+                data-subtitle="2D, Education, Healthcare, Unity" 
+                data-description="
+                <p>Vital Blue is a 2D educational game for healthcare professionals to practice the procedures of a code blue scenario.</p>
+                <br>
+                <p>
+                  My team partnered with the Institute of Mental Health (IMH) to develop the project. I was involved in the process of designing game mechanics and
+                 writing code for the game. I also took charge leading a team, and acted as a intermediary for my team and the client. 
+                </p>
+                <br>
+                <p>This project was also further nominated to represent NYP in the 2021 Lee Hsien Loong Smart Nation Awards.</p>"
+                data-media='[
+                  {"type": "image", "src": "./assets/images/featuregraphic-codeblue.png", "alt": "Vital Blue Feature Graphic"},
+                  {"type": "video", "src": "https://www.youtube.com/watch?v=LtsA_CYyad8", "alt": "Vital Blue Demo Video"}
+                ]'
+                data-video-link="https://www.youtube.com/watch?v=LtsA_CYyad8"
+                loading="eager">
               <a href="#">
-
                 <figure class="project-img">
                   <div class="project-item-icon-box">
                     <ion-icon name="eye"></ion-icon>
                   </div>
-
                   <img src="./assets/images/project-codeblue.png" alt="code blue" loading="eager">
                 </figure>
-
                 <h3 class="project-title">Vital Blue</h3>
-
                 <p class="project-category">2D, Education, Healthcare, Unity</p>
-
               </a>
             </li>
           
@@ -838,14 +739,12 @@
 
       </article>
 
+      <!-- ============================================================================
+           CONTACT SECTION (COMMENTED OUT)
+           ============================================================================ -->
 
-
-
-      <!--
-        - #CONTACT
-      -->
-
-      <!--<article class="contact" data-page="contact">
+      <!-- Contact section is currently disabled
+      <article class="contact" data-page="contact">
 
         <header>
           <h2 class="h2 article-title">Contact</h2>
@@ -882,20 +781,21 @@
 
         </section>
 
-      </article>-->
+      </article>
+      -->
 
     </div>
 
   </main>
 
-  <!--
-    - custom js link
-  -->
+  <!-- ============================================================================
+       SCRIPTS
+       ============================================================================ -->
+
+  <!-- Custom JavaScript -->
   <script src="./assets/js/script.js"></script>
 
-  <!--
-    - ionicon link
-  -->
+  <!-- Ionicons -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
