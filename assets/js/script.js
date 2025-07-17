@@ -194,6 +194,22 @@ function preloadAllModalImages() {
   const imagePromises = [];
   
   projectItems.forEach(item => {
+    // Parse the data-media attribute to get all images
+    const mediaData = item.getAttribute('data-media');
+    if (mediaData) {
+      try {
+        const mediaArray = JSON.parse(mediaData);
+        mediaArray.forEach(media => {
+          if (media.type === 'image' && media.src && !preloadedImages.has(media.src)) {
+            imagePromises.push(preloadImage(media.src));
+          }
+        });
+      } catch (e) {
+        console.warn('Error parsing media data for project item:', e);
+      }
+    }
+    
+    // Also check for legacy data-image attribute as fallback
     const imageSrc = item.getAttribute('data-image');
     if (imageSrc && !preloadedImages.has(imageSrc)) {
       imagePromises.push(preloadImage(imageSrc));
@@ -406,8 +422,24 @@ document.addEventListener('keydown', function(event) {
 
 // Add event listeners to project items
 document.querySelectorAll('.project-item').forEach(function(item) {
-  // Preload image on hover for even faster loading
+  // Preload images on hover for even faster loading
   item.addEventListener('mouseenter', function() {
+    // Parse the data-media attribute to preload all images
+    const mediaData = item.getAttribute('data-media');
+    if (mediaData) {
+      try {
+        const mediaArray = JSON.parse(mediaData);
+        mediaArray.forEach(media => {
+          if (media.type === 'image' && media.src && !preloadedImages.has(media.src)) {
+            preloadImage(media.src);
+          }
+        });
+      } catch (e) {
+        console.warn('Error parsing media data for hover preload:', e);
+      }
+    }
+    
+    // Also check for legacy data-image attribute as fallback
     const imageSrc = item.getAttribute('data-image');
     if (imageSrc && !preloadedImages.has(imageSrc)) {
       preloadImage(imageSrc);
