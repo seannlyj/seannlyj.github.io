@@ -1,16 +1,21 @@
-/*-----------------------------------*\
-  #style.css
-\*-----------------------------------*/
+/* ============================================================================
+   SEAN NEO PORTFOLIO - MAIN STYLESHEET
+   ============================================================================ */
 
 /**
- * copyright 2022 @codewithsadee
+ * Copyright 2022 @codewithsadee
+ * Modified and enhanced for Sean Neo's portfolio
  */
 
-/*-----------------------------------*\
-  #CUSTOM PROPERTY
-\*-----------------------------------*/
+/* ============================================================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ============================================================================ */
 
 :root {
+  /* ============================================================================
+     BACKGROUND PATTERNS
+     ============================================================================ */
+  
   --bg-diagonal-grid: repeating-linear-gradient(
     45deg,
     var(--seasalt-darker) 0,
@@ -19,49 +24,55 @@
     transparent 20px
   );
 
-  /**
-   * colors
-   */
-
-  /* gradient */
+  /* ============================================================================
+     GRADIENTS
+     ============================================================================ */
 
   --bg-gradient-onyx: linear-gradient(
     to bottom right,
     hsl(240, 1%, 25%) 3%,
     hsl(0, 0%, 19%) 97%
   );
+  
   --bg-gradient-jet: linear-gradient(
-      to bottom right,
-      hsla(240, 1%, 18%, 0.251) 0%,
-      hsla(240, 2%, 11%, 0) 100%
-    ),
-    hsl(240, 2%, 13%);
+    to bottom right,
+    hsla(240, 1%, 18%, 0.251) 0%,
+    hsla(240, 2%, 11%, 0) 100%
+  ),
+  hsl(240, 2%, 13%);
+  
   --bg-gradient-yellow-1: linear-gradient(
     to bottom right,
     hsl(45, 100%, 71%) 0%,
     hsla(36, 100%, 69%, 0) 50%
   );
+  
   --bg-gradient-yellow-2: linear-gradient(
-      135deg,
-      hsla(45, 100%, 71%, 0.251) 0%,
-      hsla(35, 100%, 68%, 0) 59.86%
-    ),
-    hsl(240, 2%, 13%);
+    135deg,
+    hsla(45, 100%, 71%, 0.251) 0%,
+    hsla(35, 100%, 68%, 0) 59.86%
+  ),
+  hsl(240, 2%, 13%);
+  
   --border-gradient-onyx: linear-gradient(
     to bottom right,
     hsl(0, 0%, 25%) 0%,
     hsla(0, 0%, 25%, 0) 50%
   );
+  
   --text-gradient-yellow: linear-gradient(
     to right,
     hsl(45, 100%, 72%),
     hsl(35, 100%, 68%)
   );
-
+  
   --text-gradient-jet: linear-gradient(to right, #363636, #1d1d1d);
 
-  /* solid */
+  /* ============================================================================
+     SOLID COLORS
+     ============================================================================ */
 
+  /* Legacy colors */
   --jetold: hsl(0, 0%, 22%);
   --onyx: hsl(240, 1%, 17%);
   --eerie-black-1: hsl(240, 2%, 13%);
@@ -75,7 +86,7 @@
   --light-gray-70: hsla(0, 0%, 84%, 0.7);
   --bittersweet-shimmer: hsl(0, 43%, 51%);
 
-  /* new solid colors */
+  /* Primary color palette */
   --jet: #363636;
   --eerieblack: #212121;
   --eerieblack-bg: #1d1d1d;
@@ -85,14 +96,14 @@
   --coolgray: #7d869c;
   --coolgray-lighter: #a2a8b9;
 
-  /**
-   * typography
-   */
+  /* ============================================================================
+     TYPOGRAPHY
+     ============================================================================ */
 
-  /* font-family */
+  /* Font family */
   --ff-poppins: "Poppins", sans-serif;
 
-  /* font-size */
+  /* Font sizes */
   --fs-1: 24px;
   --fs-2: 18px;
   --fs-3: 17px;
@@ -102,15 +113,15 @@
   --fs-7: 13px;
   --fs-8: 11px;
 
-  /* font-weight */
+  /* Font weights */
   --fw-300: 300;
   --fw-400: 400;
   --fw-500: 500;
   --fw-600: 600;
 
-  /**
-   * shadow
-   */
+  /* ============================================================================
+     SHADOWS
+     ============================================================================ */
 
   --shadow-1: -4px 8px 24px hsla(0, 0%, 0%, 0.25);
   --shadow-2: 0 16px 30px hsla(0, 0%, 0%, 0.25);
@@ -118,17 +129,17 @@
   --shadow-4: 0 25px 50px hsla(0, 0%, 0%, 0.15);
   --shadow-5: 0 24px 80px hsla(0, 0%, 0%, 0.25);
 
-  /**
-   * transition
-   */
+  /* ============================================================================
+     TRANSITIONS
+     ============================================================================ */
 
   --transition-1: 0.25s ease;
   --transition-2: 0.5s ease-in-out;
 }
 
-/*-----------------------------------*\
-  #RESET
-\*-----------------------------------*/
+/* ============================================================================
+   CSS RESET & BASE STYLES
+   ============================================================================ */
 
 *,
 *::before,
@@ -138,6 +149,7 @@
   box-sizing: border-box;
 }
 
+/* Remove default styles */
 a {
   text-decoration: none;
 }
@@ -175,6 +187,7 @@ textarea {
   font: inherit;
 }
 
+/* Selection styles */
 ::selection {
   background: hsl(200, 100%, 80%);
   color: hsl(200, 100%, 20%);
@@ -184,6 +197,7 @@ textarea {
   outline-color: var(--orange-yellow-crayola);
 }
 
+/* Base typography */
 html {
   font-family: var(--ff-poppins);
 }
@@ -192,13 +206,13 @@ body {
   background: var(--bg-diagonal-grid), var(--white-1);
 }
 
-/*-----------------------------------*\
-  #REUSED STYLE
-\*-----------------------------------*/
+/* ============================================================================
+   REUSABLE COMPONENTS
+   ============================================================================ */
 
+/* Sidebar and article containers */
 .sidebar {
   background: var(--eerieblack-bg);
-  /*border: 1px solid var(--onyx);*/
   border-radius: 20px;
   padding: 15px;
   box-shadow: var(--shadow-1);
@@ -207,13 +221,24 @@ body {
 
 article {
   background: var(--purewhite);
-  /*border: 1px solid var(--onyx);*/
   border-radius: 20px;
   padding: 15px;
   box-shadow: var(--shadow-1);
   z-index: 1;
+  display: none;
 }
 
+article.active {
+  display: block;
+  animation: fade 0.5s ease backwards;
+}
+
+@keyframes fade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Separator line */
 .separator {
   width: 100%;
   height: 1px;
@@ -221,6 +246,7 @@ article {
   margin: 16px 0;
 }
 
+/* Icon container */
 .icon-box {
   position: relative;
   background: var(--jet);
@@ -232,7 +258,6 @@ article {
   align-items: center;
   font-size: 16px;
   color: var(--seasalt-darker);
-  /*box-shadow: var(--shadow-1);*/
   z-index: 1;
 }
 
@@ -240,7 +265,6 @@ article {
   content: "";
   position: absolute;
   inset: 1px;
-  /*background: var(--eerie-black-1);*/
   border-radius: inherit;
   z-index: -1;
 }
@@ -249,24 +273,7 @@ article {
   --ionicon-stroke-width: 35px;
 }
 
-article {
-  display: none;
-}
-
-article.active {
-  display: block;
-  animation: fade 0.5s ease backwards;
-}
-
-@keyframes fade {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
+/* Typography hierarchy */
 .h2,
 .h3,
 .h4,
@@ -275,23 +282,15 @@ article.active {
   color: var(--jet);
 }
 
-.h2 {
-  font-size: var(--fs-1);
+.h2 { font-size: var(--fs-1); }
+.h3 { font-size: var(--fs-2); }
+.h4 { font-size: var(--fs-4); }
+.h5 { 
+  font-size: var(--fs-7); 
+  font-weight: var(--fw-500); 
 }
 
-.h3 {
-  font-size: var(--fs-2);
-}
-
-.h4 {
-  font-size: var(--fs-4);
-}
-
-.h5 {
-  font-size: var(--fs-7);
-  font-weight: var(--fw-500);
-}
-
+/* Article title with underline */
 .article-title {
   position: relative;
   padding-bottom: 7px;
@@ -308,13 +307,13 @@ article.active {
   border-radius: 3px;
 }
 
+/* Scrollbar customization */
 .has-scrollbar::-webkit-scrollbar {
-  width: 5px; /* for vertical scrollbar */
-  height: 5px; /* for horizontal scrollbar */
+  width: 5px;
+  height: 5px;
 }
 
 .has-scrollbar::-webkit-scrollbar-track {
-  /*background: var(--eerieblack);*/
   border-radius: 5px;
 }
 
@@ -327,19 +326,15 @@ article.active {
   width: 5px;
 }
 
+/* Content card */
 .content-card {
   position: relative;
   background: var(--eerieblack-bg);
-  /*padding: 15px;
-  padding-top: 45px;
-  border-radius: 14px;*/
-
   width: 100%;
   height: 100%;
   padding: 0;
   margin: 0;
   box-shadow: var(--shadow-2);
-
   z-index: 1;
 }
 
@@ -352,9 +347,9 @@ article.active {
   z-index: -1;
 }
 
-/*-----------------------------------*\
-  #MAIN
-\*-----------------------------------*/
+/* ============================================================================
+   MAIN LAYOUT
+   ============================================================================ */
 
 main {
   margin: 15px 12px;
@@ -362,9 +357,9 @@ main {
   min-width: 259px;
 }
 
-/*-----------------------------------*\
-  #SIDEBAR
-\*-----------------------------------*/
+/* ============================================================================
+   SIDEBAR COMPONENT
+   ============================================================================ */
 
 .sidebar {
   margin-bottom: 15px;
@@ -377,6 +372,7 @@ main {
   max-height: 405px;
 }
 
+/* Sidebar info section */
 .sidebar-info {
   position: relative;
   display: flex;
@@ -386,7 +382,6 @@ main {
 }
 
 .avatar-box {
-  /*background: var(--bg-gradient-onyx);*/
   border-radius: 20px;
 }
 
@@ -408,6 +403,7 @@ main {
   border-radius: 8px;
 }
 
+/* Show contacts button */
 .info_more-btn {
   position: absolute;
   top: -15px;
@@ -417,8 +413,6 @@ main {
   color: var(--seasalt);
   background: var(--eerieblack-bg);
   padding: 25px;
-  /*box-shadow: var(--shadow-2);
-  transition: var(--transition-1);*/
   z-index: 1;
 }
 
@@ -432,16 +426,11 @@ main {
   z-index: -1;
 }
 
-/*.info_more-btn:hover,
-.info_more-btn:focus { background: var(--bg-gradient-yellow-1); }
-
-.info_more-btn:hover::before,
-.info_more-btn:focus::before { background: var(--bg-gradient-yellow-2); }*/
-
 .info_more-btn span {
   display: none;
 }
 
+/* Sidebar expanded content */
 .sidebar-info_more {
   opacity: 0;
   visibility: hidden;
@@ -453,6 +442,7 @@ main {
   visibility: visible;
 }
 
+/* Contact list */
 .contacts-list {
   display: grid;
   grid-template-columns: 1fr;
@@ -487,6 +477,7 @@ main {
   font-style: normal;
 }
 
+/* Social links */
 .social-list {
   display: flex;
   justify-content: flex-start;
@@ -505,9 +496,9 @@ main {
   color: var(--light-gray);
 }
 
-/*-----------------------------------*\
-  #NAVBAR
-\*-----------------------------------*/
+/* ============================================================================
+   NAVIGATION BAR
+   ============================================================================ */
 
 .navbar {
   position: fixed;
@@ -515,8 +506,6 @@ main {
   left: 0;
   width: 100%;
   background: var(--purewhite);
-  /*backdrop-filter: blur(10px);*/
-  /*border: 1px solid var(--jet);*/
   border-radius: 12px 12px 0 0;
   box-shadow: var(--shadow-2);
   z-index: 5;
@@ -548,6 +537,7 @@ main {
   font-weight: bold;
 }
 
+/* Mini circle indicator */
 .navbar-mini-circle {
   position: absolute;
   bottom: 8px;
@@ -559,9 +549,9 @@ main {
   transition: transform 0.3s ease;
 }
 
-/*-----------------------------------*\
-  #ABOUT
-\*-----------------------------------*/
+/* ============================================================================
+   ABOUT SECTION
+   ============================================================================ */
 
 .about .article-title {
   margin-bottom: 15px;
@@ -579,10 +569,7 @@ main {
   margin-bottom: 15px;
 }
 
-/**
- * #service 
- */
-
+/* Services section */
 .service {
   margin-bottom: 35px;
 }
@@ -600,10 +587,8 @@ main {
 
 .service-item {
   position: relative;
-  /*background: var(--seasalt);*/
   padding: 20px;
   border-radius: 14px;
-  /*box-shadow: var(--shadow-2);*/
   border: 1px solid var(--seasalt-darker);
   z-index: 1;
 }
@@ -612,7 +597,6 @@ main {
   content: "";
   position: absolute;
   inset: 1px;
-  /*background: var(--seasalt);*/
   border-radius: inherit;
   z-index: -1;
 }
@@ -641,133 +625,15 @@ main {
   line-height: 1.6;
 }
 
-/**
- * #testimonials 
- */
-
-.testimonials {
-  margin-bottom: 30px;
-}
-
-.testimonials-title {
-  margin-bottom: 20px;
-}
-
-.testimonials-list {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 15px;
-  margin: 0 -15px;
-  padding: 25px 15px;
-  padding-bottom: 35px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  overscroll-behavior-inline: contain;
-  scroll-snap-type: inline mandatory;
-}
-
-.testimonials-item {
-  min-width: 100%;
-  scroll-snap-align: center;
-}
-
-.testimonials-avatar-box {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(15px, -25px);
-  background: var(--bg-gradient-onyx);
-  border-radius: 14px;
-  box-shadow: var(--shadow-1);
-}
-
-.testimonials-item-title {
-  margin-bottom: 7px;
-}
-
-.testimonials-text {
-  color: var(--light-gray);
-  font-size: var(--fs-6);
-  font-weight: var(--fw-300);
-  line-height: 1.6;
-  display: -webkit-box;
-  line-clamp: 4;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: hsl(0, 0%, 5%);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  z-index: 1;
-  transition: var(--transition-1);
-}
-
-.overlay.active {
-  opacity: 0.8;
-  visibility: visible;
-  pointer-events: all;
-}
-
-/**
- * #clients 
- */
-
-.clients {
-  margin-bottom: 15px;
-}
-
-.clients-list {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 15px;
-  margin: 0 -15px;
-  padding: 25px;
-  padding-bottom: 25px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  overscroll-behavior-inline: contain;
-  scroll-snap-type: inline mandatory;
-  scroll-padding-inline: 25px;
-}
-
-.clients-item {
-  min-width: 50%;
-  scroll-snap-align: start;
-}
-
-.clients-item img {
-  width: 100%;
-  filter: grayscale(1);
-  transition: var(--transition-1);
-}
-
-.clients-item img:hover {
-  filter: grayscale(0);
-}
-
-/*-----------------------------------*\
-  #RESUME
-\*-----------------------------------*/
+/* ============================================================================
+   RESUME SECTION
+   ============================================================================ */
 
 .article-title {
   margin-bottom: 30px;
 }
 
-/**
- * education and experience 
- */
-
+/* Timeline components */
 .timeline {
   margin-bottom: 30px;
 }
@@ -805,6 +671,7 @@ main {
   line-height: 1.6;
 }
 
+/* Timeline connector lines */
 .timeline-item:not(:last-child)::before {
   content: "";
   position: absolute;
@@ -840,10 +707,7 @@ main {
   font-style: italic;
 }
 
-/**
- * skills 
- */
-
+/* Skills section */
 .skills-title {
   margin-bottom: 15px;
 }
@@ -882,10 +746,21 @@ main {
   border-radius: inherit;
 }
 
-/*-----------------------------------*\
-  #PORTFOLIO
-\*-----------------------------------*/
+/* Experience list styling */
+ul.experience-list {
+  list-style-type: disc;
+  padding-left: 25px;
+  color: var(--eerieblack);
+  font-weight: var(--fw-300);
+  line-height: 1.6;
+  font-size: 14px;
+}
 
+/* ============================================================================
+   PORTFOLIO SECTION
+   ============================================================================ */
+
+/* Filter controls */
 .filter-list {
   display: none;
 }
@@ -949,6 +824,7 @@ main {
   --eerie-black-2: hsl(240, 2%, 20%);
 }
 
+/* Project grid */
 .project-list {
   display: grid;
   grid-template-columns: 1fr;
@@ -966,18 +842,15 @@ main {
 }
 
 @keyframes scaleUp {
-  0% {
-    transform: scale(0.5);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(0.5); }
+  100% { transform: scale(1); }
 }
 
 .project-item > a {
   width: 100%;
 }
 
+/* Project image container */
 .project-img {
   position: relative;
   width: 100%;
@@ -1003,9 +876,9 @@ main {
   background: hsla(0, 0%, 0%, 0.5);
 }
 
+/* Project hover icon */
 .project-item-icon-box {
   --scale: 0.8;
-
   background: var(--seasalt-darker);
   color: var(--eerieblack-bg);
   position: absolute;
@@ -1040,6 +913,7 @@ main {
   transform: scale(1.1);
 }
 
+/* Project text content */
 .project-title,
 .project-category {
   margin-left: 10px;
@@ -1059,6 +933,11 @@ main {
   font-weight: var(--fw-300);
 }
 
+/* ============================================================================
+   MODAL COMPONENT
+   ============================================================================ */
+
+/* Modal animations */
 @keyframes popUp {
   0% {
     transform: scale(0.7);
@@ -1081,7 +960,7 @@ main {
   }
 }
 
-/* Modal styles */
+/* Modal container */
 .modal {
   display: none;
   position: fixed;
@@ -1097,16 +976,16 @@ main {
 .modal-content {
   background-color: #fefefe;
   margin: 5% auto;
-  padding: 0; /* Remove padding to allow the image to span the full width */
-
+  padding: 0;
   width: 60%;
   height: auto;
   border-radius: 15px;
-  overflow: hidden; /* Ensure content is clipped */
-  position: relative; /* Required for absolute positioning of the image */
-  animation: popUp 0.3s ease-out; /* Apply the pop-up animation */
+  overflow: hidden;
+  position: relative;
+  animation: popUp 0.3s ease-out;
 }
 
+/* Modal media container */
 .modal-media-container {
   position: relative;
   width: 100%;
@@ -1133,7 +1012,7 @@ main {
   max-height: 60vh;
 }
 
-/* Media Navigation */
+/* Media navigation */
 .modal-media-nav {
   position: absolute;
   top: 50%;
@@ -1169,7 +1048,7 @@ main {
   font-size: 20px;
 }
 
-/* Media Indicators */
+/* Media indicators */
 .modal-media-indicators {
   position: absolute;
   bottom: 20px;
@@ -1198,6 +1077,11 @@ main {
   background: rgba(255, 255, 255, 0.8);
 }
 
+/* Modal content */
+.modal-body {
+  padding: 25px;
+}
+
 .modal-title {
   color: var(--eerieblack);
   font-size: var(--fs-3);
@@ -1208,10 +1092,6 @@ main {
   font-size: var(--fs-6);
 }
 
-.modal-body {
-  padding: 25px;
-}
-
 .modal-description {
   margin-bottom: 20px;
   color: var(--jet);
@@ -1220,9 +1100,9 @@ main {
 
 .modal-video-link,
 .modal-site-link {
-  display: inline-block; /* Make them block elements */
-  margin-top: 15px; /* Space above the links */
-  margin-right: 10px; /* Space between the links */
+  display: inline-block;
+  margin-top: 15px;
+  margin-right: 10px;
   background-color: var(--coolgray);
   padding: 10px 15px;
   border-radius: 5px;
@@ -1231,6 +1111,7 @@ main {
   font-weight: lighter;
 }
 
+/* Close button */
 .close {
   z-index: 5;
   color: #aaa;
@@ -1247,102 +1128,11 @@ main {
   cursor: pointer;
 }
 
-/*-----------------------------------*\
-  #BLOG
-\*-----------------------------------*/
+/* ============================================================================
+   CONTACT SECTION (DISABLED)
+   ============================================================================ */
 
-.blog-posts {
-  margin-bottom: 10px;
-}
-
-.blog-posts-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-}
-
-.blog-post-item > a {
-  position: relative;
-  background: var(--border-gradient-onyx);
-  height: 100%;
-  box-shadow: var(--shadow-4);
-  border-radius: 16px;
-  z-index: 1;
-}
-
-.blog-post-item > a::before {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  border-radius: inherit;
-  background: var(--eerie-black-1);
-  z-index: -1;
-}
-
-.blog-banner-box {
-  width: 100%;
-  height: 200px;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.blog-banner-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: var(--transition-1);
-}
-
-.blog-post-item > a:hover .blog-banner-box img {
-  transform: scale(1.1);
-}
-
-.blog-content {
-  padding: 15px;
-}
-
-.blog-meta {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 10px;
-}
-
-.blog-meta :is(.blog-category, time) {
-  color: var(--light-gray-70);
-  font-size: var(--fs-6);
-  font-weight: var(--fw-300);
-}
-
-.blog-meta .dot {
-  background: var(--light-gray-70);
-  width: 4px;
-  height: 4px;
-  border-radius: 4px;
-}
-
-.blog-item-title {
-  margin-bottom: 10px;
-  line-height: 1.3;
-  transition: var(--transition-1);
-}
-
-.blog-post-item > a:hover .blog-item-title {
-  color: var(--orange-yellow-crayola);
-}
-
-.blog-text {
-  color: var(--light-gray);
-  font-size: var(--fs-6);
-  font-weight: var(--fw-300);
-  line-height: 1.6;
-}
-
-/*-----------------------------------*\
-  #CONTACT
-\*-----------------------------------*/
-
+/* Contact form styles - currently disabled but kept for future use */
 .mapbox {
   position: relative;
   height: 250px;
@@ -1416,7 +1206,6 @@ textarea.form-input::-webkit-resizer {
 .form-btn {
   position: relative;
   width: 100%;
-  /*background: var(--border-gradient-onyx);*/
   color: var(--eerieblack);
   display: flex;
   justify-content: center;
@@ -1426,7 +1215,6 @@ textarea.form-input::-webkit-resizer {
   border-radius: 14px;
   font-size: var(--fs-6);
   text-transform: capitalize;
-  /*box-shadow: var(--shadow-3);*/
   z-index: 1;
   transition: var(--transition-1);
 }
@@ -1435,7 +1223,6 @@ textarea.form-input::-webkit-resizer {
   content: "";
   position: absolute;
   inset: 1px;
-  /*background: var(--bg-gradient-jet);*/
   border: 1px solid var(--seasalt-darker);
   border-radius: inherit;
   z-index: -1;
@@ -1471,26 +1258,18 @@ textarea.form-input::-webkit-resizer {
   color: var(--eerieblack);
 }
 
-/*-----------------------------------*\
-  #RESPONSIVE
-\*-----------------------------------*/
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
 
-/**
- * responsive larger than 450px screen
- */
+/* ============================================================================
+   MOBILE FIRST - 450px and up
+   ============================================================================ */
 
 @media (min-width: 450px) {
-  /**
-   * client
-   */
-
   .clients-item {
     min-width: calc(33.33% - 10px);
   }
-
-  /**
-   * #PORTFOLIO, BLOG 
-   */
 
   .project-img,
   .blog-banner-box {
@@ -1498,20 +1277,13 @@ textarea.form-input::-webkit-resizer {
   }
 }
 
-/**
- * responsive larger than 580px screen
- */
+/* ============================================================================
+   TABLET - 580px and up
+   ============================================================================ */
 
 @media (min-width: 580px) {
-  /**
-   * CUSTOM PROPERTY
-   */
-
+  /* Typography scaling */
   :root {
-    /**
-     * typography
-     */
-
     --fs-1: 32px;
     --fs-2: 24px;
     --fs-3: 26px;
@@ -1521,10 +1293,7 @@ textarea.form-input::-webkit-resizer {
     --fs-8: 12px;
   }
 
-  /**
-   * #REUSED STYLE
-   */
-
+  /* Container sizing */
   .sidebar,
   article {
     width: 520px;
@@ -1549,19 +1318,13 @@ textarea.form-input::-webkit-resizer {
     font-size: 18px;
   }
 
-  /**
-   * #MAIN
-   */
-
+  /* Main layout adjustments */
   main {
     margin-top: 60px;
     margin-bottom: 100px;
   }
 
-  /**
-   * #SIDEBAR
-   */
-
+  /* Sidebar adjustments */
   .sidebar {
     max-height: 180px;
     margin-bottom: 30px;
@@ -1619,10 +1382,7 @@ textarea.form-input::-webkit-resizer {
     width: calc(100% - 64px);
   }
 
-  /**
-   * #NAVBAR
-   */
-
+  /* Navbar adjustments */
   .navbar {
     border-radius: 20px 20px 0 0;
   }
@@ -1635,10 +1395,7 @@ textarea.form-input::-webkit-resizer {
     --fs-8: 14px;
   }
 
-  /**
-   * #ABOUT
-   */
-
+  /* About section adjustments */
   .about .article-title {
     margin-bottom: 20px;
   }
@@ -1647,8 +1404,7 @@ textarea.form-input::-webkit-resizer {
     margin-bottom: 40px;
   }
 
-  /* service */
-
+  /* Service items layout */
   .service-item {
     display: flex;
     justify-content: flex-start;
@@ -1666,61 +1422,7 @@ textarea.form-input::-webkit-resizer {
     text-align: left;
   }
 
-  /* testimonials */
-
-  .testimonials-title {
-    margin-bottom: 25px;
-  }
-
-  .testimonials-list {
-    gap: 30px;
-    margin: 0 -30px;
-    padding: 30px;
-    padding-bottom: 35px;
-  }
-
-  .content-card {
-    /*padding: 30px;
-    padding-top: 25px;*/
-  }
-
-  .testimonials-avatar-box {
-    transform: translate(30px, -30px);
-    border-radius: 20px;
-  }
-
-  .testimonials-avatar-box img {
-    width: 80px;
-  }
-
-  .testimonials-item-title {
-    margin-bottom: 10px;
-    margin-left: 95px;
-  }
-
-  .testimonials-text {
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
-  }
-
-  /* testimonials modal */
-
-  /* clients */
-
-  .clients-list {
-    gap: 50px;
-    margin: 0 -30px;
-    padding: 45px;
-    scroll-padding-inline: 45px;
-  }
-
-  .clients-item {
-    min-width: calc(33.33% - 35px);
-  }
-
-  /**
-   * #RESUME
-   */
+  /* Timeline adjustments */
   .timeline-list {
     margin-left: 65px;
   }
@@ -1739,19 +1441,7 @@ textarea.form-input::-webkit-resizer {
     margin-bottom: 25px;
   }
 
-  ul.experience-list {
-    list-style-type: disc;
-    padding-left: 25px;
-    color: var(--eerieblack);
-    font-weight: var(--fw-300);
-    line-height: 1.6;
-    font-size: 14px;
-  }
-
-  /**
-   * #PORTFOLIO, BLOG
-   */
-
+  /* Portfolio adjustments */
   .project-img,
   .blog-banner-box {
     border-radius: 16px;
@@ -1765,10 +1455,7 @@ textarea.form-input::-webkit-resizer {
     padding: 25px;
   }
 
-  /**
-   * #CONTACT
-   */
-
+  /* Contact form adjustments */
   .mapbox {
     height: 380px;
     border-radius: 18px;
@@ -1797,15 +1484,12 @@ textarea.form-input::-webkit-resizer {
   }
 }
 
-/**
- * responsive larger than 768px screen
- */
+/* ============================================================================
+   DESKTOP - 768px and up
+   ============================================================================ */
 
 @media (min-width: 768px) {
-  /**
-   * REUSED STYLE
-   */
-
+  /* Container sizing */
   .sidebar,
   article {
     width: 700px;
@@ -1815,31 +1499,18 @@ textarea.form-input::-webkit-resizer {
     width: 100px;
   }
 
-  /**
-   * SIDEBAR
-   */
-
+  /* Sidebar grid layout */
   .contacts-list {
     grid-template-columns: 1fr 1fr;
     gap: 30px 15px;
   }
 
-  /**
-   * NAVBAR
-   */
-
+  /* Navbar typography */
   .navbar-link {
     --fs-8: 15px;
   }
 
-  /**
-   * ABOUT
-   */
-
-  /**
-   * PORTFOLIO
-   */
-
+  /* Portfolio filter controls */
   .article-title {
     padding-bottom: 20px;
   }
@@ -1873,17 +1544,13 @@ textarea.form-input::-webkit-resizer {
     font-weight: bold;
   }
 
-  /* portfolio and blog grid */
-
+  /* Grid layouts */
   .project-list,
   .blog-posts-list {
     grid-template-columns: 1fr 1fr;
   }
 
-  /**
-   * CONTACT
-   */
-
+  /* Contact form layout */
   .input-wrapper {
     grid-template-columns: 1fr 1fr;
   }
@@ -1894,39 +1561,26 @@ textarea.form-input::-webkit-resizer {
   }
 }
 
-/**
- * responsive larger than 1024px screen
- */
+/* ============================================================================
+   LARGE DESKTOP - 1024px and up
+   ============================================================================ */
 
 @media (min-width: 1024px) {
-  /**
-   * CUSTOM PROPERTY
-   */
-
+  /* Shadow adjustments for larger screens */
   :root {
-    /**
-    * shadow
-    */
-
     --shadow-1: -4px 8px 24px hsla(0, 0%, 0%, 0.125);
     --shadow-2: 0 16px 30px hsla(0, 0%, 0%, 0.125);
     --shadow-3: 0 16px 40px hsla(0, 0%, 0%, 0.125);
   }
 
-  /**
-   * REUSED STYLE
-   */
-
+  /* Container sizing */
   .sidebar,
   article {
     width: 950px;
     box-shadow: var(--shadow-5);
   }
 
-  /**
-   * MAIN 
-   */
-
+  /* Main layout */
   main {
     margin-bottom: 60px;
   }
@@ -1937,10 +1591,7 @@ textarea.form-input::-webkit-resizer {
     margin: auto;
   }
 
-  /**
-   * NAVBAR
-   */
-
+  /* Navbar positioning */
   .navbar {
     position: absolute;
     bottom: auto;
@@ -1962,61 +1613,41 @@ textarea.form-input::-webkit-resizer {
     font-weight: var(--fw-500);
   }
 
-  /**
-   * ABOUT
-   */
-
-  /* service */
-
+  /* Grid layouts */
   .service-list {
     grid-template-columns: 1fr 1fr;
     gap: 20px 25px;
   }
 
-  /* testimonials */
-
   .testimonials-item {
     min-width: calc(50% - 15px);
   }
-
-  /* clients */
 
   .clients-item {
     min-width: calc(25% - 38px);
   }
 
-  /**
-   * PORTFOLIO
-   */
-
   .project-list {
     grid-template-columns: repeat(3, 1fr);
   }
-
-  /**
-   * BLOG
-   */
 
   .blog-banner-box {
     height: 230px;
   }
 }
 
-/**
- * responsive larger than 1250px screen
- */
+/* ============================================================================
+   EXTRA LARGE DESKTOP - 1250px and up
+   ============================================================================ */
 
 @media (min-width: 1250px) {
-  /**
-   * RESET
-   */
-
+  /* Body scrollbar */
   body::-webkit-scrollbar {
     width: 5px;
   }
 
   body::-webkit-scrollbar-track {
-    /*background: var(--smoky-black); */
+    /* background: var(--smoky-black); */
   }
 
   body::-webkit-scrollbar-thumb {
@@ -2033,10 +1664,7 @@ textarea.form-input::-webkit-resizer {
     height: 200px;
   }
 
-  /**
-   * REUSED STYLE
-   */
-
+  /* Container sizing */
   .sidebar,
   article {
     width: auto;
@@ -2046,10 +1674,7 @@ textarea.form-input::-webkit-resizer {
     min-height: 100%;
   }
 
-  /**
-   * MAIN
-   */
-
+  /* Main layout */
   main {
     max-width: 1200px;
     margin-inline: auto;
@@ -2065,10 +1690,7 @@ textarea.form-input::-webkit-resizer {
     margin: 0;
   }
 
-  /**
-   * SIDEBAR
-   */
-
+  /* Sidebar positioning */
   .sidebar {
     position: sticky;
     top: 60px;
@@ -2129,17 +1751,18 @@ textarea.form-input::-webkit-resizer {
     justify-content: center;
   }
 
-  /**
-	 * RESUME
-	 */
-
+  /* Resume text width */
   .timeline-text {
     max-width: 700px;
   }
 }
 
-/* Responsive adjustments */
+/* ============================================================================
+   MOBILE RESPONSIVE ADJUSTMENTS
+   ============================================================================ */
+
 @media (max-width: 768px) {
+  /* Modal mobile adjustments */
   .modal-video-link,
   .modal-site-link {
     display: block;
@@ -2147,8 +1770,8 @@ textarea.form-input::-webkit-resizer {
     margin-right: 0;
     margin-bottom: 10px;
     text-align: center;
-    padding: 8px 12px; /* Smaller padding */
-    font-size: 14px; /* Smaller font size */
+    padding: 8px 12px;
+    font-size: 14px;
   }
 
   .modal-content {
@@ -2156,18 +1779,18 @@ textarea.form-input::-webkit-resizer {
   }
 
   .modal-description {
-    font-size: var(--fs-8); /* Smaller font size for screens 768px or smaller */
+    font-size: var(--fs-8);
   }
 
   .modal-title {
-    font-size: var(--fs-5); /* Smaller font size for screens 768px or smaller */
+    font-size: var(--fs-5);
   }
 
   .modal-subtitle {
-    font-size: var(--fs-8); /* Smaller font size for screens 768px or smaller */
+    font-size: var(--fs-8);
   }
 
-  /* Mobile media navigation adjustments */
+  /* Mobile media navigation */
   .modal-nav-btn {
     width: 35px;
     height: 35px;
