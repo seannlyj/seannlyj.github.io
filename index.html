@@ -41,7 +41,7 @@
 
         <div class="info-content">
           <h1 class="name" title="Sean Neo">Sean Neo</h1>
-          <p class="title">Software developer</p>
+          <p class="title">Software Engineer</p>
         </div>
 
         <button class="info_more-btn" data-sidebar-btn>
@@ -65,16 +65,6 @@
             <div class="contact-info">
               <p class="contact-title">Email</p>
               <a href="mailto:seann.lyj@gmail.com" class="contact-link">seann.lyj@gmail.com</a>
-            </div>
-          </li>
-
-          <li class="contact-item">
-            <div class="icon-box">
-              <ion-icon name="call-outline"></ion-icon>
-            </div>
-            <div class="contact-info">
-              <p class="contact-title">Phone</p>
-              <a href="tel:+6592321726" class="contact-link">+65 9232 1726</a>
             </div>
           </li>
 
@@ -129,6 +119,10 @@
 
           <li class="navbar-item">
             <button class="navbar-link" data-nav-link>Portfolio</button>
+          </li>
+
+          <li class="navbar-item">
+            <button class="navbar-link" data-nav-link>Devlog</button>
           </li>
 
           <!-- Contact navigation (commented out)
@@ -232,6 +226,82 @@
       </article>
 
       <!-- ============================================================================
+           BLOG / CURRENT WORK
+           ============================================================================ -->
+
+      <article class="devlog" data-page="devlog">
+
+        <header>
+          <h2 class="h2 article-title">Devlog</h2>
+          <p class="article-subtext">Currently working on learning Unreal Engine with a focus on combat mechanics!</p>
+        </header>
+
+        <section class="devlog-posts">
+
+          <div class="post">
+            <img src="./assets/gifs/04sep-punchtrails.gif" alt="Camera lock-on and refraction trails" class="post-gif">
+            <h3 class="h3 post-title">Camera lock-on and Refraction trails</h3>
+            <time datetime="2025-09-04">04 Sep, 2025</time>
+            <p>
+              This week, I worked on adding a camera lock-on system and refraction trails for player attacks. 
+              The lock-on system lets players fix their view on a chosen enemy, making combat encounters easier to follow while 
+              still keeping the target clearly visible. 
+              I also experimented with Unreal Engine’s Niagara System to build refraction trails that follow attacks. 
+              Getting used to Niagara was challenging at first, but I eventually managed to create striking visual effects that make combat feel more impactful.
+            </p>
+          </div>
+
+          <div class="post">
+            <img src="./assets/gifs/26aug-hitfeedback.gif" alt="Hit feedback" class="post-gif">
+            <h3 class="h3 post-title">Hit feedback</h3>
+            <time datetime="2025-08-26">26 Aug, 2025</time>
+            <p>
+              If there a single thing that I took away from my internship at HABBY, it's the importance of FEEDBACK in games. 
+              I realized that good feedback was the secret sauce that can make or break a game's feel. With that in mind, 
+              I implemented hit feedback with 3 main elements: hitstops, hitflashes, and the most important of all, a camera shake. 
+              These elements, when combined, create a satisfying and impactful experience for players, making each hit feel significant and rewarding. 
+            </p>
+          </div>
+
+          <div class="post">
+            <img src="./assets/gifs/19aug-fluidcombo.gif" alt="Extending the combat mechanics" class="post-gif">
+            <h3 class="h3 post-title">Extending the combat mechanics</h3>
+            <time datetime="2025-08-19">19 Aug, 2025</time>
+            <p>
+              One of the biggest lessons I carried over from my internship at HABBY is that great FEEDBACK is what makes or breaks a game’s feel. 
+              With that in mind, I focused on designing hit feedback using three core elements: hitstops, hitflashes, and—most importantly—camera shake. 
+              Together, these details make every hit feel weighty, rewarding, and satisfying for the player.
+            </p>
+          </div>
+
+          <div class="post">
+            <img src="./assets/gifs/5aug-combo.gif" alt="Prototyping a combo system" class="post-gif">
+            <h3 class="h3 post-title">Prototyping a combo system</h3>
+            <time datetime="2025-08-05">5 Aug, 2025</time>
+            <p>
+              After setting up character locomotion, I began experimenting with a prototype combo system for melee combat. 
+              I drew inspiration from combat-heavy titles like For Honor, Absolver, and Sifu. 
+              My initial prototype now allows players to execute a sequence of attacks in quick succession—laying the foundation for a deeper combo-based combat system.
+            </p>
+          </div>
+
+          <div class="post">
+            <img src="./assets/gifs/31jul-movement.gif" alt="Locomotion" class="post-gif">
+            <h3 class="h3 post-title">Locomotion</h3>
+            <time datetime="2025-07-31">31 Jul, 2025</time>
+            <p>
+              Following my internship at HABBY, I wanted to branch out from Unity and learn Unreal Engine. 
+              I started with the basics of locomotion and character movement. 
+              Coming from a Unity background, the transition to Unreal’s Blueprint system felt daunting at first, 
+              but with the help of tutorials, I quickly got comfortable and began building my first mechanics.
+            </p>
+          </div>
+
+        </section>
+
+      </article>
+
+      <!-- ============================================================================
            RESUME SECTION
            ============================================================================ -->
 
@@ -251,14 +321,14 @@
             <li class="skills-item">
               <div class="title-wrapper">
                 <h5 class="h5">Languages: </h5>
-                <p class="timeline-text">Java, C#, C/C++, Python, HTML/CSS</p>
+                <p class="timeline-text">HTML/CSS, JavaScript, Java, C#, C/C++, Python</p>
               </div>
             </li>
         
             <li class="skills-item">
               <div class="title-wrapper">
                 <h5 class="h5">Tools: </h5>
-                <p class="timeline-text">Git, Unity Engine, VS Code, Visual Studio, Android Studio, Eclipse, Firebase</p>
+                <p class="timeline-text">Git, Unreal, Unity, Android Studio, Eclipse, Firebase, React, Ant Design</p>
               </div>
             </li>
         

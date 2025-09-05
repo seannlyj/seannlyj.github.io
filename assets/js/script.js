@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 // ============================================================================
 // UTILITY FUNCTIONS
@@ -40,8 +40,8 @@ select.addEventListener("click", () => {
 });
 
 // Add event listeners to all select items
-selectItems.forEach(item => {
-  item.addEventListener("click", function() {
+selectItems.forEach((item) => {
+  item.addEventListener("click", function () {
     const selectedValue = this.innerText.toLowerCase();
     selectValue.innerText = this.innerText;
     elementToggleFunc(select);
@@ -54,7 +54,7 @@ selectItems.forEach(item => {
  * @param {string} selectedValue - The category to filter by
  */
 const filterFunc = (selectedValue) => {
-  filterItems.forEach(item => {
+  filterItems.forEach((item) => {
     if (selectedValue === "all" || selectedValue === item.dataset.category) {
       item.classList.add("active");
     } else {
@@ -66,8 +66,8 @@ const filterFunc = (selectedValue) => {
 // Add event listeners to all filter button items for large screen
 let lastClickedBtn = filterBtn[0];
 
-filterBtn.forEach(btn => {
-  btn.addEventListener("click", function() {
+filterBtn.forEach((btn) => {
+  btn.addEventListener("click", function () {
     const selectedValue = this.innerText.toLowerCase();
     selectValue.innerText = this.innerText;
     filterFunc(selectedValue);
@@ -87,7 +87,7 @@ const formInputs = document.querySelectorAll("[data-form-input]");
 const formBtn = document.querySelector("[data-form-btn]");
 
 // Add event listeners to all form input fields
-formInputs.forEach(input => {
+formInputs.forEach((input) => {
   input.addEventListener("input", () => {
     // Check form validation
     if (form.checkValidity()) {
@@ -106,8 +106,8 @@ const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
 // Add event listeners to all navigation links
-navigationLinks.forEach(link => {
-  link.addEventListener("click", function() {
+navigationLinks.forEach((link) => {
+  link.addEventListener("click", function () {
     pages.forEach((page, index) => {
       if (this.innerHTML.toLowerCase() === page.dataset.page) {
         page.classList.add("active");
@@ -125,9 +125,9 @@ navigationLinks.forEach(link => {
 // NAVBAR MINI CIRCLE ANIMATION
 // ============================================================================
 
-document.addEventListener('DOMContentLoaded', () => {
-  const navbarLinks = document.querySelectorAll('.navbar-link');
-  const miniCircle = document.querySelector('.navbar-mini-circle');
+document.addEventListener("DOMContentLoaded", () => {
+  const navbarLinks = document.querySelectorAll(".navbar-link");
+  const miniCircle = document.querySelector(".navbar-mini-circle");
 
   /**
    * Move the mini circle to the target element
@@ -135,25 +135,26 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   const moveMiniCircle = (target) => {
     const rect = target.getBoundingClientRect();
-    const navbarRect = target.closest('.navbar').getBoundingClientRect();
-    const offsetLeft = rect.left - navbarRect.left + (rect.width / 2) - (miniCircle.offsetWidth / 2);
+    const navbarRect = target.closest(".navbar").getBoundingClientRect();
+    const offsetLeft =
+      rect.left - navbarRect.left + rect.width / 2 - miniCircle.offsetWidth / 2;
     miniCircle.style.transform = `translateX(${offsetLeft}px)`;
   };
 
   // Add event listeners to navbar links
-  navbarLinks.forEach(link => {
-    link.addEventListener('mouseenter', (e) => {
+  navbarLinks.forEach((link) => {
+    link.addEventListener("mouseenter", (e) => {
       moveMiniCircle(e.target);
     });
 
-    link.addEventListener('click', (e) => {
-      navbarLinks.forEach(link => link.classList.remove('active'));
-      e.target.classList.add('active');
+    link.addEventListener("click", (e) => {
+      navbarLinks.forEach((link) => link.classList.remove("active"));
+      e.target.classList.add("active");
       moveMiniCircle(e.target);
     });
 
-    link.addEventListener('mouseleave', () => {
-      const activeLink = document.querySelector('.navbar-link.active');
+    link.addEventListener("mouseleave", () => {
+      const activeLink = document.querySelector(".navbar-link.active");
       if (activeLink) {
         moveMiniCircle(activeLink);
       }
@@ -161,14 +162,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Initialize the position of the mini circle to the active link
-  const activeLink = document.querySelector('.navbar-link.active');
+  const activeLink = document.querySelector(".navbar-link.active");
   if (activeLink) {
     moveMiniCircle(activeLink);
   }
 
   // Adjust the mini circle position on window resize
-  window.addEventListener('resize', () => {
-    const activeLink = document.querySelector('.navbar-link.active');
+  window.addEventListener("resize", () => {
+    const activeLink = document.querySelector(".navbar-link.active");
     if (activeLink) {
       moveMiniCircle(activeLink);
     }
@@ -209,35 +210,41 @@ const preloadImage = (src) => {
  * Preload all modal images when the page loads
  */
 const preloadAllModalImages = () => {
-  const projectItems = document.querySelectorAll('.project-item');
+  const projectItems = document.querySelectorAll(".project-item");
   const imagePromises = [];
-  
-  projectItems.forEach(item => {
+
+  projectItems.forEach((item) => {
     // Parse the data-media attribute to get all images
-    const mediaData = item.getAttribute('data-media');
+    const mediaData = item.getAttribute("data-media");
     if (mediaData) {
       try {
         const mediaArray = JSON.parse(mediaData);
-        mediaArray.forEach(media => {
-          if (media.type === 'image' && media.src && !preloadedImages.has(media.src)) {
+        mediaArray.forEach((media) => {
+          if (
+            media.type === "image" &&
+            media.src &&
+            !preloadedImages.has(media.src)
+          ) {
             imagePromises.push(preloadImage(media.src));
           }
         });
       } catch (e) {
-        console.warn('Error parsing media data for project item:', e);
+        console.warn("Error parsing media data for project item:", e);
       }
     }
-    
+
     // Also check for legacy data-image attribute as fallback
-    const imageSrc = item.getAttribute('data-image');
+    const imageSrc = item.getAttribute("data-image");
     if (imageSrc && !preloadedImages.has(imageSrc)) {
       imagePromises.push(preloadImage(imageSrc));
     }
   });
-  
+
   // Log progress
-  Promise.allSettled(imagePromises).then(results => {
-    const successful = results.filter(result => result.status === 'fulfilled').length;
+  Promise.allSettled(imagePromises).then((results) => {
+    const successful = results.filter(
+      (result) => result.status === "fulfilled"
+    ).length;
     const total = results.length;
     console.log(`Preloaded ${successful}/${total} modal images`);
   });
@@ -270,7 +277,7 @@ let currentMediaArray = [];
 const getYouTubeVideoId = (url) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
   const match = url.match(regExp);
-  return (match && match[2].length === 11) ? match[2] : null;
+  return match && match[2].length === 11 ? match[2] : null;
 };
 
 /**
@@ -279,15 +286,15 @@ const getYouTubeVideoId = (url) => {
  */
 const showMedia = (index) => {
   if (currentMediaArray.length === 0) return;
-  
+
   currentMediaIndex = index;
   const media = currentMediaArray[currentMediaIndex];
-  
+
   // Hide all media elements initially
   modalImage.style.display = "none";
   modalVideo.style.display = "none";
   modalIframe.style.display = "none";
-  
+
   if (media.type === "image") {
     modalImage.src = media.src;
     modalImage.alt = media.alt;
@@ -302,12 +309,14 @@ const showMedia = (index) => {
       modalIframe.style.display = "block";
     } else {
       // For other video types, show thumbnail with link
-      modalImage.src = `https://img.youtube.com/vi/${getYouTubeVideoId(media.src)}/maxresdefault.jpg`;
+      modalImage.src = `https://img.youtube.com/vi/${getYouTubeVideoId(
+        media.src
+      )}/maxresdefault.jpg`;
       modalImage.alt = media.alt;
       modalImage.style.display = "block";
     }
   }
-  
+
   updateIndicators();
   updateNavigationButtons();
 };
@@ -316,21 +325,23 @@ const showMedia = (index) => {
  * Update the media indicators
  */
 const updateIndicators = () => {
-  modalMediaIndicators.innerHTML = '';
-  
+  modalMediaIndicators.innerHTML = "";
+
   // Hide indicators if there's only one media item
   if (currentMediaArray.length <= 1) {
-    modalMediaIndicators.style.display = 'none';
+    modalMediaIndicators.style.display = "none";
     return;
   }
-  
+
   // Show indicators if there are multiple media items
-  modalMediaIndicators.style.display = 'flex';
-  
+  modalMediaIndicators.style.display = "flex";
+
   currentMediaArray.forEach((media, index) => {
-    const indicator = document.createElement('div');
-    indicator.className = `modal-indicator ${index === currentMediaIndex ? 'active' : ''}`;
-    indicator.addEventListener('click', () => showMedia(index));
+    const indicator = document.createElement("div");
+    indicator.className = `modal-indicator ${
+      index === currentMediaIndex ? "active" : ""
+    }`;
+    indicator.addEventListener("click", () => showMedia(index));
     modalMediaIndicators.appendChild(indicator);
   });
 };
@@ -375,15 +386,22 @@ const showPrevMedia = () => {
  * @param {string} videoLink - Optional video link
  * @param {string} siteLink - Optional site link
  */
-const openModal = (title, subtitle, description, mediaArray, videoLink, siteLink) => {
+const openModal = (
+  title,
+  subtitle,
+  description,
+  mediaArray,
+  videoLink,
+  siteLink
+) => {
   modalTitle.textContent = title;
   modalSubtitle.textContent = subtitle;
   modalDescription.innerHTML = description;
-  
+
   // Set up media gallery
   currentMediaArray = mediaArray || [];
   currentMediaIndex = 0;
-  
+
   if (currentMediaArray.length > 0) {
     showMedia(0);
   }
@@ -405,7 +423,7 @@ const openModal = (title, subtitle, description, mediaArray, videoLink, siteLink
   }
 
   modal.style.display = "block";
-  modal.querySelector('.modal-content').style.animation = 'popUp 0.2s ease';
+  modal.querySelector(".modal-content").style.animation = "popUp 0.2s ease";
 };
 
 /**
@@ -420,15 +438,19 @@ const closeModal = () => {
     modalVideo.pause();
     modalVideo.src = "";
   }
-  
-  const modalContent = modal.querySelector('.modal-content');
-  modalContent.style.animation = 'popDown 0.15s ease';
-  modalContent.addEventListener('animationend', () => {
-    modal.style.display = "none";
-    // Reset media
-    currentMediaArray = [];
-    currentMediaIndex = 0;
-  }, { once: true });
+
+  const modalContent = modal.querySelector(".modal-content");
+  modalContent.style.animation = "popDown 0.15s ease";
+  modalContent.addEventListener(
+    "animationend",
+    () => {
+      modal.style.display = "none";
+      // Reset media
+      currentMediaArray = [];
+      currentMediaIndex = 0;
+    },
+    { once: true }
+  );
 };
 
 // Modal event listeners
@@ -441,20 +463,20 @@ window.onclick = (event) => {
 };
 
 // Navigation button event listeners
-modalNavPrev.addEventListener('click', showPrevMedia);
-modalNavNext.addEventListener('click', showNextMedia);
+modalNavPrev.addEventListener("click", showPrevMedia);
+modalNavNext.addEventListener("click", showNextMedia);
 
 // Keyboard navigation
-document.addEventListener('keydown', (event) => {
-  if (modal.style.display === 'block') {
+document.addEventListener("keydown", (event) => {
+  if (modal.style.display === "block") {
     switch (event.key) {
-      case 'ArrowLeft':
+      case "ArrowLeft":
         showPrevMedia();
         break;
-      case 'ArrowRight':
+      case "ArrowRight":
         showNextMedia();
         break;
-      case 'Escape':
+      case "Escape":
         closeModal();
         break;
     }
@@ -465,56 +487,59 @@ document.addEventListener('keydown', (event) => {
 // PROJECT ITEMS EVENT LISTENERS
 // ============================================================================
 
-document.querySelectorAll('.project-item').forEach(item => {
+document.querySelectorAll(".project-item").forEach((item) => {
   // Preload images on hover for even faster loading
-  item.addEventListener('mouseenter', () => {
+  item.addEventListener("mouseenter", () => {
     // Parse the data-media attribute to preload all images
-    const mediaData = item.getAttribute('data-media');
+    const mediaData = item.getAttribute("data-media");
     if (mediaData) {
       try {
         const mediaArray = JSON.parse(mediaData);
-        mediaArray.forEach(media => {
-          if (media.type === 'image' && media.src && !preloadedImages.has(media.src)) {
+        mediaArray.forEach((media) => {
+          if (
+            media.type === "image" &&
+            media.src &&
+            !preloadedImages.has(media.src)
+          ) {
             preloadImage(media.src);
           }
         });
       } catch (e) {
-        console.warn('Error parsing media data for hover preload:', e);
+        console.warn("Error parsing media data for hover preload:", e);
       }
     }
-    
+
     // Also check for legacy data-image attribute as fallback
-    const imageSrc = item.getAttribute('data-image');
+    const imageSrc = item.getAttribute("data-image");
     if (imageSrc && !preloadedImages.has(imageSrc)) {
       preloadImage(imageSrc);
     }
   });
 
   // Handle project item clicks
-  item.addEventListener('click', (event) => {
+  item.addEventListener("click", (event) => {
     event.preventDefault(); // Prevent the default action (scrolling to the top)
 
-    const title = item.getAttribute('data-title');
-    const subtitle = item.getAttribute('data-subtitle');
-    const description = item.getAttribute('data-description');
-    const mediaData = item.getAttribute('data-media');
-    const videoLink = item.getAttribute('data-video-link');
-    const siteLink = item.getAttribute('data-site-link');
-    
+    const title = item.getAttribute("data-title");
+    const subtitle = item.getAttribute("data-subtitle");
+    const description = item.getAttribute("data-description");
+    const mediaData = item.getAttribute("data-media");
+    const videoLink = item.getAttribute("data-video-link");
+    const siteLink = item.getAttribute("data-site-link");
+
     // Parse media data
     let mediaArray = [];
     try {
       mediaArray = JSON.parse(mediaData);
     } catch (e) {
-      console.error('Error parsing media data:', e);
+      console.error("Error parsing media data:", e);
       // Fallback to old data-image if available
-      const imageSrc = item.getAttribute('data-image');
+      const imageSrc = item.getAttribute("data-image");
       if (imageSrc) {
-        mediaArray = [{"type": "image", "src": imageSrc, "alt": title}];
+        mediaArray = [{ type: "image", src: imageSrc, alt: title }];
       }
     }
-    
+
     openModal(title, subtitle, description, mediaArray, videoLink, siteLink);
   });
 });
-
