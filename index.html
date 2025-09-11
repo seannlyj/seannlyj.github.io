@@ -237,6 +237,22 @@
         </header>
 
         <section class="devlog-posts">
+          <div class="post">
+            <video class="post-gif" autoplay loop muted playsinline preload="auto" aria-label="Multiplayer: Basic movement and replication">
+              <source src="./assets/videos/11sep-multiplayermovement.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <h3 class="h3 post-title">Multiplayer: Basic movement and replication</h3>
+            <time datetime="2025-09-11">11 Sep, 2025</time>
+            <p>
+              This week, I focused on implementing the foundations of multiplayer replication in Unreal Engine. 
+              I integrated replication with core systems like player movement and the camera lock-on feature, making sure that actions such as locking onto a target are accurately reflected across all connected clients.
+              <br>
+              <br>
+              Getting replication to play nicely with the lock-on system was a particular challenge, since each client needs to maintain its own local control while still keeping the server authoritative. 
+              I had to carefully manage when and how target data was sent to the server to avoid desyncs, while ensuring that the player’s camera remained responsive.
+            </p>
+          </div>
 
           <div class="post">
             <video class="post-gif" autoplay loop muted playsinline preload="auto" aria-label="Camera lock-on and refraction trails">
@@ -249,6 +265,8 @@
               This week, I worked on adding a camera lock-on system and refraction trails for player attacks. 
               The lock-on system lets players fix their view on a chosen enemy, making combat encounters easier to follow while 
               still keeping the target clearly visible. 
+              <br>
+              <br>
               I also experimented with Unreal Engine’s Niagara System to build refraction trails that follow attacks. 
               Getting used to Niagara was challenging at first, but I eventually managed to create striking visual effects that make combat feel more impactful.
             </p>
