@@ -238,6 +238,27 @@
 
         <section class="devlog-posts">
           <div class="post">
+            <video class="post-gif" autoplay loop muted playsinline preload="auto" aria-label="Multiplayer: LAN and combat replication">
+              <source src="./assets/videos/18sep-multiplayercombat.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <h3 class="h3 post-title">Multiplayer: LAN and combat replication</h3>
+            <time datetime="2025-09-18">18 Sep, 2025</time>
+            <p>
+              I implemented multiplayer replication for combat and started testing the game across two devices on a local network this week. Initially, I ran into several connection issues—I only realized later 
+              that my laptop couldn't even ping my PC through the command line (lol). Once I fixed the network issue, the multiplayer session worked as expected.
+              <br>
+              <br>
+              During testing, I made an interesting observation: even though my laptop isn't designed for gaming and struggled with low framerate and peformance, these limitations also affected how 
+              the client's character appeared on other players' screens. Essentially the performance of one device impacted the representation of that player for everyone else, highlighting an important 
+              consideration for multiplayer optimization.
+              <br>
+              <br>
+              Overall, this testing session helped me uncover both technical hurdles and subtle performance challenges that I'll need to address as I continue refining the multiplayer experience.
+            </p>
+          </div>
+
+          <div class="post">
             <video class="post-gif" autoplay loop muted playsinline preload="auto" aria-label="Multiplayer: Basic movement and replication">
               <source src="./assets/videos/11sep-multiplayermovement.mp4" type="video/mp4">
               Your browser does not support the video tag.
