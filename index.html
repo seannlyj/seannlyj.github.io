@@ -238,6 +238,35 @@
 
         <section class="devlog-posts">
           <div class="post">
+            <video class="post-gif" autoplay loop muted playsinline preload="auto" aria-label="Overhauling the game and the road ahead">
+              <source src="./assets/videos/08jan-overhaul.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <h3 class="h3 post-title">Overhauling the game and the road ahead</h3>
+            <time datetime="2026-01-08">08 Jan, 2026</time>
+            <p>
+              It’s been quite a while since the last devlog, but a lot has happened behind the scenes. Over the past few months, I’ve significantly overhauled the game, starting with a full replacement of the original animation assets. 
+              This change immediately elevated how combat feels, and it also gave me the opportunity to revisit and clean up large parts of the multiplayer netcode alongside it.
+              <br>
+              <br>
+              With the new animations in place, I expanded the combat system with several new mechanics. Players can now dodge, perform a <em>perfect dodge</em> for precise timing, and block incoming attacks. 
+              To improve readability during fast-paced exchanges, I also added hit indicators that signal when an opponent is about to attack, helping players make better moment-to-moment decisions. 
+              On top of that, I spent time fine-tuning the overall combat flow so that attacks, movement, and defensive actions transition more smoothly into one another.
+              <br>
+              <br>
+              Another major addition is a simple AI-controlled bot that players can practice against. While it’s not meant to be overly complex, it provides a consistent way to test combat mechanics, timings, and balance without needing a second player connected. 
+              The video demo shows gameplay footage against a bot.
+              <br>
+              <br>
+              At this stage, my focus has shifted slightly from pure systems work to figuring out the game’s overall <em>style</em> and <em>aesthetic</em>. I want to ensure the visuals and presentation properly support the feel of the combat before pushing further with content.
+              Looking ahead, I’m also planning to explore options for online multiplayer services, as the game currently only supports multiplayer over local networks.
+              <br>
+              <br>
+              There’s still plenty to refine, but the game now feels far more cohesive than it did a few months ago, and I’m excited to start shaping its identity as I move into the next phase of development.
+            </p>
+          </div>
+
+          <div class="post">
             <video class="post-gif" autoplay loop muted playsinline preload="auto" aria-label="Multiplayer: LAN and combat replication">
               <source src="./assets/videos/18sep-multiplayercombat.mp4" type="video/mp4">
               Your browser does not support the video tag.
@@ -563,7 +592,7 @@
             </li>
 
             <li class="filter-item">
-              <button data-filter-btn>Other Applications</button>
+              <button data-filter-btn>Others</button>
             </li>
 
           </ul>
@@ -591,7 +620,7 @@
               </li>
 
               <li class="select-item">
-                <button data-select-item>Other Applications</button>
+                <button data-select-item>Others</button>
               </li>
 
             </ul>
@@ -605,7 +634,7 @@
           <ul class="project-list">
 
             <!-- SunnySide Project -->
-            <li class="project-item active" data-filter-item data-category="other applications" 
+            <li class="project-item active" data-filter-item data-category="others" 
                 data-title="SunnySide" 
                 data-subtitle="React, MongoDB, NodeJS" 
                 data-description="
@@ -634,7 +663,7 @@
             </li>
 
             <!-- Pomosimple Project -->
-            <li class="project-item active" data-filter-item data-category="other applications" 
+            <li class="project-item active" data-filter-item data-category="others" 
                 data-title="Pomosimple" 
                 data-subtitle="Android Studio, Firebase, Java" 
                 data-description="
@@ -662,7 +691,7 @@
             </li>
 
             <!-- Vocal Insights Project -->
-            <li class="project-item active" data-filter-item data-category="other applications"
+            <li class="project-item active" data-filter-item data-category="others"
                 data-title="Vocal Insights" 
                 data-subtitle="AI/NLP(Whisper, NLTK, Transformer), Flask, SQLite, Python" 
                 data-description="
@@ -688,6 +717,70 @@
                 </figure>
                 <h3 class="project-title">Vocal Insights</h3>
                 <p class="project-category">AI/NLP, Flask, SQLite, Python</p>
+              </a>
+            </li>
+
+            <!-- Pugilist Project -->
+            <li class="project-item active" data-filter-item data-category="games"
+                data-title="Pugilist" 
+                data-subtitle="Action, Combat, Multiplayer, Unreal" 
+                data-description="
+                <p>Project Pugilist is my first game developed using Unreal Engine, designed as a 1v1 multiplayer sparring experience with a strong emphasis on in-depth combat mechanics.</p>
+                <br>
+                <p>The project focuses on creating deliberate, skill-based combat through systems such as stamina management, attack decision-making, and defensive options, encouraging players to read their opponent and commit to their actions.</p>
+                <br>
+                <p>As an ongoing project, I am actively documenting the development process in the Devlog section of my website, sharing insights on design decisions, technical challenges, and iteration throughout development.</p>
+                <br>
+                <p>Through this project, I have gained hands-on experience with Unreal Engine workflows, Blueprint-based systems, and designing multiplayer combat that balances responsiveness with strategic depth.</p>"
+                data-media='[
+                  {"type": "image", "src": "./assets/images/featuregraphic-pugilist.png", "alt": "Pugilist Feature Graphic"},
+                  {"type": "image", "src": "./assets/images/featuregraphic-pugilist-1.png", "alt": "Pugilist Feature Graphic"},
+                  {"type": "image", "src": "./assets/images/featuregraphic-pugilist-2.png", "alt": "Pugilist Feature Graphic"}
+                ]'
+                data-video-link="https://youtu.be/ALtFc9skRVk"
+                data-site-link="#devlog"
+                loading="eager">
+              <a href="#">
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye"></ion-icon>
+                  </div>
+                  <img src="./assets/images/project-pugilist.png" alt="Pugilist" loading="eager">
+                </figure>
+                <h3 class="project-title">Pugilist</h3>
+                <p class="project-category">Action, Combat, Multiplayer, Unreal</p>
+              </a>
+            </li>
+
+            <!-- Mudra Project -->
+            <li class="project-item active" data-filter-item data-category="games"
+                data-title="MUDRA" 
+                data-subtitle="Action, Combat, Unity" 
+                data-description="
+                <p>This game began as a two-week experimental project, created as a short break from a Unreal Engine project (Project Pugilist) I was working on.</p>
+                <br>
+                <p>Using Unity as a familiar development environment, I focused on translating what I had learned from Unreal into the design of a fast-paced action combat system. A key highlight of the project is the Mudra mechanic, where players execute specific sequences to cast spells, adding an additional layer of depth beyond standard combat.</p>
+                <br>
+                <p>As development progressed, I found the core concept increasingly compelling, motivating me to continue evolving the project beyond a prototype into a fully playable game. The spell system was intentionally designed to promote synergy and planning, encouraging players to think strategically about how different mudras and abilities interact.</p>
+                <br>
+                <p>Through this project, I sharpened my skills in rapid prototyping, combat design, and experimenting with mechanics that reward player mastery.</p>"
+                data-media='[
+                  {"type": "image", "src": "./assets/images/featuregraphic-mudra.png", "alt": "Mudra Feature Graphic"},
+                  {"type": "image", "src": "./assets/images/featuregraphic-mudra-1.png", "alt": "Mudra Feature Graphic"},
+                  {"type": "image", "src": "./assets/images/featuregraphic-mudra-2.png", "alt": "Mudra Feature Graphic"},
+                  {"type": "image", "src": "./assets/images/featuregraphic-mudra-3.png", "alt": "Mudra Feature Graphic"}
+                ]'
+                data-video-link="https://youtu.be/oIdJtR5jeBc"
+                loading="eager">
+              <a href="#">
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye"></ion-icon>
+                  </div>
+                  <img src="./assets/images/project-mudra-2.png" alt="Mudra" loading="eager">
+                </figure>
+                <h3 class="project-title">MUDRA</h3>
+                <p class="project-category">Action, Combat, Unity</p>
               </a>
             </li>
 
@@ -735,8 +828,7 @@
                 data-media='[
                   {"type": "image", "src": "./assets/images/featuregraphic-downtime.png", "alt": "Downtime Feature Graphic"},
                   {"type": "image", "src": "./assets/images/featuregraphic-downtime-1.png", "alt": "Downtime Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-downtime-2.png", "alt": "Downtime Feature Graphic"},
-                  {"type": "video", "src": "https://www.youtube.com/watch?v=LfGkPay0ZP0", "alt": "Downtime Gameplay Video"}
+                  {"type": "image", "src": "./assets/images/featuregraphic-downtime-2.png", "alt": "Downtime Feature Graphic"}
                 ]'
                 data-video-link="https://www.youtube.com/watch?v=LfGkPay0ZP0"
                 data-site-link="https://na-es.itch.io/downtime"
@@ -812,8 +904,7 @@
                 This 4-week project was worked on during my school break. The game was made to prepare and familiarize myself with
                 the Unity game engine before the start of the semester where I had to use it.</p>"
                 data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-monochrome.png", "alt": "Monochrome Feature Graphic"},
-                  {"type": "video", "src": "https://www.youtube.com/watch?v=Qqa2SdD7biI", "alt": "Monochrome Gameplay Video"}
+                  {"type": "image", "src": "./assets/images/featuregraphic-monochrome.png", "alt": "Monochrome Feature Graphic"}
                 ]'
                 data-video-link="https://www.youtube.com/watch?v=Qqa2SdD7biI"
                 loading="eager">
@@ -837,8 +928,7 @@
                 I worked on features such as the game design, gameplay algorithm, user interface, and graphical look of the game. 
                 This was my first experience working on a Multiplayer game using Photon.</p>"
                 data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-pathfinder.png", "alt": "Pathfinder Feature Graphic"},
-                  {"type": "video", "src": "https://www.youtube.com/watch?v=h3zYvY9v424", "alt": "Pathfinder Gameplay Video"}
+                  {"type": "image", "src": "./assets/images/featuregraphic-pathfinder.png", "alt": "Pathfinder Feature Graphic"}
                 ]'
                 data-video-link="https://www.youtube.com/watch?v=h3zYvY9v424"
                 loading="eager">
@@ -868,8 +958,7 @@
                 <br>
                 <p>This project was also further nominated to represent NYP in the 2021 Lee Hsien Loong Smart Nation Awards.</p>"
                 data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-codeblue.png", "alt": "Vital Blue Feature Graphic"},
-                  {"type": "video", "src": "https://www.youtube.com/watch?v=LtsA_CYyad8", "alt": "Vital Blue Demo Video"}
+                  {"type": "image", "src": "./assets/images/featuregraphic-codeblue.png", "alt": "Vital Blue Feature Graphic"}
                 ]'
                 data-video-link="https://www.youtube.com/watch?v=LtsA_CYyad8"
                 loading="eager">

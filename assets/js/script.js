@@ -418,6 +418,29 @@ const openModal = (
   if (siteLink) {
     modalSiteLink.href = siteLink;
     modalSiteLink.style.display = "inline";
+    // Reset any previous custom click behavior
+    modalSiteLink.onclick = null;
+
+    // For internal navigation (e.g., #devlog), switch tabs instead of opening a new tab
+    if (siteLink.startsWith("#")) {
+      modalSiteLink.removeAttribute("target");
+      modalSiteLink.onclick = (e) => {
+        e.preventDefault();
+        const targetPage = siteLink.slice(1).toLowerCase();
+        // Close modal first, then navigate
+        closeModal();
+        // Find the matching navbar link and trigger a click to reuse existing logic/animation
+        const targetLink = Array.from(navigationLinks).find(
+          (lnk) => lnk.innerHTML.toLowerCase() === targetPage
+        );
+        if (targetLink) {
+          targetLink.click();
+        }
+      };
+    } else {
+      // External sites open in a new tab
+      modalSiteLink.setAttribute("target", "_blank");
+    }
   } else {
     modalSiteLink.style.display = "none";
   }
