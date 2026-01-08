@@ -765,11 +765,26 @@ main {
   margin-bottom: 25px;
 }
 
+/* Skills row: label (h5) + value (p) */
 .skill .title-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: -10px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  column-gap: 10px;
+  row-gap: 6px;
+  margin-bottom: 8px;
+}
+
+/* Ensure the label reads smaller than body text on mobile */
+.skill .title-wrapper .h5 {
+  font-size: var(--fs-6);
+  margin: 0;
+}
+
+/* Make the value slightly smaller for visual hierarchy and better wrapping */
+.skill .title-wrapper .timeline-text {
+  font-size: var(--fs-7);
+  margin: 0;
 }
 
 .skill .title-wrapper data {
