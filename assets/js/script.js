@@ -1,217 +1,163 @@
 "use strict";
 
-// ============================================================================
-// UTILITY FUNCTIONS
-// ============================================================================
+/* ============================================================================
+   HEADER — translucent background once the page is scrolled
+   ============================================================================ */
 
-/**
- * Toggle the 'active' class on an element
- * @param {HTMLElement} elem - The element to toggle
- */
-const elementToggleFunc = (elem) => {
-  elem.classList.toggle("active");
+const header = document.querySelector("[data-header]");
+
+const updateHeader = () => {
+  header.classList.toggle("scrolled", window.scrollY > 8);
 };
 
-// ============================================================================
-// SIDEBAR FUNCTIONALITY
-// ============================================================================
+window.addEventListener("scroll", updateHeader, { passive: true });
+updateHeader();
 
-const sidebar = document.querySelector("[data-sidebar]");
-const sidebarBtn = document.querySelector("[data-sidebar-btn]");
+/* ============================================================================
+   MOBILE NAVIGATION
+   ============================================================================ */
 
-// Sidebar toggle functionality for mobile
-sidebarBtn.addEventListener("click", () => {
-  elementToggleFunc(sidebar);
+const nav = document.querySelector("[data-nav]");
+const navToggle = document.querySelector("[data-nav-toggle]");
+const navLinks = document.querySelectorAll("[data-nav-link]");
+
+const setNav = (open) => {
+  nav.classList.toggle("open", open);
+  navToggle.classList.toggle("open", open);
+  navToggle.setAttribute("aria-expanded", String(open));
+};
+
+navToggle.addEventListener("click", () => {
+  setNav(!nav.classList.contains("open"));
 });
 
-// ============================================================================
-// FILTER SYSTEM
-// ============================================================================
+// Close the mobile menu after choosing a destination
+navLinks.forEach((link) => {
+  link.addEventListener("click", () => setNav(false));
+});
 
-const select = document.querySelector("[data-select]");
-const selectItems = document.querySelectorAll("[data-select-item]");
-const selectValue = document.querySelector("[data-selecct-value]");
-const filterBtn = document.querySelectorAll("[data-filter-btn]");
+/* ============================================================================
+   SCROLL SPY — highlight the nav link for the section in view
+   ============================================================================ */
+
+const spyTargets = document.querySelectorAll("section[id], footer[id]");
+
+const setActiveLink = (id) => {
+  navLinks.forEach((link) => {
+    link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+  });
+};
+
+const spyObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) setActiveLink(entry.target.id);
+    });
+  },
+  { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+);
+
+spyTargets.forEach((target) => spyObserver.observe(target));
+
+/* ============================================================================
+   SCROLL REVEAL — fade/slide elements in as they enter the viewport
+   ============================================================================ */
+
+const revealEls = document.querySelectorAll(".reveal");
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+if (prefersReducedMotion) {
+  revealEls.forEach((el) => el.classList.add("is-visible"));
+} else {
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: "0px 0px -8% 0px", threshold: 0.12 }
+  );
+
+  revealEls.forEach((el) => revealObserver.observe(el));
+}
+
+/* ============================================================================
+   FOOTER YEAR
+   ============================================================================ */
+
+const yearEl = document.querySelector("[data-year]");
+if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+/* ============================================================================
+   PORTFOLIO FILTER
+   ============================================================================ */
+
+const filterBtns = document.querySelectorAll("[data-filter-btn]");
 const filterItems = document.querySelectorAll("[data-filter-item]");
 
-// Custom select functionality
-select.addEventListener("click", () => {
-  elementToggleFunc(select);
-});
-
-// Add event listeners to all select items
-selectItems.forEach((item) => {
-  item.addEventListener("click", function () {
-    const selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    elementToggleFunc(select);
-    filterFunc(selectedValue);
-  });
-});
-
 /**
- * Filter items based on selected category
- * @param {string} selectedValue - The category to filter by
+ * Show only the project items matching the selected category.
+ * @param {string} value - The category to filter by ("all" shows everything)
  */
-const filterFunc = (selectedValue) => {
+const filterProjects = (value) => {
   filterItems.forEach((item) => {
-    if (selectedValue === "all" || selectedValue === item.dataset.category) {
-      item.classList.add("active");
-    } else {
-      item.classList.remove("active");
-    }
+    const match = value === "all" || value === item.dataset.category;
+    item.classList.toggle("active", match);
   });
 };
 
-// Add event listeners to all filter button items for large screen
-let lastClickedBtn = filterBtn[0];
+let activeFilterBtn = filterBtns[0];
 
-filterBtn.forEach((btn) => {
+filterBtns.forEach((btn) => {
   btn.addEventListener("click", function () {
-    const selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    filterFunc(selectedValue);
+    filterProjects(this.textContent.trim().toLowerCase());
 
-    lastClickedBtn.classList.remove("active");
+    if (activeFilterBtn) activeFilterBtn.classList.remove("active");
     this.classList.add("active");
-    lastClickedBtn = this;
+    activeFilterBtn = this;
   });
 });
 
-// ============================================================================
-// CONTACT FORM
-// ============================================================================
+/* ============================================================================
+   PROJECT MODAL
+   ============================================================================ */
 
-const form = document.querySelector("[data-form]");
-const formInputs = document.querySelectorAll("[data-form-input]");
-const formBtn = document.querySelector("[data-form-btn]");
-
-// Add event listeners to all form input fields
-formInputs.forEach((input) => {
-  input.addEventListener("input", () => {
-    // Check form validation
-    if (form.checkValidity()) {
-      formBtn.removeAttribute("disabled");
-    } else {
-      formBtn.setAttribute("disabled", "");
-    }
-  });
-});
-
-// ============================================================================
-// PAGE NAVIGATION
-// ============================================================================
-
-const navigationLinks = document.querySelectorAll("[data-nav-link]");
-const pages = document.querySelectorAll("[data-page]");
-
-// Add event listeners to all navigation links
-navigationLinks.forEach((link) => {
-  link.addEventListener("click", function () {
-    pages.forEach((page, index) => {
-      if (this.innerHTML.toLowerCase() === page.dataset.page) {
-        page.classList.add("active");
-        navigationLinks[index].classList.add("active");
-        window.scrollTo(0, 0);
-      } else {
-        page.classList.remove("active");
-        navigationLinks[index].classList.remove("active");
-      }
-    });
-  });
-});
-
-// ============================================================================
-// NAVBAR MINI CIRCLE ANIMATION
-// ============================================================================
-
-document.addEventListener("DOMContentLoaded", () => {
-  const navbarLinks = document.querySelectorAll(".navbar-link");
-  const miniCircle = document.querySelector(".navbar-mini-circle");
-
-  /**
-   * Move the mini circle to the target element
-   * @param {HTMLElement} target - The target element to move the circle to
-   */
-  const moveMiniCircle = (target) => {
-    const rect = target.getBoundingClientRect();
-    const navbarRect = target.closest(".navbar").getBoundingClientRect();
-    const offsetLeft =
-      rect.left - navbarRect.left + rect.width / 2 - miniCircle.offsetWidth / 2;
-    miniCircle.style.transform = `translateX(${offsetLeft}px)`;
-  };
-
-  // Add event listeners to navbar links
-  navbarLinks.forEach((link) => {
-    link.addEventListener("mouseenter", (e) => {
-      moveMiniCircle(e.target);
-    });
-
-    link.addEventListener("click", (e) => {
-      navbarLinks.forEach((link) => link.classList.remove("active"));
-      e.target.classList.add("active");
-      moveMiniCircle(e.target);
-    });
-
-    link.addEventListener("mouseleave", () => {
-      const activeLink = document.querySelector(".navbar-link.active");
-      if (activeLink) {
-        moveMiniCircle(activeLink);
-      }
-    });
-  });
-
-  // Initialize the position of the mini circle to the active link
-  const activeLink = document.querySelector(".navbar-link.active");
-  if (activeLink) {
-    moveMiniCircle(activeLink);
-  }
-
-  // Adjust the mini circle position on window resize (throttled to one update per frame)
-  let resizeScheduled = false;
-  window.addEventListener("resize", () => {
-    if (resizeScheduled) return;
-    resizeScheduled = true;
-    requestAnimationFrame(() => {
-      resizeScheduled = false;
-      const activeLink = document.querySelector(".navbar-link.active");
-      if (activeLink) {
-        moveMiniCircle(activeLink);
-      }
-    });
-  });
-});
-
-// ============================================================================
-// MODAL SYSTEM
-// ============================================================================
-
-// Image preloading system
+// --- Image preloading cache for instant modal display ---
 const preloadedImages = new Map();
 
-/**
- * Preload an image and store it in the cache
- * @param {string} src - The image source URL
- * @returns {Promise<HTMLImageElement>} Promise that resolves with the loaded image
- */
-const preloadImage = (src) => {
-  return new Promise((resolve, reject) => {
+const preloadImage = (src) =>
+  new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
       preloadedImages.set(src, img);
       resolve(img);
     };
-    img.onerror = () => {
-      console.warn(`Failed to preload image: ${src}`);
-      reject(new Error(`Failed to preload image: ${src}`));
-    };
+    img.onerror = () => reject(new Error(`Failed to preload image: ${src}`));
     img.src = src;
   });
+
+const preloadProjectMedia = (item) => {
+  const mediaData = item.getAttribute("data-media");
+  if (!mediaData) return;
+  try {
+    JSON.parse(mediaData).forEach((media) => {
+      if (media.type === "image" && media.src && !preloadedImages.has(media.src)) {
+        preloadImage(media.src).catch(() => {});
+      }
+    });
+  } catch (e) {
+    console.warn("Error parsing media data:", e);
+  }
 };
 
-// Modal DOM elements
+// --- Modal DOM references ---
 const modal = document.getElementById("projectModal");
-const span = document.getElementsByClassName("close")[0];
+const closeBtn = modal.querySelector(".close");
 const modalTitle = document.getElementById("modalTitle");
 const modalSubtitle = document.getElementById("modalSubtitle");
 const modalDescription = document.getElementById("modalDescription");
@@ -224,14 +170,11 @@ const modalNavPrev = document.getElementById("modalNavPrev");
 const modalNavNext = document.getElementById("modalNavNext");
 const modalMediaIndicators = document.getElementById("modalMediaIndicators");
 
-// Global variables for media gallery
 let currentMediaIndex = 0;
 let currentMediaArray = [];
 
 /**
- * Extract YouTube video ID from URL
- * @param {string} url - The YouTube URL
- * @returns {string|null} The video ID or null if not found
+ * Extract a YouTube video ID from any of its URL formats.
  */
 const getYouTubeVideoId = (url) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -240,8 +183,7 @@ const getYouTubeVideoId = (url) => {
 };
 
 /**
- * Show media at specific index
- * @param {number} index - The index of the media to show
+ * Render the media item at a given index.
  */
 const showMedia = (index) => {
   if (currentMediaArray.length === 0) return;
@@ -249,29 +191,22 @@ const showMedia = (index) => {
   currentMediaIndex = index;
   const media = currentMediaArray[currentMediaIndex];
 
-  // Hide all media elements initially
   modalImage.style.display = "none";
   modalVideo.style.display = "none";
   modalIframe.style.display = "none";
 
   if (media.type === "image") {
     modalImage.src = media.src;
-    modalImage.alt = media.alt;
+    modalImage.alt = media.alt || "";
     modalImage.style.display = "block";
   } else if (media.type === "video") {
-    // Check if it's a YouTube video
     const videoId = getYouTubeVideoId(media.src);
     if (videoId) {
-      // Embed YouTube video
       modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`;
-      modalIframe.alt = media.alt;
       modalIframe.style.display = "block";
     } else {
-      // For other video types, show thumbnail with link
-      modalImage.src = `https://img.youtube.com/vi/${getYouTubeVideoId(
-        media.src
-      )}/maxresdefault.jpg`;
-      modalImage.alt = media.alt;
+      modalImage.src = media.src;
+      modalImage.alt = media.alt || "";
       modalImage.style.display = "block";
     }
   }
@@ -280,124 +215,77 @@ const showMedia = (index) => {
   updateNavigationButtons();
 };
 
-/**
- * Update the media indicators
- */
 const updateIndicators = () => {
   modalMediaIndicators.innerHTML = "";
 
-  // Hide indicators if there's only one media item
   if (currentMediaArray.length <= 1) {
     modalMediaIndicators.style.display = "none";
     return;
   }
 
-  // Show indicators if there are multiple media items
   modalMediaIndicators.style.display = "flex";
 
   currentMediaArray.forEach((media, index) => {
-    const indicator = document.createElement("div");
+    const indicator = document.createElement("button");
+    indicator.type = "button";
     indicator.className = `modal-indicator ${
       index === currentMediaIndex ? "active" : ""
     }`;
+    indicator.setAttribute("aria-label", `View media ${index + 1}`);
     indicator.addEventListener("click", () => showMedia(index));
     modalMediaIndicators.appendChild(indicator);
   });
 };
 
-/**
- * Update navigation buttons visibility
- */
 const updateNavigationButtons = () => {
-  const hasMultipleItems = currentMediaArray.length > 1;
-  modalNavPrev.style.display = hasMultipleItems ? "flex" : "none";
-  modalNavNext.style.display = hasMultipleItems ? "flex" : "none";
+  const hasMultiple = currentMediaArray.length > 1;
+  modalNavPrev.style.display = hasMultiple ? "grid" : "none";
+  modalNavNext.style.display = hasMultiple ? "grid" : "none";
 };
 
-/**
- * Show next media item
- */
-const showNextMedia = () => {
-  if (currentMediaIndex < currentMediaArray.length - 1) {
-    showMedia(currentMediaIndex + 1);
-  } else {
-    showMedia(0); // Loop back to first
-  }
-};
+const showNextMedia = () =>
+  showMedia((currentMediaIndex + 1) % currentMediaArray.length);
+
+const showPrevMedia = () =>
+  showMedia(
+    (currentMediaIndex - 1 + currentMediaArray.length) %
+      currentMediaArray.length
+  );
 
 /**
- * Show previous media item
+ * Populate and open the modal.
  */
-const showPrevMedia = () => {
-  if (currentMediaIndex > 0) {
-    showMedia(currentMediaIndex - 1);
-  } else {
-    showMedia(currentMediaArray.length - 1); // Loop to last
-  }
-};
-
-/**
- * Open the modal with specific content
- * @param {string} title - The modal title
- * @param {string} subtitle - The modal subtitle
- * @param {string} description - The modal description
- * @param {Array} mediaArray - Array of media objects
- * @param {string} videoLink - Optional video link
- * @param {string} siteLink - Optional site link
- */
-const openModal = (
-  title,
-  subtitle,
-  description,
-  mediaArray,
-  videoLink,
-  siteLink
-) => {
+const openModal = (title, subtitle, description, mediaArray, videoLink, siteLink) => {
   modalTitle.textContent = title;
   modalSubtitle.textContent = subtitle;
   modalDescription.innerHTML = description;
 
-  // Set up media gallery
   currentMediaArray = mediaArray || [];
   currentMediaIndex = 0;
+  if (currentMediaArray.length > 0) showMedia(0);
 
-  if (currentMediaArray.length > 0) {
-    showMedia(0);
-  }
-
-  // Handle video link
+  // Optional "Video Demo" link
   if (videoLink) {
     modalVideoLink.href = videoLink;
-    modalVideoLink.style.display = "inline";
+    modalVideoLink.style.display = "inline-flex";
   } else {
     modalVideoLink.style.display = "none";
   }
 
-  // Handle site link
+  // Optional "Learn More" link (supports internal #section navigation)
   if (siteLink) {
     modalSiteLink.href = siteLink;
-    modalSiteLink.style.display = "inline";
-    // Reset any previous custom click behavior
+    modalSiteLink.style.display = "inline-flex";
     modalSiteLink.onclick = null;
 
-    // For internal navigation (e.g., #devlog), switch tabs instead of opening a new tab
     if (siteLink.startsWith("#")) {
       modalSiteLink.removeAttribute("target");
       modalSiteLink.onclick = (e) => {
         e.preventDefault();
-        const targetPage = siteLink.slice(1).toLowerCase();
-        // Close modal first, then navigate
         closeModal();
-        // Find the matching navbar link and trigger a click to reuse existing logic/animation
-        const targetLink = Array.from(navigationLinks).find(
-          (lnk) => lnk.innerHTML.toLowerCase() === targetPage
-        );
-        if (targetLink) {
-          targetLink.click();
-        }
+        document.querySelector(siteLink)?.scrollIntoView({ behavior: "smooth" });
       };
     } else {
-      // External sites open in a new tab
       modalSiteLink.setAttribute("target", "_blank");
     }
   } else {
@@ -405,29 +293,33 @@ const openModal = (
   }
 
   modal.style.display = "block";
-  modal.querySelector(".modal-content").style.animation = "popUp 0.2s ease";
+  document.body.style.overflow = "hidden";
+
+  // Re-trigger the entrance animation on every open
+  const modalContent = modal.querySelector(".modal-content");
+  modalContent.style.animation = "none";
+  void modalContent.offsetWidth; // force reflow
+  modalContent.style.animation = "popUp 0.28s cubic-bezier(0.22, 0.61, 0.36, 1)";
 };
 
 /**
- * Close the modal with animation
+ * Close the modal and stop any playing media.
  */
 const closeModal = () => {
-  // Stop any playing videos
-  if (modalIframe.src) {
-    modalIframe.src = "";
-  }
+  if (modalIframe.src) modalIframe.src = "";
   if (modalVideo.src) {
     modalVideo.pause();
-    modalVideo.src = "";
+    modalVideo.removeAttribute("src");
   }
 
   const modalContent = modal.querySelector(".modal-content");
-  modalContent.style.animation = "popDown 0.15s ease";
+  modalContent.style.animation = "popDown 0.16s ease forwards";
   modalContent.addEventListener(
     "animationend",
     () => {
       modal.style.display = "none";
-      // Reset media
+      modalContent.style.animation = "";
+      document.body.style.overflow = "";
       currentMediaArray = [];
       currentMediaIndex = 0;
     },
@@ -435,119 +327,47 @@ const closeModal = () => {
   );
 };
 
-// Modal event listeners
-span.onclick = closeModal;
-
-window.onclick = (event) => {
-  if (event.target === modal) {
-    closeModal();
-  }
-};
-
-// Navigation button event listeners
+// --- Modal events ---
+closeBtn.addEventListener("click", closeModal);
 modalNavPrev.addEventListener("click", showPrevMedia);
 modalNavNext.addEventListener("click", showNextMedia);
 
-// Keyboard navigation
-document.addEventListener("keydown", (event) => {
-  if (modal.style.display === "block") {
-    switch (event.key) {
-      case "ArrowLeft":
-        showPrevMedia();
-        break;
-      case "ArrowRight":
-        showNextMedia();
-        break;
-      case "Escape":
-        closeModal();
-        break;
-    }
-  }
+modal.addEventListener("click", (event) => {
+  if (event.target === modal) closeModal();
 });
 
-// ============================================================================
-// PROJECT ITEMS EVENT LISTENERS
-// ============================================================================
+document.addEventListener("keydown", (event) => {
+  if (modal.style.display !== "block") return;
+  if (event.key === "Escape") closeModal();
+  if (event.key === "ArrowLeft") showPrevMedia();
+  if (event.key === "ArrowRight") showNextMedia();
+});
 
+// --- Wire up each project card ---
 document.querySelectorAll(".project-item").forEach((item) => {
-  // Preload images on hover for even faster loading
-  item.addEventListener("mouseenter", () => {
-    // Parse the data-media attribute to preload all images
-    const mediaData = item.getAttribute("data-media");
-    if (mediaData) {
-      try {
-        const mediaArray = JSON.parse(mediaData);
-        mediaArray.forEach((media) => {
-          if (
-            media.type === "image" &&
-            media.src &&
-            !preloadedImages.has(media.src)
-          ) {
-            preloadImage(media.src);
-          }
-        });
-      } catch (e) {
-        console.warn("Error parsing media data for hover preload:", e);
-      }
-    }
+  item.addEventListener("mouseenter", () => preloadProjectMedia(item));
 
-    // Also check for legacy data-image attribute as fallback
-    const imageSrc = item.getAttribute("data-image");
-    if (imageSrc && !preloadedImages.has(imageSrc)) {
-      preloadImage(imageSrc);
-    }
-  });
-
-  // Handle project item clicks
   item.addEventListener("click", (event) => {
-    event.preventDefault(); // Prevent the default action (scrolling to the top)
+    event.preventDefault();
 
     const title = item.getAttribute("data-title");
     const subtitle = item.getAttribute("data-subtitle");
     const description = item.getAttribute("data-description");
-    const mediaData = item.getAttribute("data-media");
     const videoLink = item.getAttribute("data-video-link");
     const siteLink = item.getAttribute("data-site-link");
 
-    // Parse media data
     let mediaArray = [];
     try {
-      mediaArray = JSON.parse(mediaData);
+      mediaArray = JSON.parse(item.getAttribute("data-media"));
     } catch (e) {
       console.error("Error parsing media data:", e);
-      // Fallback to old data-image if available
-      const imageSrc = item.getAttribute("data-image");
-      if (imageSrc) {
-        mediaArray = [{ type: "image", src: imageSrc, alt: title }];
-      }
     }
 
     openModal(title, subtitle, description, mediaArray, videoLink, siteLink);
   });
 });
 
-// ============================================================================
-// DEVLOG VIDEO PLAYBACK
-// ============================================================================
-
-// Play a devlog clip only while it is on-screen, so the browser never decodes all
-// of them at once. Because the clips live in a hidden tab, this also defers their
-// download until the Devlog tab is opened and a clip nears the viewport.
-const devlogVideos = document.querySelectorAll(".post-gif");
-if (devlogVideos.length > 0) {
-  const videoObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const video = entry.target;
-        if (entry.isIntersecting) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      });
-    },
-    { rootMargin: "200px 0px", threshold: 0.25 }
-  );
-
-  devlogVideos.forEach((video) => videoObserver.observe(video));
-}
+// Preload all modal imagery once the rest of the page has loaded
+window.addEventListener("load", () => {
+  document.querySelectorAll(".project-item").forEach(preloadProjectMedia);
+});

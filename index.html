@@ -5,7 +5,12 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sean Neo - Portfolio</title>
+  <title>Sean Neo — Software Engineer</title>
+  <meta name="description"
+    content="Sean Neo — Software engineer and game developer based in Singapore. Computer Science undergraduate at NTU building thoughtful software and interactive experiences.">
+
+  <!-- Progressive enhancement flag (lets CSS hide reveal elements only when JS is on) -->
+  <script>document.documentElement.classList.add("js");</script>
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="./assets/images/icon.svg" type="image/x-icon">
@@ -13,1070 +18,962 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="./assets/css/style.css">
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Space Grotesk (display) + Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
 
+  <!-- Skip link for keyboard / screen-reader users -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
   <!-- ============================================================================
-       MAIN CONTAINER
+       SITE HEADER / NAVIGATION
        ============================================================================ -->
 
-  <main>
+  <header class="site-header" data-header>
+    <div class="container header-inner">
 
-    <!-- ============================================================================
-         SIDEBAR
-         ============================================================================ -->
+      <a href="#home" class="brand">Sean&nbsp;Neo<span class="brand-dot">.</span></a>
 
-    <aside class="sidebar" data-sidebar>
-
-      <div class="sidebar-info">
-
-        <figure class="avatar-box">
-          <img src="./assets/images/icon2.png" alt="Sean Neo" width="80">
-        </figure>
-
-        <div class="info-content">
-          <h1 class="name" title="Sean Neo">Sean Neo</h1>
-          <p class="title">Software Engineer</p>
-        </div>
-
-        <button class="info_more-btn" data-sidebar-btn>
-          <span>Show Contacts</span>
-          <ion-icon name="chevron-down"></ion-icon>
-        </button>
-
-      </div>
-
-      <div class="sidebar-info_more">
-
-        <div class="separator"></div>
-
-        <!-- Contact Information -->
-        <ul class="contacts-list">
-
-          <li class="contact-item">
-            <div class="icon-box">
-              <ion-icon name="mail-outline"></ion-icon>
-            </div>
-            <div class="contact-info">
-              <p class="contact-title">Email</p>
-              <a href="mailto:seann.lyj@gmail.com" class="contact-link">seann.lyj@gmail.com</a>
-            </div>
-          </li>
-
-          <li class="contact-item">
-            <div class="icon-box">
-              <ion-icon name="location-outline"></ion-icon>
-            </div>
-            <div class="contact-info">
-              <p class="contact-title">Location</p>
-              <address>Singapore</address>
-            </div>
-          </li>
-
+      <nav class="nav" data-nav aria-label="Primary">
+        <ul class="nav-list">
+          <li><a href="#about" class="nav-link" data-nav-link>About</a></li>
+          <li><a href="#resume" class="nav-link" data-nav-link>Resume</a></li>
+          <li><a href="#work" class="nav-link" data-nav-link>Work</a></li>
+          <li><a href="#devlog" class="nav-link" data-nav-link>Devlog</a></li>
+          <li><a href="#contact" class="nav-link" data-nav-link>Contact</a></li>
         </ul>
-
-        <div class="separator"></div>
-
-        <!-- Social Links -->
-        <ul class="social-list">
-          <li class="social-item">
-            <a href="https://www.linkedin.com/in/sean-neo-970198160/" class="social-link">
-              <ion-icon name="logo-linkedin"></ion-icon>
-            </a>
-          </li>
-        </ul>
-
-      </div>
-
-    </aside>
-
-    <!-- ============================================================================
-         MAIN CONTENT
-         ============================================================================ -->
-
-    <div class="main-content">
-
-      <!-- ============================================================================
-           NAVIGATION BAR
-           ============================================================================ -->
-
-      <nav class="navbar">
-
-        <ul class="navbar-list">
-
-          <li class="navbar-item">
-            <button class="navbar-link active" data-nav-link>About</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Resume</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Portfolio</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Devlog</button>
-          </li>
-
-          <!-- Contact navigation (commented out)
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Contact</button>
-          </li>
-          -->
-
-        </ul>
-
-        <div id="navbar-mini-circle" class="navbar-mini-circle"></div>
-
       </nav>
 
-      <!-- ============================================================================
-           ABOUT SECTION
-           ============================================================================ -->
+      <button class="nav-toggle" data-nav-toggle aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
 
-      <article class="about active" data-page="about">
+    </div>
+  </header>
 
-        <header>
-          <h2 class="h2 article-title">About me</h2>
+  <main id="main">
+
+    <!-- ============================================================================
+         HERO
+         ============================================================================ -->
+
+    <section class="hero" id="home">
+      <div class="container hero-inner">
+
+        <div class="hero-text reveal">
+          <p class="eyebrow">Software Engineer · Singapore</p>
+          <h1 class="hero-title">Sean Neo</h1>
+          <p class="hero-lede">
+            Computer Science undergraduate at NTU with a lifelong passion for games —
+            building thoughtful software and crafting interactive experiences.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#work" class="btn btn-primary">View Work</a>
+            <a href="mailto:seann.lyj@gmail.com" class="btn btn-ghost">Get in Touch</a>
+          </div>
+
+          <ul class="social-list">
+            <li>
+              <a href="https://www.linkedin.com/in/sean-neo-970198160/" class="social-link"
+                aria-label="LinkedIn" target="_blank" rel="noopener">
+                <ion-icon name="logo-linkedin"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="mailto:seann.lyj@gmail.com" class="social-link" aria-label="Email">
+                <ion-icon name="mail-outline"></ion-icon>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="hero-media reveal">
+          <figure class="avatar">
+            <img src="./assets/images/icon2.png" alt="Sean Neo" width="320" height="320">
+          </figure>
+        </div>
+
+      </div>
+
+      <a href="#about" class="scroll-cue" aria-label="Scroll to about">
+        <span>Scroll</span>
+        <ion-icon name="arrow-down-outline"></ion-icon>
+      </a>
+    </section>
+
+    <!-- ============================================================================
+         ABOUT
+         ============================================================================ -->
+
+    <section class="section about" id="about">
+      <div class="container">
+
+        <header class="section-head reveal">
+          <span class="section-index">01</span>
+          <h2 class="section-title">About</h2>
         </header>
 
-        <section class="about-text">
-          <p>
-            I'm a Computer Science undergraduate at Nanyang Technological University (NTU), Singapore. 
-            I grew up with a passion for games and have been playing them for as long as I could remember.
-          </p>
+        <div class="about-grid">
 
-          <p>
-            Originally from Nanyang Polytechnic with a Diploma in Game Development & Technology, 
-            I joined the world of Computer Science to expand my field of knowledge beyond just game development. 
-            My coursework and projects at NTU have allowed me to delve into diverse fields such as software engineering, 
-            artificial intelligence, and data structures.
-          </p>
-        </section>
+          <div class="about-bio reveal">
+            <p>
+              I'm a Computer Science undergraduate at Nanyang Technological University (NTU), Singapore.
+              I grew up with a passion for games and have been playing them for as long as I could remember.
+            </p>
+            <p>
+              Originally from Nanyang Polytechnic with a Diploma in Game Development &amp; Technology,
+              I joined the world of Computer Science to expand my field of knowledge beyond just game development.
+              My coursework and projects at NTU have allowed me to delve into diverse fields such as software
+              engineering, artificial intelligence, and data structures.
+            </p>
+          </div>
 
-        <!-- ============================================================================
-             SERVICES SECTION
-             ============================================================================ -->
-
-        <section class="service">
-
-          <h3 class="h3 service-title">What i'm interested in</h3>
-
-          <ul class="service-list">
-
-            <li class="service-item">
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-programming.svg" alt="game dev icon" width="40">
+          <aside class="about-facts reveal">
+            <dl>
+              <div class="fact">
+                <dt>Focus</dt>
+                <dd>Game &amp; Software Development</dd>
               </div>
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Game development</h4>
-                <p class="service-item-text">
-                  Crafting unique and interactive experiences for players through coding.
-                </p>
+              <div class="fact">
+                <dt>Education</dt>
+                <dd>BComp (Hons), Computer Science — NTU</dd>
               </div>
+              <div class="fact">
+                <dt>Based in</dt>
+                <dd>Singapore</dd>
+              </div>
+            </dl>
+          </aside>
+
+        </div>
+
+        <div class="interests">
+          <h3 class="subhead reveal">What I'm interested in</h3>
+          <ul class="interest-grid">
+
+            <li class="interest-card reveal">
+              <img src="./assets/images/icon-programming.svg" alt="" width="32" aria-hidden="true">
+              <h4>Game development</h4>
+              <p>Crafting unique and interactive experiences for players through coding.</p>
             </li>
 
-            <li class="service-item">
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-game.svg" alt="game design icon" width="40">
-              </div>
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Game design</h4>
-                <p class="service-item-text">
-                  Designing engaging gameplay experiences and intuitive user interfaces.
-                </p>
-              </div>
+            <li class="interest-card reveal">
+              <img src="./assets/images/icon-game.svg" alt="" width="32" aria-hidden="true">
+              <h4>Game design</h4>
+              <p>Designing engaging gameplay experiences and intuitive user interfaces.</p>
             </li>
 
-            <li class="service-item">
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-phone.svg" alt="mobile app icon" width="40">
-              </div>
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Mobile app development</h4>
-                <p class="service-item-text">
-                  Creating user-friendly mobile applications with sleek and intuitive designs.
-                </p>
-              </div>
+            <li class="interest-card reveal">
+              <img src="./assets/images/icon-phone.svg" alt="" width="32" aria-hidden="true">
+              <h4>Mobile app development</h4>
+              <p>Creating user-friendly mobile applications with sleek and intuitive designs.</p>
             </li>
 
-            <li class="service-item">
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-web.svg" alt="web dev icon" width="40">
-              </div>
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Web development</h4>
-                <p class="service-item-text">
-                  Developing dynamic and responsive websites for an optimal user experience.
-                </p>
-              </div>
+            <li class="interest-card reveal">
+              <img src="./assets/images/icon-web.svg" alt="" width="32" aria-hidden="true">
+              <h4>Web development</h4>
+              <p>Developing dynamic and responsive websites for an optimal user experience.</p>
             </li>
 
           </ul>
+        </div>
 
-        </section>
+      </div>
+    </section>
 
-      </article>
+    <!-- ============================================================================
+         RESUME
+         ============================================================================ -->
 
-      <!-- ============================================================================
-           BLOG / CURRENT WORK
-           ============================================================================ -->
+    <section class="section resume" id="resume">
+      <div class="container">
 
-      <article class="devlog" data-page="devlog">
-
-        <header>
-          <h2 class="h2 article-title">Devlog</h2>
-          <p class="article-subtext">Currently working on learning Unreal Engine with a focus on combat mechanics!</p>
-        </header>
-
-        <section class="devlog-posts">
-          <div class="post">
-            <video class="post-gif" loop muted playsinline preload="none" aria-label="Overhauling the game and the road ahead">
-              <source src="./assets/videos/08jan-overhaul.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <h3 class="h3 post-title">Overhauling the game and the road ahead</h3>
-            <time datetime="2026-01-08">08 Jan, 2026</time>
-            <p>
-              It’s been quite a while since the last devlog, but a lot has happened behind the scenes. Over the past few months, I’ve significantly overhauled the game, starting with a full replacement of the original animation assets. 
-              This change immediately elevated how combat feels, and it also gave me the opportunity to revisit and clean up large parts of the multiplayer netcode alongside it.
-              <br>
-              <br>
-              With the new animations in place, I expanded the combat system with several new mechanics. Players can now dodge, perform a <em>perfect dodge</em> for precise timing, and block incoming attacks. 
-              To improve readability during fast-paced exchanges, I also added hit indicators that signal when an opponent is about to attack, helping players make better moment-to-moment decisions. 
-              On top of that, I spent time fine-tuning the overall combat flow so that attacks, movement, and defensive actions transition more smoothly into one another.
-              <br>
-              <br>
-              Another major addition is a simple AI-controlled bot that players can practice against. While it’s not meant to be overly complex, it provides a consistent way to test combat mechanics, timings, and balance without needing a second player connected. 
-              The video demo shows gameplay footage against a bot.
-              <br>
-              <br>
-              At this stage, my focus has shifted slightly from pure systems work to figuring out the game’s overall <em>style</em> and <em>aesthetic</em>. I want to ensure the visuals and presentation properly support the feel of the combat before pushing further with content.
-              Looking ahead, I’m also planning to explore options for online multiplayer services, as the game currently only supports multiplayer over local networks.
-              <br>
-              <br>
-              There’s still plenty to refine, but the game now feels far more cohesive than it did a few months ago, and I’m excited to start shaping its identity as I move into the next phase of development.
-            </p>
-          </div>
-
-          <div class="post">
-            <video class="post-gif" loop muted playsinline preload="none" aria-label="Multiplayer: LAN and combat replication">
-              <source src="./assets/videos/18sep-multiplayercombat.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <h3 class="h3 post-title">Multiplayer: LAN and combat replication</h3>
-            <time datetime="2025-09-18">18 Sep, 2025</time>
-            <p>
-              I implemented multiplayer replication for combat and started testing the game across two devices on a local network this week. Initially, I ran into several connection issues—I only realized later 
-              that my laptop couldn't even ping my PC through the command line (lol). Once I fixed the network issue, the multiplayer session worked as expected.
-              <br>
-              <br>
-              During testing, I made an interesting observation: even though my laptop isn't designed for gaming and struggled with low framerate and peformance, these limitations also affected how 
-              the client's character appeared on other players' screens. Essentially the performance of one device impacted the representation of that player for everyone else, highlighting an important 
-              consideration for multiplayer optimization.
-              <br>
-              <br>
-              Overall, this testing session helped me uncover both technical hurdles and subtle performance challenges that I'll need to address as I continue refining the multiplayer experience.
-            </p>
-          </div>
-
-          <div class="post">
-            <video class="post-gif" loop muted playsinline preload="none" aria-label="Multiplayer: Basic movement and replication">
-              <source src="./assets/videos/11sep-multiplayermovement.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <h3 class="h3 post-title">Multiplayer: Basic movement and replication</h3>
-            <time datetime="2025-09-11">11 Sep, 2025</time>
-            <p>
-              This week, I focused on implementing the foundations of multiplayer replication in Unreal Engine. 
-              I integrated replication with core systems like player movement and the camera lock-on feature, making sure that actions such as locking onto a target are accurately reflected across all connected clients.
-              <br>
-              <br>
-              Getting replication to play nicely with the lock-on system was a particular challenge, since each client needs to maintain its own local control while still keeping the server authoritative. 
-              I had to carefully manage when and how target data was sent to the server to avoid desyncs, while ensuring that the player’s camera remained responsive.
-            </p>
-          </div>
-
-          <div class="post">
-            <video class="post-gif" loop muted playsinline preload="none" aria-label="Camera lock-on and refraction trails">
-              <source src="./assets/videos/04sep-punchtrails.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <h3 class="h3 post-title">Camera lock-on and Refraction trails</h3>
-            <time datetime="2025-09-04">04 Sep, 2025</time>
-            <p>
-              This week, I worked on adding a camera lock-on system and refraction trails for player attacks. 
-              The lock-on system lets players fix their view on a chosen enemy, making combat encounters easier to follow while 
-              still keeping the target clearly visible. 
-              <br>
-              <br>
-              I also experimented with Unreal Engine’s Niagara System to build refraction trails that follow attacks. 
-              Getting used to Niagara was challenging at first, but I eventually managed to create striking visual effects that make combat feel more impactful.
-            </p>
-          </div>
-
-          <div class="post">
-            <video class="post-gif" loop muted playsinline preload="none" aria-label="Hit feedback">
-              <source src="./assets/videos/26aug-hitfeedback.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <h3 class="h3 post-title">Hit feedback</h3>
-            <time datetime="2025-08-26">26 Aug, 2025</time>
-            <p>
-              One of the biggest lessons I carried over from my internship at HABBY is that great feedback is what makes or breaks a game’s feel. 
-              With that in mind, I focused on designing hit feedback using three core elements: hitstops, hitflashes, and—most importantly—camera shake. 
-              Together, these details make every hit feel weighty, rewarding, and satisfying for the player.
-            </p>
-          </div>
-
-          <div class="post">
-            <video class="post-gif" loop muted playsinline preload="none" aria-label="Extending the combat mechanics">
-              <source src="./assets/videos/19aug-fluidcombo.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <h3 class="h3 post-title">Extending the combat mechanics</h3>
-            <time datetime="2025-08-19">19 Aug, 2025</time>
-            <p>
-              This week, I expanded on the combat system by implementing both light and heavy attacks, along with the ability to fluidly chain them together. 
-              These changes made combat more dynamic and gave players more agency over their playstyle, resulting in a faster, more engaging flow of action.
-            </p>
-          </div>
-
-          <div class="post">
-            <video class="post-gif" loop muted playsinline preload="none" aria-label="Prototyping a combo system">
-              <source src="./assets/videos/5aug-combo.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <h3 class="h3 post-title">Prototyping a combo system</h3>
-            <time datetime="2025-08-05">5 Aug, 2025</time>
-            <p>
-              After setting up character locomotion, I began experimenting with a prototype combo system for melee combat. 
-              I drew inspiration from combat-heavy titles like For Honor, Absolver, and Sifu. 
-              My initial prototype now allows players to execute a sequence of attacks in quick succession—laying the foundation for a deeper combo-based combat system.
-            </p>
-          </div>
-
-          <div class="post">
-            <video class="post-gif" loop muted playsinline preload="none" aria-label="Locomotion">
-              <source src="./assets/videos/31jul-movement.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <h3 class="h3 post-title">Locomotion</h3>
-            <time datetime="2025-07-31">31 Jul, 2025</time>
-            <p>
-              Following my internship at HABBY, I wanted to branch out from Unity and learn Unreal Engine. 
-              I started with the basics of locomotion and character movement. 
-              Coming from a Unity background, the transition to Unreal’s Blueprint system felt daunting at first, 
-              but with the help of tutorials, I quickly got comfortable and began building my first mechanics.
-            </p>
-          </div>
-
-        </section>
-
-      </article>
-
-      <!-- ============================================================================
-           RESUME SECTION
-           ============================================================================ -->
-
-      <article class="resume" data-page="resume">
-
-        <header>
-          <h2 class="h2 article-title">Resume</h2>
+        <header class="section-head reveal">
+          <span class="section-index">02</span>
+          <h2 class="section-title">Resume</h2>
         </header>
 
         <!-- Technical Skills -->
-        <section class="skill">
-
-          <h3 class="h3 skills-title">Technical skills</h3>
-
-          <ul class="skills-list">
-
-            <li class="skills-item">
-              <div class="title-wrapper">
-                <h5 class="h5">Languages: </h5>
-                <p class="timeline-text">HTML/CSS, JavaScript, Java, C#, C/C++, Python</p>
-              </div>
+        <div class="skills reveal">
+          <h3 class="subhead">Technical Skills</h3>
+          <ul class="skill-rows">
+            <li class="skill-row">
+              <span class="skill-label">Languages</span>
+              <span class="skill-values">HTML/CSS, JavaScript, Java, C#, C/C++, Python</span>
             </li>
-        
-            <li class="skills-item">
-              <div class="title-wrapper">
-                <h5 class="h5">Tools: </h5>
-                <p class="timeline-text">Git, Unreal, Unity, Android Studio, Eclipse, Firebase, React, Ant Design</p>
-              </div>
+            <li class="skill-row">
+              <span class="skill-label">Tools</span>
+              <span class="skill-values">Git, Unreal, Unity, Android Studio, Eclipse, Firebase, React, Ant Design</span>
             </li>
-        
-            <li class="skills-item">
-              <div class="title-wrapper">
-                <h5 class="h5">Design Skills: </h5>
-                <p class="timeline-text">Adobe Photoshop, Adobe Premiere Pro</p>
-              </div>
+            <li class="skill-row">
+              <span class="skill-label">Design</span>
+              <span class="skill-values">Adobe Photoshop, Adobe Premiere Pro</span>
             </li>
-
           </ul>
+        </div>
 
-        </section>
+        <div class="resume-grid">
 
-        <!-- Education Timeline -->
-        <section class="timeline">
+          <!-- Experience -->
+          <div class="resume-col reveal">
+            <h3 class="subhead">
+              <ion-icon name="briefcase-outline" aria-hidden="true"></ion-icon>
+              Experience
+            </h3>
+            <ol class="timeline">
 
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
-            </div>
-            <h3 class="h3">Education</h3>
+              <li class="timeline-item">
+                <span class="timeline-period">Jul 2025 — Dec 2025</span>
+                <h4 class="timeline-title">Frontend Developer Intern, Generative AI Prototypes</h4>
+                <p class="timeline-org">HTX (Home Team Science &amp; Technology Agency)</p>
+                <ul class="timeline-points">
+                  <li>Led UI/UX redesign for an AI-powered assessment platform, improving usability and reducing navigation friction.</li>
+                  <li>Designed and implemented scalable UI using React, TypeScript, and Ant Design; translated Figma wireframes into production features.</li>
+                  <li>Refactored legacy front-end architecture into modular, reusable components, enhancing maintainability and readability.</li>
+                  <li>Collaborated with backend engineers for integration; managed builds via Docker and Git.</li>
+                </ul>
+              </li>
+
+              <li class="timeline-item">
+                <span class="timeline-period">May 2025 — Aug 2025</span>
+                <h4 class="timeline-title">Game Developer Intern</h4>
+                <p class="timeline-org">HABBY</p>
+                <ul class="timeline-points">
+                  <li>Prototyped and developed an internal gameplay prototype, working closely with designers to implement engaging features in Unity.</li>
+                  <li>Analyzed core gameplay mechanics and player engagement strategies from top-performing mobile titles to guide internal game design.</li>
+                  <li>Drove rapid iteration cycles to refine moment-to-moment gameplay, enhancing overall game feel based on data-informed decisions.</li>
+                </ul>
+              </li>
+
+              <li class="timeline-item">
+                <span class="timeline-period">May 2023 — Nov 2023</span>
+                <h4 class="timeline-title">Unity Developer</h4>
+                <p class="timeline-org">World Overlay Studios</p>
+                <ul class="timeline-points">
+                  <li>Transitioned from an internship to a part-time role upon commencing university studies.</li>
+                  <li>Integrated and implemented gameplay features such as water simulations and runtime character customization.</li>
+                  <li>Conducted QA tests and optimized technical aspects.</li>
+                  <li>Compiled and documented technical aspects and features of the project.</li>
+                </ul>
+              </li>
+
+              <li class="timeline-item">
+                <span class="timeline-period">Nov 2020 — Feb 2021</span>
+                <h4 class="timeline-title">Programming Intern</h4>
+                <p class="timeline-org">Kingmaker Entertainment</p>
+                <ul class="timeline-points">
+                  <li>Assisted in the development of a mobile game, contributing to the implementation of gameplay features.</li>
+                  <li>Managed the migration of a project from Cocos Creator to Unity.</li>
+                  <li>Conducted research and optimization processes for the project.</li>
+                  <li>Documented the process of migrating the project from one engine to another.</li>
+                </ul>
+              </li>
+
+            </ol>
           </div>
 
-          <ol class="timeline-list">
+          <!-- Education -->
+          <div class="resume-col reveal">
+            <h3 class="subhead">
+              <ion-icon name="school-outline" aria-hidden="true"></ion-icon>
+              Education
+            </h3>
+            <ol class="timeline">
 
-            <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">Nanyang Technological University</h4>
-              <span>Aug. 2023 — Present</span>
-              <p class="timeline-text">
-                Bachelor of Computing(Hons) in Computer Science.
-              </p>
-              <p class="timeline-text-italic">
-                CGPA 4.00/5.00
-              </p>
-            </li>
+              <li class="timeline-item">
+                <span class="timeline-period">Aug 2023 — Present</span>
+                <h4 class="timeline-title">Nanyang Technological University</h4>
+                <p class="timeline-org">Bachelor of Computing (Hons) in Computer Science</p>
+                <p class="timeline-note">CGPA 4.06 / 5.00</p>
+              </li>
 
-            <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">Nanyang Polytechnic</h4>
-              <span>Apr. 2017 — Apr. 2021</span>
-              <p class="timeline-text">
-                Diploma in Game Development & Technlogy
-              </p>
-              <p class="timeline-text-italic">
-                CGPA 3.89/4.00
-              </p>
-            </li>
+              <li class="timeline-item">
+                <span class="timeline-period">Apr 2017 — Apr 2021</span>
+                <h4 class="timeline-title">Nanyang Polytechnic</h4>
+                <p class="timeline-org">Diploma in Game Development &amp; Technology</p>
+                <p class="timeline-note">CGPA 3.89 / 4.00</p>
+              </li>
 
-          </ol>
-
-        </section>
-
-        <!-- Experience Timeline -->
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="briefcase-outline"></ion-icon>
-            </div>
-            <h3 class="h3">Experience</h3>
+            </ol>
           </div>
 
-          <ol class="timeline-list">
+        </div>
 
-            <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">Frontend Developer Intern for Generative AI Prototypes</h4>
-              <span>Jul. 2025 - Dec. 2025</span>
-              <p class="timeline-text-italic">
-                HTX (Home Team Science & Technology Agency)
-              </p>
-              <ul class="experience-list">
-                <li>Led UI/UX redesign for an AI-powered assessment platform, improving usability and reducing navigation friction</li>
-                <li>Designed and implemented scalable UI using React, TypeScript, and Ant Design; translated Figma wireframes into production features</li>
-                <li>Refactored legacy front-end architecture into modular, reusable components, enhancing code maintainability and readability</li>
-                <li>Collaborated with backend engineers for integration; managed builds via Docker and Git</li>
-              </ul>
-            </li>
+      </div>
+    </section>
 
-            <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">Game Developer Intern</h4>
-              <span>May 2025 - Aug. 2025</span>
-              <p class="timeline-text-italic">
-                HABBY
-              </p>
-              <ul class="experience-list">
-                <li>Prototyped and developed an internal gameplay prototype, working closely with designers to implement engaging features in Unity</li>
-                <li>Analyzed core gameplay mechanics and player engagement strategies from top-performing mobile titles to guide internal game design</li>
-                <li>Drove rapid iteration cycles to refine moment-to-moment gameplay, enhancing overall game feel based on data-informed decisions</li>
-              </ul>
-            </li>
+    <!-- ============================================================================
+         WORK / PORTFOLIO
+         ============================================================================ -->
 
-            <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">Unity Developer</h4>
-              <span>May 2023 — Nov. 2023</span>
-              <p class="timeline-text-italic">
-                World Overlay Studios
-              </p>
-              <ul class="experience-list">
-                <li>Transitioned from an internship to a part-time role upon commencing university studies</li>
-                <li>Integrated and implemented gameplay features such as water simulations and runtime character customization</li>
-                <li>Conducted QA tests and optimized technical aspects</li>
-                <li>Compiled and documented technical aspects and features of the project</li>
-              </ul>
-            </li>
+    <section class="section work" id="work">
+      <div class="container">
 
-            <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">Programming Intern</h4>
-              <span>Nov. 2020 — Feb. 2021</span>
-              <p class="timeline-text-italic">
-                Kingmaker Entertainment
-              </p>
-              <ul class="experience-list">
-                <li>Assisted in the development of a mobile game, contributing to the implementation of gameplay features</li>
-                <li>Managed the migration of a project from Cocos Creator to Unity</li>
-                <li>Conducted research and optimization processes for the project</li>
-                <li>Documented the process of migrating the project from one engine to another</li>
-              </ul>
-            </li>
-
-          </ol>
-
-        </section>
-
-      </article>
-
-      <!-- ============================================================================
-           PORTFOLIO SECTION
-           ============================================================================ -->
-
-      <article class="portfolio" data-page="portfolio">
-
-        <header>
-          <h2 class="h2 article-title">Portfolio</h2>
+        <header class="section-head reveal">
+          <span class="section-index">03</span>
+          <h2 class="section-title">Selected Work</h2>
         </header>
 
-        <section class="projects">
+        <!-- Filter controls -->
+        <ul class="filter-list reveal">
+          <li><button class="filter-btn active" data-filter-btn>All</button></li>
+          <li><button class="filter-btn" data-filter-btn>Games</button></li>
+          <li><button class="filter-btn" data-filter-btn>Others</button></li>
+        </ul>
 
-          <!-- ============================================================================
-               PORTFOLIO MODAL
-               ============================================================================ -->
+        <!-- Project grid -->
+        <ul class="project-list">
 
-          <div id="projectModal" class="modal">
-            <div class="modal-content">
-
-              <div class="modal-media-container">
-                <img id="modalImage" src="" alt="Project Image" class="modal-header-image">
-                <video id="modalVideo" class="modal-header-video" controls style="display: none;">
-                  <source src="" type="video/mp4">
-                  Your browser does not support the video tag.
-                </video>
-                <iframe id="modalIframe" class="modal-header-iframe" style="display: none;" frameborder="0" allowfullscreen></iframe>
-                
-                <!-- Media Navigation -->
-                <div class="modal-media-nav">
-                  <button class="modal-nav-btn modal-nav-prev" id="modalNavPrev">
-                    <ion-icon name="chevron-back"></ion-icon>
-                  </button>
-                  <button class="modal-nav-btn modal-nav-next" id="modalNavNext">
-                    <ion-icon name="chevron-forward"></ion-icon>
-                  </button>
+          <!-- AI Assessor Project -->
+          <li class="project-item active reveal" data-filter-item data-category="others"
+              data-title="AI Assessor"
+              data-subtitle="React, TypeScript, Ant Design"
+              data-description="
+                <p>AI Assessor is a generative AI-powered assessment platform developed at HTX to assist educators in creating, administering, and grading examinations.</p>
+                <br>
+                <p>The frontend is built using React with TypeScript and Ant Design, where I led UI/UX improvements across analytics dashboards, AI-driven question generation, and test management workflows. I focused on progressive disclosure, reducing cognitive load, and improving end-to-end task flow through iterative design and implementation.</p>
+                <br>
+                <p>In addition, I refactored large sections of the frontend codebase to improve readability and maintainability, while collaborating closely with backend developers to integrate new APIs and deploy updates to production.</p>
+                "
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-aiassessor.png", "alt": "AI Assessor Feature Graphic"},
+                {"type": "image", "src": "./assets/images/featuregraphic-aiassessor-1.png", "alt": "AI Assessor Feature Graphic"},
+                {"type": "image", "src": "./assets/images/featuregraphic-aiassessor-2.png", "alt": "AI Assessor Feature Graphic"},
+                {"type": "image", "src": "./assets/images/featuregraphic-aiassessor-3.png", "alt": "AI Assessor Feature Graphic"}
+              ]'>
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
                 </div>
-                
-                <!-- Media Indicators -->
-                <div class="modal-media-indicators" id="modalMediaIndicators">
-                  <!-- Indicators will be generated dynamically -->
-                </div>
-              </div>
-              
-              <span class="close">&times;</span>
-              
-              <div class="modal-body">
-                <h2 id="modalTitle" class="modal-title"></h2>
-                <p id="modalSubtitle" class="modal-subtitle"></p>
-                <p id="modalDescription" class="modal-description"></p>
-                <a id="modalVideoLink" href="#" target="_blank" class="modal-video-link">Video Demo</a>
-                <a id="modalSiteLink" href="#" target="_blank" class="modal-site-link">Learn More</a>
-              </div>
+                <img src="./assets/images/project-aiassessor-2.png" alt="AI Assessor" loading="eager">
+              </figure>
+              <h3 class="project-title">AI Assessor</h3>
+              <p class="project-category">React, TypeScript, Ant Design</p>
+            </a>
+          </li>
 
+          <!-- SunnySide Project -->
+          <li class="project-item active reveal" data-filter-item data-category="others"
+              data-title="SunnySide"
+              data-subtitle="React, MongoDB, NodeJS"
+              data-description="
+              <p>Utilizing React for the front-end along with Leaflet API as the map provider, users can easily find nearby fitness activities.
+              The app uses a real-time weather API from NEA to help filter activities that suit the current conditions of the weather.</p>
+              <br>
+              <p>The server back-end is built using NodeJS, and utilizeds MongoDB as our database solution which is being hosted on the cloud.</p>"
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-sunnyside.png", "alt": "SunnySide Feature Graphic"},
+                {"type": "image", "src": "./assets/images/featuregraphic-sunnyside-signuplogin.png", "alt": "SunnySide Feature Graphic"},
+                {"type": "image", "src": "./assets/images/featuregraphic-sunnyside-landing.png", "alt": "SunnySide Feature Graphic"}
+              ]'
+              data-video-link="https://youtu.be/zVc8yq4cGzw">
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <img src="./assets/images/project-sunnyside.png" alt="sunnyside" loading="lazy">
+              </figure>
+              <h3 class="project-title">SunnySide</h3>
+              <p class="project-category">React, MongoDB, NodeJS</p>
+            </a>
+          </li>
+
+          <!-- Pomosimple Project -->
+          <li class="project-item active reveal" data-filter-item data-category="others"
+              data-title="Pomosimple"
+              data-subtitle="Android Studio, Firebase, Java"
+              data-description="
+              <p>Pomosimple was developed as a personal project to help students manage their time and study periods more efficiently. </p>
+              <br>
+              <p>As a university student myself, I noticed that most Pomodoro timer apps lacked the features that I needed such as a well-designed user interface with good
+              customizability of their timers. I decided to develop my own Pomodoro timer app to cater to my needs and to learn more about Android development and production of apps on the Google Play Store. </p>
+              <br>
+              <p>The app is also integrated with Firebase to store user data and settings, providing side-goals that can help boost user productivity.</p>"
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-pomosimple.png", "alt": "Pomosimple Feature Graphic"}
+              ]'
+              data-site-link="https://play.google.com/store/apps/details?id=com.seannlyj.pomosimple&hl=en">
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <img src="./assets/images/project-pomosimple.png" alt="pomosimple" loading="lazy">
+              </figure>
+              <h3 class="project-title">Pomosimple</h3>
+              <p class="project-category">Android Studio, Firebase, Java</p>
+            </a>
+          </li>
+
+          <!-- Vocal Insights Project -->
+          <li class="project-item active reveal" data-filter-item data-category="others"
+              data-title="Vocal Insights"
+              data-subtitle="AI/NLP(Whisper, NLTK, Transformer), Flask, SQLite, Python"
+              data-description="
+              <p>Vocal Insights is a smart sales helper application that transcribes audio recordings of customer calls and analyzes the sentiment of the conversations.</p>
+              <br>
+              <p>It uses Whisper for accurate transcription, Transformer models for summarizing the call content, and NLTK for performing sentiment analysis to gauge the customer's mood.
+              The app then tracks these sentiments over time by uploading them to a database, allowing sales teams to track and identify customers at risk of losing interest. </p>
+              <br>
+              <p>This project was developed for TikTok TechJam 2024.</p>"
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-vocal-insights.png", "alt": "Vocal Insights Feature Graphic"},
+                {"type": "video", "src": "https://www.youtube.com/watch?v=23vTC4eCH6Y&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE", "alt": "Vocal Insights Demo Video"}
+              ]'
+              data-video-link="https://www.youtube.com/watch?v=23vTC4eCH6Y&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE"
+              data-site-link="https://devpost.com/software/vocal-insights?ref_content=user-portfolio&ref_feature=in_progress">
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <img src="./assets/images/project-vocal-insights.png" alt="vocal insights" loading="lazy">
+              </figure>
+              <h3 class="project-title">Vocal Insights</h3>
+              <p class="project-category">AI/NLP, Flask, SQLite, Python</p>
+            </a>
+          </li>
+
+          <!-- Pugilist Project -->
+          <li class="project-item active reveal" data-filter-item data-category="games"
+              data-title="Pugilist"
+              data-subtitle="Action, Combat, Multiplayer, Unreal"
+              data-description="
+              <p>Project Pugilist is my first game developed using Unreal Engine, designed as a 1v1 multiplayer sparring experience with a strong emphasis on in-depth combat mechanics.</p>
+              <br>
+              <p>The project focuses on creating deliberate, skill-based combat through systems such as stamina management, attack decision-making, and defensive options, encouraging players to read their opponent and commit to their actions.</p>
+              <br>
+              <p>As an ongoing project, I am actively documenting the development process in the Devlog section of my website, sharing insights on design decisions, technical challenges, and iteration throughout development.</p>
+              <br>
+              <p>Through this project, I have gained hands-on experience with Unreal Engine workflows, Blueprint-based systems, and designing multiplayer combat that balances responsiveness with strategic depth.</p>"
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-pugilist.png", "alt": "Pugilist Feature Graphic"},
+                {"type": "image", "src": "./assets/images/featuregraphic-pugilist-1.png", "alt": "Pugilist Feature Graphic"},
+                {"type": "image", "src": "./assets/images/featuregraphic-pugilist-2.png", "alt": "Pugilist Feature Graphic"}
+              ]'
+              data-video-link="https://youtu.be/ALtFc9skRVk"
+              data-site-link="#devlog">
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <img src="./assets/images/project-pugilist.png" alt="Pugilist" loading="lazy">
+              </figure>
+              <h3 class="project-title">Pugilist</h3>
+              <p class="project-category">Action, Combat, Multiplayer, Unreal</p>
+            </a>
+          </li>
+
+          <!-- Mudra Project -->
+          <li class="project-item active reveal" data-filter-item data-category="games"
+              data-title="MUDRA"
+              data-subtitle="Action, Combat, Unity"
+              data-description="
+              <p>This game began as a two-week experimental project, created as a short break from a Unreal Engine project (Project Pugilist) I was working on.</p>
+              <br>
+              <p>Using Unity as a familiar development environment, I focused on translating what I had learned from Unreal into the design of a fast-paced action combat system. A key highlight of the project is the Mudra mechanic, where players execute specific sequences to cast spells, adding an additional layer of depth beyond standard combat.</p>
+              <br>
+              <p>As development progressed, I found the core concept increasingly compelling, motivating me to continue evolving the project beyond a prototype into a fully playable game. The spell system was intentionally designed to promote synergy and planning, encouraging players to think strategically about how different mudras and abilities interact.</p>
+              <br>
+              <p>Through this project, I sharpened my skills in rapid prototyping, combat design, and experimenting with mechanics that reward player mastery.</p>"
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-mudra.png", "alt": "Mudra Feature Graphic"},
+                {"type": "image", "src": "./assets/images/featuregraphic-mudra-1.png", "alt": "Mudra Feature Graphic"},
+                {"type": "image", "src": "./assets/images/featuregraphic-mudra-2.png", "alt": "Mudra Feature Graphic"},
+                {"type": "image", "src": "./assets/images/featuregraphic-mudra-3.png", "alt": "Mudra Feature Graphic"}
+              ]'
+              data-video-link="https://youtu.be/oIdJtR5jeBc">
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <img src="./assets/images/project-mudra-2.png" alt="Mudra" loading="lazy">
+              </figure>
+              <h3 class="project-title">MUDRA</h3>
+              <p class="project-category">Action, Combat, Unity</p>
+            </a>
+          </li>
+
+          <!-- I be Bottle Project -->
+          <li class="project-item active reveal" data-filter-item data-category="games"
+              data-title="I be Bottle."
+              data-subtitle="Hyper-casual, Arcade, Mobile, Unity"
+              data-description="
+              <p>During my internship at HABBY, I worked on a mobile arcade game built around bottle flipping.</p>
+              <br>
+              <p>While the core concept was simple, I focused heavily on fine-tuning the gameplay experience.
+                This involved experimenting with physics adjustments, implementing responsive touch controls, and iterating on visual/audio feedback to
+                amplify the satisfaction of each successful flip.
+              </p>
+              <br>
+              <p>This project taught me the importance of attention to detail and how small tweaks can dramatically improve overall player engagement.</p>"
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-i-be-bottle.png", "alt": "I be Bottle Feature Graphic"}
+              ]'
+              data-video-link="https://youtube.com/shorts/vGNl9JY1fWU?feature=share">
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <img src="./assets/images/project-i-be-bottle.png" alt="I be Bottle" loading="lazy">
+              </figure>
+              <h3 class="project-title">I be Bottle.</h3>
+              <p class="project-category">Hyper-casual, Arcade, Mobile, Unity</p>
+            </a>
+          </li>
+
+          <!-- Downtime Project -->
+          <li class="project-item active reveal" data-filter-item data-category="games"
+              data-title="Downtime"
+              data-subtitle="FPS, Unity"
+              data-description="
+              <p>A game that I have worked on during my final year at Nanyang Polytechnic for a module, where students are required to work on a 17-week project independently.</p>
+              <br>
+              <p>Throughout development, I dedicated myself to crafting a highly polished game that stood out in the genre of First-person Shooters.
+               I incorporated my own innovative concepts and distinctive features along with inspirations from several popular games to elevate gameplay experience. </p>
+              <br>
+              <p>This project was featured several times on a YouTube channel, and was also further shared on Instagram.</p>"
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-downtime.png", "alt": "Downtime Feature Graphic"},
+                {"type": "image", "src": "./assets/images/featuregraphic-downtime-1.png", "alt": "Downtime Feature Graphic"},
+                {"type": "image", "src": "./assets/images/featuregraphic-downtime-2.png", "alt": "Downtime Feature Graphic"}
+              ]'
+              data-video-link="https://www.youtube.com/watch?v=LfGkPay0ZP0"
+              data-site-link="https://na-es.itch.io/downtime">
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <img src="./assets/images/project-downtime.png" alt="downtime" loading="lazy">
+              </figure>
+              <h3 class="project-title">Downtime</h3>
+              <p class="project-category">FPS, Unity</p>
+            </a>
+          </li>
+
+          <!-- Slime Arena Project -->
+          <li class="project-item active reveal" data-filter-item data-category="games"
+              data-title="Slime Arena"
+              data-subtitle="Action, Arena, Unity, Game Jam Submission"
+              data-description="
+              <p>Slime Arena is a fast-paced first-person game where you fight for your survival against incoming hordes of slime.
+               You as the player can conjure three elemental spells to fend off different types of slimes, each elemental works better on different types of slimes.</p>
+              <br>
+               <p>This game was made for the 7DFPS 2023, a 7-day FPS-themed Game Jam.</p>"
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-slimearena.png", "alt": "Slime Arena Feature Graphic"}
+              ]'
+              data-site-link="https://na-es.itch.io/slimearena">
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <img src="./assets/images/project-slimearena.png" alt="slime arena" loading="lazy">
+              </figure>
+              <h3 class="project-title">Slime Arena</h3>
+              <p class="project-category">Action, Arena, Unity, Game Jam Submission</p>
+            </a>
+          </li>
+
+          <!-- WASD+E Project -->
+          <li class="project-item active reveal" data-filter-item data-category="games"
+              data-title="WASD+E"
+              data-subtitle="Puzzle, 2D, Unity, Game Jam Submission"
+              data-description="
+              <p>WASD+E is a 2D puzzle game where players have to pick and lose certain controls
+              of their character in exchange for others that benegit them in progressing through the level. This game finished
+              2nd out of 65 in overall rankings in Mini-Jam 96: Losing is Good.</p>"
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-wasde.png", "alt": "WASD+E Feature Graphic"}
+              ]'
+              data-site-link="https://na-es.itch.io/wasde">
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <img src="./assets/images/project-wasde.png" alt="wasd+e" loading="lazy">
+              </figure>
+              <h3 class="project-title">WASD+E</h3>
+              <p class="project-category">Puzzle, 2D, Unity, Game Jam Submission</p>
+            </a>
+          </li>
+
+          <!-- Monochrome Project -->
+          <li class="project-item active reveal" data-filter-item data-category="games"
+              data-title="Monochrome"
+              data-subtitle="2D, Platformer, Unity"
+              data-description="<p>A 2D platformer game where players can teleport to a projectile that they can fire.
+              This 4-week project was worked on during my school break. The game was made to prepare and familiarize myself with
+              the Unity game engine before the start of the semester where I had to use it.</p>"
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-monochrome.png", "alt": "Monochrome Feature Graphic"}
+              ]'
+              data-video-link="https://www.youtube.com/watch?v=Qqa2SdD7biI">
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <img src="./assets/images/project-monochrome.png" alt="monochrome" loading="lazy">
+              </figure>
+              <h3 class="project-title">Monochrome</h3>
+              <p class="project-category">2D, Platformer, Unity</p>
+            </a>
+          </li>
+
+          <!-- Pathfinder Project -->
+          <li class="project-item active reveal" data-filter-item data-category="games"
+              data-title="Pathfinder"
+              data-subtitle="3D, Multiplayer(Photon), Puzzle, Unity"
+              data-description="<p>Pathfinder is a multiplayer, tile-based game where 2 players have to rely on each other to get to their individual end point.
+              I worked on features such as the game design, gameplay algorithm, user interface, and graphical look of the game.
+              This was my first experience working on a Multiplayer game using Photon.</p>"
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-pathfinder.png", "alt": "Pathfinder Feature Graphic"}
+              ]'
+              data-video-link="https://www.youtube.com/watch?v=h3zYvY9v424">
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <img src="./assets/images/project-pathfinder.png" alt="pathfinder" loading="lazy">
+              </figure>
+              <h3 class="project-title">Pathfinder</h3>
+              <p class="project-category">3D, Multiplayer, Puzzle, Unity</p>
+            </a>
+          </li>
+
+          <!-- Vital Blue Project -->
+          <li class="project-item active reveal" data-filter-item data-category="games"
+              data-title="Vital Blue"
+              data-subtitle="2D, Education, Healthcare, Unity"
+              data-description="
+              <p>Vital Blue is a 2D educational game for healthcare professionals to practice the procedures of a code blue scenario.</p>
+              <br>
+              <p>
+                My team partnered with the Institute of Mental Health (IMH) to develop the project. I was involved in the process of designing game mechanics and
+               writing code for the game. I also took charge leading a team, and acted as a intermediary for my team and the client.
+              </p>
+              <br>
+              <p>This project was also further nominated to represent NYP in the 2021 Lee Hsien Loong Smart Nation Awards.</p>"
+              data-media='[
+                {"type": "image", "src": "./assets/images/featuregraphic-codeblue.png", "alt": "Vital Blue Feature Graphic"}
+              ]'
+              data-video-link="https://www.youtube.com/watch?v=LtsA_CYyad8">
+            <a href="#" class="project-link">
+              <figure class="project-img">
+                <div class="project-item-icon-box">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <img src="./assets/images/project-codeblue.png" alt="code blue" loading="lazy">
+              </figure>
+              <h3 class="project-title">Vital Blue</h3>
+              <p class="project-category">2D, Education, Healthcare, Unity</p>
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+
+      <!-- ========================================================================
+           PROJECT MODAL
+           ======================================================================== -->
+
+      <div id="projectModal" class="modal">
+        <div class="modal-content">
+
+          <button class="close" aria-label="Close">&times;</button>
+
+          <div class="modal-media-container">
+            <img id="modalImage" src="" alt="Project Image" class="modal-header-image">
+            <video id="modalVideo" class="modal-header-video" controls style="display: none;">
+              <source src="" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <iframe id="modalIframe" class="modal-header-iframe" style="display: none;" frameborder="0"
+              allowfullscreen></iframe>
+
+            <!-- Media Navigation -->
+            <div class="modal-media-nav">
+              <button class="modal-nav-btn modal-nav-prev" id="modalNavPrev" aria-label="Previous">
+                <ion-icon name="chevron-back"></ion-icon>
+              </button>
+              <button class="modal-nav-btn modal-nav-next" id="modalNavNext" aria-label="Next">
+                <ion-icon name="chevron-forward"></ion-icon>
+              </button>
+            </div>
+
+            <!-- Media Indicators -->
+            <div class="modal-media-indicators" id="modalMediaIndicators"></div>
+          </div>
+
+          <div class="modal-body">
+            <h2 id="modalTitle" class="modal-title"></h2>
+            <p id="modalSubtitle" class="modal-subtitle"></p>
+            <div id="modalDescription" class="modal-description"></div>
+            <div class="modal-links">
+              <a id="modalVideoLink" href="#" target="_blank" rel="noopener" class="modal-link">Video Demo</a>
+              <a id="modalSiteLink" href="#" target="_blank" rel="noopener" class="modal-link modal-link-primary">Learn More</a>
             </div>
           </div>
 
-          <!-- ============================================================================
-               FILTER CONTROLS
-               ============================================================================ -->
+        </div>
+      </div>
 
-          <ul class="filter-list">
+    </section>
 
-            <li class="filter-item">
-              <button class="active" data-filter-btn>All</button>
-            </li>
+    <!-- ============================================================================
+         DEVLOG
+         ============================================================================ -->
 
-            <li class="filter-item">
-              <button data-filter-btn>Games</button>
-            </li>
+    <section class="section devlog" id="devlog">
+      <div class="container">
 
-            <li class="filter-item">
-              <button data-filter-btn>Others</button>
-            </li>
-
-          </ul>
-
-          <div class="filter-select-box">
-
-            <button class="filter-select" data-select>
-
-              <div class="select-value" data-selecct-value>Select category</div>
-
-              <div class="select-icon">
-                <ion-icon name="chevron-down"></ion-icon>
-              </div>
-
-            </button>
-
-            <ul class="select-list">
-
-              <li class="select-item">
-                <button data-select-item>All</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Games</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Others</button>
-              </li>
-
-            </ul>
-
-          </div>
-
-          <!-- ============================================================================
-               PROJECT LIST
-               ============================================================================ -->
-
-          <ul class="project-list">
-
-            <!-- AI Assessor Project -->
-            <li class="project-item active" data-filter-item data-category="others" 
-                data-title="AI Assessor" 
-                data-subtitle="React, TypeScript, Ant Design" 
-                data-description="
-                  <p>AI Assessor is a generative AI-powered assessment platform developed at HTX to assist educators in creating, administering, and grading examinations.</p>
-                  <br>
-                  <p>The frontend is built using React with TypeScript and Ant Design, where I led UI/UX improvements across analytics dashboards, AI-driven question generation, and test management workflows. I focused on progressive disclosure, reducing cognitive load, and improving end-to-end task flow through iterative design and implementation.</p>
-                  <br>
-                  <p>In addition, I refactored large sections of the frontend codebase to improve readability and maintainability, while collaborating closely with backend developers to integrate new APIs and deploy updates to production.</p>
-                  "
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-aiassessor.png", "alt": "AI Assessor Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-aiassessor-1.png", "alt": "AI Assessor Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-aiassessor-2.png", "alt": "AI Assessor Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-aiassessor-3.png", "alt": "AI Assessor Feature Graphic"}
-                ]'
-                loading="lazy"> 
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-aiassessor-2.png" alt="AI Assessor" loading="lazy">
-                </figure>
-                <h3 class="project-title">AI Assessor</h3>
-                <p class="project-category">React, TypeScript, Ant Design</p>
-              </a>
-            </li>
-
-            <!-- SunnySide Project -->
-            <li class="project-item active" data-filter-item data-category="others" 
-                data-title="SunnySide" 
-                data-subtitle="React, MongoDB, NodeJS" 
-                data-description="
-                <p>Utilizing React for the front-end along with Leaflet API as the map provider, users can easily find nearby fitness activities.
-                The app uses a real-time weather API from NEA to help filter activities that suit the current conditions of the weather.</p>
-                <br>
-                <p>The server back-end is built using NodeJS, and utilizeds MongoDB as our database solution which is being hosted on the cloud.</p>"
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-sunnyside.png", "alt": "SunnySide Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-sunnyside-signuplogin.png", "alt": "SunnySide Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-sunnyside-landing.png", "alt": "SunnySide Feature Graphic"}
-                ]'
-                data-video-link="https://youtu.be/zVc8yq4cGzw"
-                loading="lazy"> 
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-sunnyside.png" alt="sunnyside" loading="lazy">
-                </figure>
-                <h3 class="project-title">SunnySide</h3>
-                <p class="project-category">React, MongoDB, NodeJS</p>
-              </a>
-            </li>
-
-            <!-- Pomosimple Project -->
-            <li class="project-item active" data-filter-item data-category="others" 
-                data-title="Pomosimple" 
-                data-subtitle="Android Studio, Firebase, Java" 
-                data-description="
-                <p>Pomosimple was developed as a personal project to help students manage their time and study periods more efficiently. </p>
-                <br>
-                <p>As a university student myself, I noticed that most Pomodoro timer apps lacked the features that I needed such as a well-designed user interface with good 
-                customizability of their timers. I decided to develop my own Pomodoro timer app to cater to my needs and to learn more about Android development and production of apps on the Google Play Store. </p>
-                <br>
-                <p>The app is also integrated with Firebase to store user data and settings, providing side-goals that can help boost user productivity.</p>"
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-pomosimple.png", "alt": "Pomosimple Feature Graphic"}
-                ]'
-                data-site-link="https://play.google.com/store/apps/details?id=com.seannlyj.pomosimple&hl=en"
-                loading="lazy"> 
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-pomosimple.png" alt="pomosimple" loading="lazy">
-                </figure>
-                <h3 class="project-title">Pomosimple</h3>
-                <p class="project-category">Android Studio, Firebase, Java</p>
-              </a>
-            </li>
-
-            <!-- Vocal Insights Project -->
-            <li class="project-item active" data-filter-item data-category="others"
-                data-title="Vocal Insights" 
-                data-subtitle="AI/NLP(Whisper, NLTK, Transformer), Flask, SQLite, Python" 
-                data-description="
-                <p>Vocal Insights is a smart sales helper application that transcribes audio recordings of customer calls and analyzes the sentiment of the conversations.</p>
-                <br>
-                <p>It uses Whisper for accurate transcription, Transformer models for summarizing the call content, and NLTK for performing sentiment analysis to gauge the customer's mood. 
-                The app then tracks these sentiments over time by uploading them to a database, allowing sales teams to track and identify customers at risk of losing interest. </p>
-                <br>
-                <p>This project was developed for TikTok TechJam 2024.</p>"
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-vocal-insights.png", "alt": "Vocal Insights Feature Graphic"},
-                  {"type": "video", "src": "https://www.youtube.com/watch?v=23vTC4eCH6Y&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE", "alt": "Vocal Insights Demo Video"}
-                ]'
-                data-video-link="https://www.youtube.com/watch?v=23vTC4eCH6Y&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE"
-                data-site-link="https://devpost.com/software/vocal-insights?ref_content=user-portfolio&ref_feature=in_progress"
-                loading="lazy">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-vocal-insights.png" alt="vocal insights" loading="lazy">
-                </figure>
-                <h3 class="project-title">Vocal Insights</h3>
-                <p class="project-category">AI/NLP, Flask, SQLite, Python</p>
-              </a>
-            </li>
-
-            <!-- Pugilist Project -->
-            <li class="project-item active" data-filter-item data-category="games"
-                data-title="Pugilist" 
-                data-subtitle="Action, Combat, Multiplayer, Unreal" 
-                data-description="
-                <p>Project Pugilist is my first game developed using Unreal Engine, designed as a 1v1 multiplayer sparring experience with a strong emphasis on in-depth combat mechanics.</p>
-                <br>
-                <p>The project focuses on creating deliberate, skill-based combat through systems such as stamina management, attack decision-making, and defensive options, encouraging players to read their opponent and commit to their actions.</p>
-                <br>
-                <p>As an ongoing project, I am actively documenting the development process in the Devlog section of my website, sharing insights on design decisions, technical challenges, and iteration throughout development.</p>
-                <br>
-                <p>Through this project, I have gained hands-on experience with Unreal Engine workflows, Blueprint-based systems, and designing multiplayer combat that balances responsiveness with strategic depth.</p>"
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-pugilist.png", "alt": "Pugilist Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-pugilist-1.png", "alt": "Pugilist Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-pugilist-2.png", "alt": "Pugilist Feature Graphic"}
-                ]'
-                data-video-link="https://youtu.be/ALtFc9skRVk"
-                data-site-link="#devlog"
-                loading="lazy">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-pugilist.png" alt="Pugilist" loading="lazy">
-                </figure>
-                <h3 class="project-title">Pugilist</h3>
-                <p class="project-category">Action, Combat, Multiplayer, Unreal</p>
-              </a>
-            </li>
-
-            <!-- Mudra Project -->
-            <li class="project-item active" data-filter-item data-category="games"
-                data-title="MUDRA" 
-                data-subtitle="Action, Combat, Unity" 
-                data-description="
-                <p>This game began as a two-week experimental project, created as a short break from a Unreal Engine project (Project Pugilist) I was working on.</p>
-                <br>
-                <p>Using Unity as a familiar development environment, I focused on translating what I had learned from Unreal into the design of a fast-paced action combat system. A key highlight of the project is the Mudra mechanic, where players execute specific sequences to cast spells, adding an additional layer of depth beyond standard combat.</p>
-                <br>
-                <p>As development progressed, I found the core concept increasingly compelling, motivating me to continue evolving the project beyond a prototype into a fully playable game. The spell system was intentionally designed to promote synergy and planning, encouraging players to think strategically about how different mudras and abilities interact.</p>
-                <br>
-                <p>Through this project, I sharpened my skills in rapid prototyping, combat design, and experimenting with mechanics that reward player mastery.</p>"
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-mudra.png", "alt": "Mudra Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-mudra-1.png", "alt": "Mudra Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-mudra-2.png", "alt": "Mudra Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-mudra-3.png", "alt": "Mudra Feature Graphic"}
-                ]'
-                data-video-link="https://youtu.be/oIdJtR5jeBc"
-                loading="lazy">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-mudra-2.png" alt="Mudra" loading="lazy">
-                </figure>
-                <h3 class="project-title">MUDRA</h3>
-                <p class="project-category">Action, Combat, Unity</p>
-              </a>
-            </li>
-
-            <!-- I be Bottle Project -->
-            <li class="project-item active" data-filter-item data-category="games"
-                data-title="I be Bottle." 
-                data-subtitle="Hyper-casual, Arcade, Mobile, Unity" 
-                data-description="
-                <p>During my internship at HABBY, I worked on a mobile arcade game built around bottle flipping.</p>
-                <br>
-                <p>While the core concept was simple, I focused heavily on fine-tuning the gameplay experience.
-                  This involved experimenting with physics adjustments, implementing responsive touch controls, and iterating on visual/audio feedback to
-                  amplify the satisfaction of each successful flip.
-                </p>
-                <br>
-                <p>This project taught me the importance of attention to detail and how small tweaks can dramatically improve overall player engagement.</p>"
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-i-be-bottle.png", "alt": "I be Bottle Feature Graphic"}
-                ]'
-                data-video-link="https://youtube.com/shorts/vGNl9JY1fWU?feature=share"
-                loading="lazy">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-i-be-bottle.png" alt="I be Bottle" loading="lazy">
-                </figure>
-                <h3 class="project-title">I be Bottle.</h3>
-                <p class="project-category">Hyper-casual, Arcade, Mobile, Unity</p>
-              </a>
-            </li>
-
-            <!-- Downtime Project -->
-            <li class="project-item active" data-filter-item data-category="games"
-                data-title="Downtime" 
-                data-subtitle="FPS, Unity" 
-                data-description="
-                <p>A game that I have worked on during my final year at Nanyang Polytechnic for a module, where students are required to work on a 17-week project independently.</p>
-                <br>
-                <p>Throughout development, I dedicated myself to crafting a highly polished game that stood out in the genre of First-person Shooters.
-                 I incorporated my own innovative concepts and distinctive features along with inspirations from several popular games to elevate gameplay experience. </p>
-                <br>
-                <p>This project was featured several times on a YouTube channel, and was also further shared on Instagram.</p>"
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-downtime.png", "alt": "Downtime Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-downtime-1.png", "alt": "Downtime Feature Graphic"},
-                  {"type": "image", "src": "./assets/images/featuregraphic-downtime-2.png", "alt": "Downtime Feature Graphic"}
-                ]'
-                data-video-link="https://www.youtube.com/watch?v=LfGkPay0ZP0"
-                data-site-link="https://na-es.itch.io/downtime"
-                loading="lazy">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-downtime.png" alt="downtime" loading="lazy">
-                </figure>
-                <h3 class="project-title">Downtime</h3>
-                <p class="project-category">FPS, Unity</p>
-              </a>
-            </li>
-
-            <!-- Slime Arena Project -->
-            <li class="project-item active" data-filter-item data-category="games"
-                data-title="Slime Arena" 
-                data-subtitle="Action, Arena, Unity, Game Jam Submission" 
-                data-description="
-                <p>Slime Arena is a fast-paced first-person game where you fight for your survival against incoming hordes of slime.
-                 You as the player can conjure three elemental spells to fend off different types of slimes, each elemental works better on different types of slimes.</p> 
-                <br>
-                 <p>This game was made for the 7DFPS 2023, a 7-day FPS-themed Game Jam.</p>"
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-slimearena.png", "alt": "Slime Arena Feature Graphic"}
-                ]'
-                data-site-link="https://na-es.itch.io/slimearena"
-                loading="lazy">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-slimearena.png" alt="slime arena" loading="lazy">
-                </figure>
-                <h3 class="project-title">Slime Arena</h3>
-                <p class="project-category">Action, Arena, Unity, Game Jam Submission</p>
-              </a>
-            </li>
-
-            <!-- WASD+E Project -->
-            <li class="project-item active" data-filter-item data-category="games"
-                data-title="WASD+E" 
-                data-subtitle="Puzzle, 2D, Unity, Game Jam Submission" 
-                data-description="
-                <p>WASD+E is a 2D puzzle game where players have to pick and lose certain controls 
-                of their character in exchange for others that benegit them in progressing through the level. This game finished
-                2nd out of 65 in overall rankings in Mini-Jam 96: Losing is Good.</p>"
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-wasde.png", "alt": "WASD+E Feature Graphic"}
-                ]'
-                data-site-link="https://na-es.itch.io/wasde"
-                loading="lazy">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-wasde.png" alt="wasd+e" loading="lazy">
-                </figure>
-                <h3 class="project-title">WASD+E</h3>
-                <p class="project-category">Puzzle, 2D, Unity, Game Jam Submission</p>
-              </a>
-            </li>
-
-            <!-- Monochrome Project -->
-            <li class="project-item active" data-filter-item data-category="games"
-                data-title="Monochrome" 
-                data-subtitle="2D, Platformer, Unity" 
-                data-description="<p>A 2D platformer game where players can teleport to a projectile that they can fire. 
-                This 4-week project was worked on during my school break. The game was made to prepare and familiarize myself with
-                the Unity game engine before the start of the semester where I had to use it.</p>"
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-monochrome.png", "alt": "Monochrome Feature Graphic"}
-                ]'
-                data-video-link="https://www.youtube.com/watch?v=Qqa2SdD7biI"
-                loading="lazy">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-monochrome.png" alt="monochrome" loading="lazy">
-                </figure>
-                <h3 class="project-title">Monochrome</h3>
-                <p class="project-category">2D, Platformer, Unity</p>
-              </a>
-            </li>
-
-            <!-- Pathfinder Project -->
-            <li class="project-item active" data-filter-item data-category="games"
-                data-title="Pathfinder" 
-                data-subtitle="3D, Multiplayer(Photon), Puzzle, Unity" 
-                data-description="<p>Pathfinder is a multiplayer, tile-based game where 2 players have to rely on each other to get to their individual end point. 
-                I worked on features such as the game design, gameplay algorithm, user interface, and graphical look of the game. 
-                This was my first experience working on a Multiplayer game using Photon.</p>"
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-pathfinder.png", "alt": "Pathfinder Feature Graphic"}
-                ]'
-                data-video-link="https://www.youtube.com/watch?v=h3zYvY9v424"
-                loading="lazy">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-pathfinder.png" alt="pathfinder" loading="lazy">
-                </figure>
-                <h3 class="project-title">Pathfinder</h3>
-                <p class="project-category">3D, Multiplayer, Puzzle, Unity</p>
-              </a>
-            </li>
-
-            <!-- Vital Blue Project -->
-            <li class="project-item active" data-filter-item data-category="games"
-                data-title="Vital Blue" 
-                data-subtitle="2D, Education, Healthcare, Unity" 
-                data-description="
-                <p>Vital Blue is a 2D educational game for healthcare professionals to practice the procedures of a code blue scenario.</p>
-                <br>
-                <p>
-                  My team partnered with the Institute of Mental Health (IMH) to develop the project. I was involved in the process of designing game mechanics and
-                 writing code for the game. I also took charge leading a team, and acted as a intermediary for my team and the client. 
-                </p>
-                <br>
-                <p>This project was also further nominated to represent NYP in the 2021 Lee Hsien Loong Smart Nation Awards.</p>"
-                data-media='[
-                  {"type": "image", "src": "./assets/images/featuregraphic-codeblue.png", "alt": "Vital Blue Feature Graphic"}
-                ]'
-                data-video-link="https://www.youtube.com/watch?v=LtsA_CYyad8"
-                loading="lazy">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye"></ion-icon>
-                  </div>
-                  <img src="./assets/images/project-codeblue.png" alt="code blue" loading="lazy">
-                </figure>
-                <h3 class="project-title">Vital Blue</h3>
-                <p class="project-category">2D, Education, Healthcare, Unity</p>
-              </a>
-            </li>
-          
-          </ul>
-
-        </section>
-
-      </article>
-
-      <!-- ============================================================================
-           CONTACT SECTION (COMMENTED OUT)
-           ============================================================================ -->
-
-      <!-- Contact section is currently disabled
-      <article class="contact" data-page="contact">
-
-        <header>
-          <h2 class="h2 article-title">Contact</h2>
+        <header class="section-head reveal">
+          <span class="section-index">04</span>
+          <h2 class="section-title">Devlog</h2>
         </header>
 
-        <section class="mapbox" data-mapbox>
-          <figure>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255281.19051596316!2d103.679439883707!3d1.314337879505269!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da11238a8b9375%3A0x887869cf52abf5c4!2sSingapore!5e0!3m2!1sen!2ssg!4v1722235738145!5m2!1sen!2ssg"
-              width="400" height="300" loading="lazy"></iframe>
-          </figure>
-        </section>
+        <p class="devlog-lede reveal">
+          Currently working on learning Unreal Engine with a focus on combat mechanics.
+        </p>
 
-        <section class="contact-form">
+        <div class="devlog-list">
 
-          <h3 class="h3 form-title">Contact Form</h3>
-
-          <form action="mailto:seann.lyj@gmail.com" class="form" data-form>
-
-            <div class="input-wrapper">
-              <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
-
-              <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input>
+          <article class="devlog-post reveal">
+            <div class="devlog-media">
+              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+                aria-label="Overhauling the game and the road ahead">
+                <source src="./assets/videos/08jan-overhaul.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
             </div>
+            <div class="devlog-content">
+              <time datetime="2026-01-08" class="devlog-date">08 Jan, 2026</time>
+              <h3 class="devlog-title">Overhauling the game and the road ahead</h3>
+              <p>
+                It's been quite a while since the last devlog, but a lot has happened behind the scenes. Over the past few months, I've significantly overhauled the game, starting with a full replacement of the original animation assets.
+                This change immediately elevated how combat feels, and it also gave me the opportunity to revisit and clean up large parts of the multiplayer netcode alongside it.
+                <br><br>
+                With the new animations in place, I expanded the combat system with several new mechanics. Players can now dodge, perform a <em>perfect dodge</em> for precise timing, and block incoming attacks.
+                To improve readability during fast-paced exchanges, I also added hit indicators that signal when an opponent is about to attack, helping players make better moment-to-moment decisions.
+                On top of that, I spent time fine-tuning the overall combat flow so that attacks, movement, and defensive actions transition more smoothly into one another.
+                <br><br>
+                Another major addition is a simple AI-controlled bot that players can practice against. While it's not meant to be overly complex, it provides a consistent way to test combat mechanics, timings, and balance without needing a second player connected.
+                The video demo shows gameplay footage against a bot.
+                <br><br>
+                At this stage, my focus has shifted slightly from pure systems work to figuring out the game's overall <em>style</em> and <em>aesthetic</em>. I want to ensure the visuals and presentation properly support the feel of the combat before pushing further with content.
+                Looking ahead, I'm also planning to explore options for online multiplayer services, as the game currently only supports multiplayer over local networks.
+                <br><br>
+                There's still plenty to refine, but the game now feels far more cohesive than it did a few months ago, and I'm excited to start shaping its identity as I move into the next phase of development.
+              </p>
+            </div>
+          </article>
 
-            <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
+          <article class="devlog-post reveal">
+            <div class="devlog-media">
+              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+                aria-label="Multiplayer: LAN and combat replication">
+                <source src="./assets/videos/18sep-multiplayercombat.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="devlog-content">
+              <time datetime="2025-09-18" class="devlog-date">18 Sep, 2025</time>
+              <h3 class="devlog-title">Multiplayer: LAN and combat replication</h3>
+              <p>
+                I implemented multiplayer replication for combat and started testing the game across two devices on a local network this week. Initially, I ran into several connection issues—I only realized later
+                that my laptop couldn't even ping my PC through the command line (lol). Once I fixed the network issue, the multiplayer session worked as expected.
+                <br><br>
+                During testing, I made an interesting observation: even though my laptop isn't designed for gaming and struggled with low framerate and peformance, these limitations also affected how
+                the client's character appeared on other players' screens. Essentially the performance of one device impacted the representation of that player for everyone else, highlighting an important
+                consideration for multiplayer optimization.
+                <br><br>
+                Overall, this testing session helped me uncover both technical hurdles and subtle performance challenges that I'll need to address as I continue refining the multiplayer experience.
+              </p>
+            </div>
+          </article>
 
-            <button class="form-btn" type="submit" disabled data-form-btn>
-              <ion-icon name="paper-plane"></ion-icon>
-              <span>Send Message</span>
-            </button>
+          <article class="devlog-post reveal">
+            <div class="devlog-media">
+              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+                aria-label="Multiplayer: Basic movement and replication">
+                <source src="./assets/videos/11sep-multiplayermovement.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="devlog-content">
+              <time datetime="2025-09-11" class="devlog-date">11 Sep, 2025</time>
+              <h3 class="devlog-title">Multiplayer: Basic movement and replication</h3>
+              <p>
+                This week, I focused on implementing the foundations of multiplayer replication in Unreal Engine.
+                I integrated replication with core systems like player movement and the camera lock-on feature, making sure that actions such as locking onto a target are accurately reflected across all connected clients.
+                <br><br>
+                Getting replication to play nicely with the lock-on system was a particular challenge, since each client needs to maintain its own local control while still keeping the server authoritative.
+                I had to carefully manage when and how target data was sent to the server to avoid desyncs, while ensuring that the player's camera remained responsive.
+              </p>
+            </div>
+          </article>
 
-          </form>
+          <article class="devlog-post reveal">
+            <div class="devlog-media">
+              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+                aria-label="Camera lock-on and refraction trails">
+                <source src="./assets/videos/04sep-punchtrails.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="devlog-content">
+              <time datetime="2025-09-04" class="devlog-date">04 Sep, 2025</time>
+              <h3 class="devlog-title">Camera lock-on and Refraction trails</h3>
+              <p>
+                This week, I worked on adding a camera lock-on system and refraction trails for player attacks.
+                The lock-on system lets players fix their view on a chosen enemy, making combat encounters easier to follow while
+                still keeping the target clearly visible.
+                <br><br>
+                I also experimented with Unreal Engine's Niagara System to build refraction trails that follow attacks.
+                Getting used to Niagara was challenging at first, but I eventually managed to create striking visual effects that make combat feel more impactful.
+              </p>
+            </div>
+          </article>
 
-        </section>
+          <article class="devlog-post reveal">
+            <div class="devlog-media">
+              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+                aria-label="Hit feedback">
+                <source src="./assets/videos/26aug-hitfeedback.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="devlog-content">
+              <time datetime="2025-08-26" class="devlog-date">26 Aug, 2025</time>
+              <h3 class="devlog-title">Hit feedback</h3>
+              <p>
+                One of the biggest lessons I carried over from my internship at HABBY is that great feedback is what makes or breaks a game's feel.
+                With that in mind, I focused on designing hit feedback using three core elements: hitstops, hitflashes, and—most importantly—camera shake.
+                Together, these details make every hit feel weighty, rewarding, and satisfying for the player.
+              </p>
+            </div>
+          </article>
 
-      </article>
-      -->
+          <article class="devlog-post reveal">
+            <div class="devlog-media">
+              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+                aria-label="Extending the combat mechanics">
+                <source src="./assets/videos/19aug-fluidcombo.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="devlog-content">
+              <time datetime="2025-08-19" class="devlog-date">19 Aug, 2025</time>
+              <h3 class="devlog-title">Extending the combat mechanics</h3>
+              <p>
+                This week, I expanded on the combat system by implementing both light and heavy attacks, along with the ability to fluidly chain them together.
+                These changes made combat more dynamic and gave players more agency over their playstyle, resulting in a faster, more engaging flow of action.
+              </p>
+            </div>
+          </article>
 
-    </div>
+          <article class="devlog-post reveal">
+            <div class="devlog-media">
+              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+                aria-label="Prototyping a combo system">
+                <source src="./assets/videos/5aug-combo.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="devlog-content">
+              <time datetime="2025-08-05" class="devlog-date">5 Aug, 2025</time>
+              <h3 class="devlog-title">Prototyping a combo system</h3>
+              <p>
+                After setting up character locomotion, I began experimenting with a prototype combo system for melee combat.
+                I drew inspiration from combat-heavy titles like For Honor, Absolver, and Sifu.
+                My initial prototype now allows players to execute a sequence of attacks in quick succession—laying the foundation for a deeper combo-based combat system.
+              </p>
+            </div>
+          </article>
+
+          <article class="devlog-post reveal">
+            <div class="devlog-media">
+              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+                aria-label="Locomotion">
+                <source src="./assets/videos/31jul-movement.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="devlog-content">
+              <time datetime="2025-07-31" class="devlog-date">31 Jul, 2025</time>
+              <h3 class="devlog-title">Locomotion</h3>
+              <p>
+                Following my internship at HABBY, I wanted to branch out from Unity and learn Unreal Engine.
+                I started with the basics of locomotion and character movement.
+                Coming from a Unity background, the transition to Unreal's Blueprint system felt daunting at first,
+                but with the help of tutorials, I quickly got comfortable and began building my first mechanics.
+              </p>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
 
   </main>
+
+  <!-- ============================================================================
+       FOOTER / CONTACT
+       ============================================================================ -->
+
+  <footer class="site-footer" id="contact">
+    <div class="container">
+
+      <div class="footer-cta reveal">
+        <p class="eyebrow eyebrow-invert">Get in touch</p>
+        <h2 class="footer-title">Let's build something phenomenal together!</h2>
+        <a href="mailto:seann.lyj@gmail.com" class="footer-email">seann.lyj@gmail.com</a>
+      </div>
+
+      <ul class="footer-links reveal">
+        <li>
+          <span class="footer-links-label">Location</span>
+          <span>Singapore</span>
+        </li>
+        <li>
+          <span class="footer-links-label">Social</span>
+          <a href="https://www.linkedin.com/in/sean-neo-970198160/" target="_blank" rel="noopener">LinkedIn</a>
+        </li>
+      </ul>
+
+      <div class="footer-bottom">
+        <p>&copy; <span data-year>2026</span> Sean Neo</p>
+        <a href="#home" class="back-to-top">Back to top <ion-icon name="arrow-up-outline"></ion-icon></a>
+      </div>
+
+    </div>
+  </footer>
 
   <!-- ============================================================================
        SCRIPTS
        ============================================================================ -->
 
-  <!-- Custom JavaScript -->
   <script src="./assets/js/script.js"></script>
 
   <!-- Ionicons -->
