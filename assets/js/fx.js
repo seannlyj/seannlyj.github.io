@@ -1,10 +1,12 @@
 "use strict";
 
 /* ============================================================================
-   3D ROTATING MONOGRAM — "SN" rendered as an extruded 3D letter cloud.
-   Letter shapes are sampled from an offscreen canvas, then distributed across
-   three Z-depth layers and continuously rotated around the Y-axis with a
-   gentle X-tilt oscillation. Perspective projection maps everything to 2D.
+   ROTATING KEYCAP — a 3D keyboard keycap with an "S" legend, spinning on its
+   vertical axis behind the page content. Built from scratch on the 2D canvas:
+   an 8-vertex tapered box (mesh), a Y-rotation matrix + fixed camera tilt,
+   perspective projection, back-face culling, painter's-algorithm face sort,
+   and simple Lambert shading from a fixed light. The "S" is sampled from an
+   offscreen text render and laid onto the top face's plane.
    Sits behind all content (z-index: -1) as a living watermark.
    ============================================================================ */
 
@@ -16,26 +18,84 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // --- Tuning ---
-  const FOCAL        = 900;   // perspective focal length (CSS px)
-  const DEPTH        = 65;    // extrusion depth in letter-space units
-  const SAMPLE_STEP  = 8;     // pixel stride when sampling the offscreen letter render
-  const DOT_R        = 3.8;   // base dot radius at scale=1
-  const ROT_SPEED_Y  = 0.006; // Y-rotation radians per 16.667ms frame
-  const TILT_X_BASE  = 0.18;  // static camera tilt around X (radians)
-  const TILT_X_AMP   = 0.06;  // slow breathing oscillation amplitude
-  const TILT_X_FREQ  = 0.00022; // oscillation frequency (rad/ms)
+  const FOCAL       = 1100;   // perspective focal length (CSS px)
+  const ROT_SPEED   = 0.0065; // Y-rotation radians per 16.667ms frame
+  const TILT_X      = 0.52;   // fixed camera tilt so the top + legend stay visible
+  const SAMPLE_STEP = 6;      // pixel stride when sampling the offscreen "S"
+  const DOT_R       = 2.6;    // legend dot radius at scale=1
+  const HUE = 220, SAT = 13;  // cool-gray palette (matches --coolgray)
+  const FACE_ALPHA  = 0.34;   // subtle so body text stays readable
+  const LEGEND_LIGHT = 84;    // legend lightness (lighter than its face)
 
-  // Three depth layers: front (index 0), mid (1), back (2)
-  const LAYER_Z     = [-DEPTH / 2, 0, DEPTH / 2];
-  const LAYER_ALPHA = [0.36, 0.20, 0.10]; // front brightest, back dimmest
-  const COLOR       = "hsl(220,13%,52%)"; // --coolgray
+  // Light direction (upper-left-front), normalized.
+  const LIGHT = (() => {
+    const v = [-0.35, -0.72, -0.6];
+    const m = Math.hypot(v[0], v[1], v[2]);
+    return [v[0] / m, v[1] / m, v[2] / m];
+  })();
 
   let dpr, W, H;
   let rafId = null, lastTs = 0;
   let rotY = 0;
-  // letterPts: 2D positions (centered, letter-space) for all sampled pixels.
-  // Each entry generates 3 points (one per layer) during drawFrame.
-  let letterPts = []; // [{x, y}]
+
+  // Geometry (rebuilt on resize so the cap scales with the viewport).
+  let verts = [];          // [[x,y,z], ...] 8 corners
+  let faces = [];          // [{ idx:[..], legend:bool }]
+  let legendPts = [];      // [[x,y,z], ...] points lying just above the top face
+
+  function buildGeometry() {
+    const SIZE = Math.min(W, H) * 0.165;
+    const BW = SIZE;          // base half-width
+    const TW = SIZE * 0.8;    // top half-width (tapered inward)
+    const HH = SIZE * 0.62;   // half-height (thickness)
+
+    // 0–3 top ring, 4–7 bottom ring
+    verts = [
+      [-TW, -HH, -TW], [TW, -HH, -TW], [TW, -HH, TW], [-TW, -HH, TW],
+      [-BW,  HH, -BW], [BW,  HH, -BW], [BW,  HH, BW], [-BW,  HH, BW],
+    ];
+
+    faces = [
+      { idx: [0, 1, 2, 3], legend: true },  // top
+      { idx: [4, 5, 6, 7] },                // bottom
+      { idx: [0, 1, 5, 4] },                // back
+      { idx: [1, 2, 6, 5] },                // right
+      { idx: [2, 3, 7, 6] },                // front
+      { idx: [3, 0, 4, 7] },                // left
+    ];
+
+    buildLegend(TW, HH);
+  }
+
+  // Sample an "S" from an offscreen render and lay the points on the top plane.
+  function buildLegend(TW, HH) {
+    const fs   = 200;
+    const offW = Math.ceil(fs * 1.1);
+    const offH = Math.ceil(fs * 1.2);
+    const off  = document.createElement("canvas");
+    off.width  = offW;
+    off.height = offH;
+    const oc = off.getContext("2d");
+    oc.fillStyle    = "#fff";
+    oc.font         = `900 ${fs}px "Arial Black", Impact, Arial, sans-serif`;
+    oc.textAlign    = "center";
+    oc.textBaseline = "middle";
+    oc.fillText("S", offW / 2, offH / 2);
+    const { data } = oc.getImageData(0, 0, offW, offH);
+
+    const norm  = offH / 2;            // map the glyph height to [-1, 1]
+    const span  = TW * 0.62;           // legend extent on the top face
+    const yTop  = -HH - 0.5;           // sit a hair above the top to avoid z-fight
+    legendPts = [];
+    for (let py = 0; py < offH; py += SAMPLE_STEP) {
+      for (let px = 0; px < offW; px += SAMPLE_STEP) {
+        if (data[(py * offW + px) * 4 + 3] < 128) continue;
+        const lx = ((px - offW / 2) / norm) * span;
+        const lz = ((py - offH / 2) / norm) * span;
+        legendPts.push([lx, yTop, lz]);
+      }
+    }
+  }
 
   // --- KEEP: canvas sizing with dpr cap ---
   function setupCanvas() {
@@ -47,90 +107,111 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  // Sample letter pixels from an offscreen canvas render of "SN".
-  function buildLetterPts() {
-    const fontSize = Math.round(Math.min(W * 0.48, H * 0.36, 290));
-    const offW = Math.ceil(fontSize * 2.5);
-    const offH = Math.ceil(fontSize * 1.2);
-    const off  = document.createElement("canvas");
-    off.width  = offW;
-    off.height = offH;
-    const oc = off.getContext("2d");
-    oc.fillStyle    = "#fff";
-    oc.font         = `900 ${fontSize}px "Arial Black", Impact, Arial, sans-serif`;
-    oc.textAlign    = "center";
-    oc.textBaseline = "middle";
-    oc.fillText("SN", offW / 2, offH / 2);
-    const { data } = oc.getImageData(0, 0, offW, offH);
-    letterPts = [];
-    const ox = offW / 2;
-    const oy = offH / 2;
-    for (let y = 0; y < offH; y += SAMPLE_STEP) {
-      for (let x = 0; x < offW; x += SAMPLE_STEP) {
-        if (data[(y * offW + x) * 4 + 3] < 128) continue;
-        letterPts.push({ x: x - ox, y: y - oy });
-      }
-    }
+  // Rotate a point by rotY (vertical axis) then the fixed X tilt.
+  let cosY = 1, sinY = 0;
+  const cosX = Math.cos(TILT_X), sinX = Math.sin(TILT_X);
+  function rotate(p) {
+    const x = p[0] * cosY + p[2] * sinY;
+    const z = -p[0] * sinY + p[2] * cosY;
+    const y2 = p[1] * cosX - z * sinX;
+    const z2 = p[1] * sinX + z * cosX;
+    return [x, y2, z2];
+  }
+  function project(rp) {
+    const sc = FOCAL / (FOCAL + rp[2]);
+    return [rp[0] * sc + W / 2, rp[1] * sc + H / 2, sc];
   }
 
-  function drawFrame(ts) {
+  function drawFrame() {
     ctx.clearRect(0, 0, W, H);
+    cosY = Math.cos(rotY);
+    sinY = Math.sin(rotY);
 
-    const tiltX = TILT_X_BASE + Math.sin(ts * TILT_X_FREQ) * TILT_X_AMP;
-    const cosY  = Math.cos(rotY), sinY = Math.sin(rotY);
-    const cosX  = Math.cos(tiltX), sinX = Math.sin(tiltX);
+    const RV = verts.map(rotate);          // rotated verts
+    const PV = RV.map(project);            // projected verts
 
-    // Draw order: back layer first so the front paints on top.
-    // Flip when the letter faces away (cos(rotY) < 0) to avoid X-ray effect.
-    const order = cosY >= 0 ? [2, 1, 0] : [0, 1, 2];
+    // Build the draw list: cull back faces, shade, sort far-to-near.
+    const draws = [];
+    let topVisible = false, topFacing = 0;
 
-    for (const li of order) {
-      const z0 = LAYER_Z[li];
-      ctx.globalAlpha = LAYER_ALPHA[li];
-      ctx.fillStyle   = COLOR;
+    for (const f of faces) {
+      const [a, b, c] = f.idx;
+      const v0 = RV[a], v1 = RV[b], v2 = RV[c];
+      const e1 = [v1[0] - v0[0], v1[1] - v0[1], v1[2] - v0[2]];
+      const e2 = [v2[0] - v0[0], v2[1] - v0[1], v2[2] - v0[2]];
+      let nx = e1[1] * e2[2] - e1[2] * e2[1];
+      let ny = e1[2] * e2[0] - e1[0] * e2[2];
+      let nz = e1[0] * e2[1] - e1[1] * e2[0];
+
+      // Orient the normal outward (away from the object centre at origin).
+      let cxr = 0, cyr = 0, czr = 0;
+      for (const i of f.idx) { cxr += RV[i][0]; cyr += RV[i][1]; czr += RV[i][2]; }
+      cxr /= 4; cyr /= 4; czr /= 4;
+      if (nx * cxr + ny * cyr + nz * czr < 0) { nx = -nx; ny = -ny; nz = -nz; }
+
+      // Camera looks toward +z from -z; a face is visible when its normal
+      // points back toward the camera (nz < 0).
+      if (nz >= 0) continue;
+
+      const nl = Math.hypot(nx, ny, nz) || 1;
+      const ndl = (nx * LIGHT[0] + ny * LIGHT[1] + nz * LIGHT[2]) / nl;
+      const bright = 0.32 + 0.68 * Math.max(0, ndl);   // ambient + diffuse
+      const light  = 22 + bright * 46;                 // hsl lightness
+
+      if (f.legend) { topVisible = true; topFacing = -nz / nl; }
+      draws.push({ idx: f.idx, z: czr, light });
+    }
+
+    draws.sort((p, q) => q.z - p.z); // far first (painter's algorithm)
+
+    for (const d of draws) {
       ctx.beginPath();
+      const p0 = PV[d.idx[0]];
+      ctx.moveTo(p0[0], p0[1]);
+      for (let i = 1; i < d.idx.length; i++) {
+        const p = PV[d.idx[i]];
+        ctx.lineTo(p[0], p[1]);
+      }
+      ctx.closePath();
+      ctx.fillStyle = `hsla(${HUE},${SAT}%,${d.light.toFixed(0)}%,${FACE_ALPHA})`;
+      ctx.fill();
+      // Faint edge to define the silhouette through the blur.
+      ctx.strokeStyle = `hsla(${HUE},${SAT}%,${(d.light + 14).toFixed(0)}%,${(FACE_ALPHA * 0.7).toFixed(3)})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
 
-      for (const { x, y } of letterPts) {
-        // Y-axis rotation
-        const rx   = x * cosY - z0 * sinY;
-        const rz_y = x * sinY + z0 * cosY;
-        // X-axis rotation (tilt)
-        const ry   = y * cosX - rz_y * sinX;
-        const rz   = y * sinX + rz_y * cosX;
-        // Perspective projection
-        const sc   = FOCAL / (FOCAL + rz);
-        const sx   = rx * sc + W / 2;
-        const sy   = ry * sc + H / 2;
-        const r    = DOT_R * Math.max(0.5, sc * 0.95);
+    // Legend: only when the top faces the camera; fade with how square-on it is.
+    if (topVisible && legendPts.length) {
+      ctx.fillStyle = `hsla(${HUE},${SAT}%,${LEGEND_LIGHT}%,${(FACE_ALPHA * 0.9 * topFacing).toFixed(3)})`;
+      ctx.beginPath();
+      for (const lp of legendPts) {
+        const [sx, sy, sc] = project(rotate(lp));
+        const r = DOT_R * Math.max(0.5, sc);
         ctx.moveTo(sx + r, sy);
         ctx.arc(sx, sy, r, 0, Math.PI * 2);
       }
-
       ctx.fill();
     }
-
-    ctx.globalAlpha = 1;
   }
 
   function loop(ts) {
     if (!lastTs) lastTs = ts;
     const dt = Math.min((ts - lastTs) / 16.667, 3);
     lastTs = ts;
-    rotY += ROT_SPEED_Y * dt;
-    drawFrame(ts);
+    rotY += ROT_SPEED * dt;
+    drawFrame();
     rafId = requestAnimationFrame(loop);
   }
 
   function renderStaticFrame() {
-    setupCanvas();
-    buildLetterPts();
-    rotY = -0.55; // pleasant 3/4 view angle for the static snapshot
-    drawFrame(1000);
+    rotY = -0.6; // pleasant 3/4 view for the static snapshot
+    drawFrame();
   }
 
   // --- Bootstrap ---
   setupCanvas();
-  buildLetterPts();
+  buildGeometry();
 
   if (reducedMotion) {
     renderStaticFrame();
@@ -157,7 +238,7 @@
     resizeTimer = setTimeout(() => {
       stop();
       setupCanvas();
-      buildLetterPts();
+      buildGeometry();
       start();
     }, 150);
   }, { passive: true });
