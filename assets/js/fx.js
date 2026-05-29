@@ -1,9 +1,10 @@
 "use strict";
 
 /* ============================================================================
-   COALESCING MONOGRAM — a faint drifting cloud of points that gathers into an
-   "SN" monogram, holds, bursts apart, and reforms on a loop. The cursor wipes
-   through and disturbs the points (they spring back); a click bursts them.
+   COALESCING MONOGRAM — a faint drifting cloud of points gathers into an "SN"
+   monogram and HOLDS. As the cursor sweeps through the letters they warp and
+   spring back, while charging "energy": the monogram scales up and the points
+   vibrate as tension builds. At max charge it bursts apart, then reforms.
    Sits behind all content as a living watermark.
    ============================================================================ */
 
@@ -28,11 +29,21 @@
   const DISTURB_PUSH  = 1.6;
   const SHOCK_R       = 190;
   const SHOCK_IMPULSE = 14;
-  const BURST_SPEED   = 4.5;   // outward kick when the form breaks apart
+  const BURST_SPEED   = 6;     // outward kick when the charge releases
   const IDLE_MS       = 2200;
 
+  // --- Charge / energy ---
+  const MAX_ENERGY    = 1;
+  const ENERGY_GAIN   = 0.0007; // per px of cursor travel inside the letters
+  const SPEED_CAP     = 40;     // clamp per-frame cursor travel feeding the charge
+  const ENERGY_DECAY  = 0.0035; // drained per 60fps frame when not charging
+  const SCALE_MAX     = 0.45;   // monogram grows up to 1 + this at full charge
+  const ENERGY_SHAKE  = 0.9;    // point vibration amplitude at full charge
+  const ENERGY_GLOW   = 0.18;   // extra alpha at full charge
+  const ENERGY_DOT_R  = 0.8;    // extra radius at full charge
+  const CLICK_ENERGY  = 0.2;    // charge added by a click/tap
+
   const ASSEMBLE_MS = 2200;
-  const HOLD_MS     = 3000;
   const SCATTER_MS  = 2200;
 
   const DISTURB_R_SQ = DISTURB_R * DISTURB_R;
@@ -40,12 +51,15 @@
 
   let dpr, W, H, cx, cy;
   let points = [];                 // { x, y, vx, vy, tx, ty }
+  let bbox = { minX: 0, minY: 0, maxX: 0, maxY: 0 };
   let cursor = { x: -9999, y: -9999, active: false };
   let lastMoveTime = 0;
   let rafId = null;
   let lastTs = 0;
   let phase = "assemble";
   let phaseT = 0;
+  let energy = 0;
+  let prevCX = -9999, prevCY = -9999;
 
   const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
@@ -93,17 +107,16 @@
   // Build (or rebuild) the point set, seeding particles at random scattered spots.
   function initPoints() {
     const targets = buildTargets();
-    points = targets.map((t) => ({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: 0,
-      vy: 0,
-      tx: t.x,
-      ty: t.y,
-    }));
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    points = targets.map((t) => {
+      if (t.x < minX) minX = t.x; if (t.x > maxX) maxX = t.x;
+      if (t.y < minY) minY = t.y; if (t.y > maxY) maxY = t.y;
+      return { x: Math.random() * W, y: Math.random() * H, vx: 0, vy: 0, tx: t.x, ty: t.y };
+    });
+    bbox = { minX, minY, maxX, maxY };
   }
 
-  // One-shot radial impulse — the "strike".
+  // One-shot radial impulse — a local strike.
   function applyShock(sx, sy) {
     for (let i = 0; i < points.length; i++) {
       const p = points[i];
@@ -120,7 +133,7 @@
     }
   }
 
-  // Kick every point outward from the monogram centre when the form breaks apart.
+  // Kick every point outward from the monogram centre when the charge releases.
   function burstApart() {
     for (let i = 0; i < points.length; i++) {
       const p = points[i];
@@ -139,22 +152,34 @@
     return 1 - easeInOut(Math.min(phaseT / SCATTER_MS, 1)); // scatter
   }
 
-  function advancePhase(dtMs) {
-    phaseT += dtMs;
-    if (phase === "assemble" && phaseT >= ASSEMBLE_MS) { phase = "hold"; phaseT = 0; }
-    else if (phase === "hold" && phaseT >= HOLD_MS) { phase = "scatter"; phaseT = 0; burstApart(); }
-    else if (phase === "scatter" && phaseT >= SCATTER_MS) { phase = "assemble"; phaseT = 0; }
+  // Is the cursor sweeping inside the (scaled) monogram bounds?
+  function cursorInLetters(scale) {
+    return (
+      cursor.x > cx + (bbox.minX - cx) * scale &&
+      cursor.x < cx + (bbox.maxX - cx) * scale &&
+      cursor.y > cy + (bbox.minY - cy) * scale &&
+      cursor.y < cy + (bbox.maxY - cy) * scale
+    );
   }
 
-  function stepPoint(p, dtScale, springFr, driftFr) {
+  function stepPoint(p, dtScale, springFr, driftFr, scale) {
     if (phase === "scatter") {
       p.vx *= driftFr;
       p.vy *= driftFr;
       p.vx += (Math.random() - 0.5) * 0.05 * dtScale;
       p.vy += (Math.random() - 0.5) * 0.05 * dtScale;
     } else {
-      p.vx = (p.vx + (p.tx - p.x) * SPRING * dtScale) * springFr;
-      p.vy = (p.vy + (p.ty - p.y) * SPRING * dtScale) * springFr;
+      // Spring toward the scaled target (monogram grows as it charges).
+      const tx = cx + (p.tx - cx) * scale;
+      const ty = cy + (p.ty - cy) * scale;
+      p.vx = (p.vx + (tx - p.x) * SPRING * dtScale) * springFr;
+      p.vy = (p.vy + (ty - p.y) * SPRING * dtScale) * springFr;
+
+      // Tension vibration that grows with charge.
+      if (energy > 0) {
+        p.vx += (Math.random() - 0.5) * energy * ENERGY_SHAKE * dtScale;
+        p.vy += (Math.random() - 0.5) * energy * ENERGY_SHAKE * dtScale;
+      }
     }
 
     // Cursor disturbance — push points away (they spring back).
@@ -182,9 +207,9 @@
 
   function draw(formation) {
     ctx.clearRect(0, 0, W, H);
-    const alpha = SCATTER_ALPHA + (FORMED_ALPHA - SCATTER_ALPHA) * formation;
-    const r = DOT_MIN_R + DOT_GROW_R * formation;
-    ctx.fillStyle = `hsla(220, 13%, 52%, ${alpha.toFixed(3)})`;
+    const alpha = SCATTER_ALPHA + (FORMED_ALPHA - SCATTER_ALPHA) * formation + energy * ENERGY_GLOW;
+    const r = DOT_MIN_R + DOT_GROW_R * formation + energy * ENERGY_DOT_R;
+    ctx.fillStyle = `hsla(220, 13%, 52%, ${Math.min(alpha, 0.85).toFixed(3)})`;
     for (let i = 0; i < points.length; i++) {
       ctx.beginPath();
       ctx.arc(points[i].x, points[i].y, r, 0, Math.PI * 2);
@@ -198,13 +223,41 @@
     lastTs = ts;
 
     cursor.active = Date.now() - lastMoveTime < IDLE_MS;
-    advancePhase(dtMs);
+
+    // Phase timing (assemble -> hold is timed; hold -> burst is charge-driven).
+    phaseT += dtMs;
+    if (phase === "assemble" && phaseT >= ASSEMBLE_MS) { phase = "hold"; phaseT = 0; }
+    else if (phase === "scatter" && phaseT >= SCATTER_MS) { phase = "assemble"; phaseT = 0; }
+
+    const scale = 1 + energy * SCALE_MAX;
+
+    // Charge from cursor travel inside the letters; decay otherwise.
+    if (phase === "hold") {
+      if (cursor.active && prevCX > -9000 && cursorInLetters(scale)) {
+        const travel = Math.min(Math.hypot(cursor.x - prevCX, cursor.y - prevCY), SPEED_CAP);
+        energy += travel * ENERGY_GAIN;
+      }
+      energy -= ENERGY_DECAY * dtScale;
+      if (energy < 0) energy = 0;
+
+      if (energy >= MAX_ENERGY) {
+        phase = "scatter";
+        phaseT = 0;
+        energy = 0;
+        burstApart();
+      }
+    } else {
+      energy = 0; // only the held monogram can charge
+    }
 
     const springFr = Math.pow(FRICTION, dtScale);
     const driftFr = Math.pow(DRIFT_FRICTION, dtScale);
-    for (let i = 0; i < points.length; i++) stepPoint(points[i], dtScale, springFr, driftFr);
+    for (let i = 0; i < points.length; i++) stepPoint(points[i], dtScale, springFr, driftFr, scale);
 
     draw(formationFactor());
+
+    prevCX = cursor.x;
+    prevCY = cursor.y;
     rafId = requestAnimationFrame(loop);
   }
 
@@ -234,7 +287,10 @@
     lastMoveTime = Date.now();
   });
 
-  document.addEventListener("click", (e) => applyShock(e.clientX, e.clientY));
+  document.addEventListener("click", (e) => {
+    applyShock(e.clientX, e.clientY);
+    if (phase === "hold") energy = Math.min(energy + CLICK_ENERGY, MAX_ENERGY);
+  });
 
   document.addEventListener("touchstart", (e) => {
     const t = e.touches[0];
@@ -243,6 +299,7 @@
     cursor.y = t.clientY;
     lastMoveTime = Date.now();
     applyShock(t.clientX, t.clientY);
+    if (phase === "hold") energy = Math.min(energy + CLICK_ENERGY, MAX_ENERGY);
   }, { passive: true });
 
   document.addEventListener("touchmove", (e) => {
@@ -271,6 +328,7 @@
       initPoints();
       phase = "assemble";
       phaseT = 0;
+      energy = 0;
     }, 150);
   }, { passive: true });
 })();
