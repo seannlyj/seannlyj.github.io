@@ -16,15 +16,17 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // --- Tuning ---
-  const MAX_POINTS    = 440;   // cap on sampled monogram points
-  const SAMPLE_STRIDE = 5;     // px between offscreen samples
+  const GRID_ROWS     = 24;    // monogram height in character rows
+  const CELL_ASPECT   = 0.58;  // cell width / height (monospace proportion)
+  const COVER_ALPHA   = 128;   // alpha threshold for a filled cell
   const SPRING        = 0.085; // pull toward target while assembling/holding
   const FRICTION      = 0.80;  // damping during assemble/hold
   const DRIFT_FRICTION = 0.985;// damping while scattered
   const FORMED_ALPHA  = 0.55;
   const SCATTER_ALPHA = 0.16;
-  const GLYPH_MIN     = 7;     // glyph font px when scattered
-  const GLYPH_GROW    = 3;     // extra px when fully formed
+  const GLYPH_FORM_BASE = 0.7;  // glyph size (× cellH) when scattered
+  const GLYPH_FORM_GROW = 0.25; // extra (× cellH) when fully formed
+  const GLYPH_ENERGY_F  = 0.3;  // extra (× cellH) at full charge
   const DISTURB_R     = 88;
   const DISTURB_PUSH  = 1.6;
   const SHOCK_R       = 190;
@@ -40,7 +42,6 @@
   const SCALE_MAX     = 0.45;   // monogram grows up to 1 + this at full charge
   const ENERGY_SHAKE  = 0.9;    // point vibration amplitude at full charge
   const ENERGY_GLOW   = 0.18;   // extra alpha at full charge
-  const ENERGY_GLYPH  = 4;      // extra glyph px at full charge
   const CLICK_ENERGY  = 0.2;    // charge added by a click/tap
 
   const ASSEMBLE_MS = 2200;
@@ -50,7 +51,8 @@
   const SHOCK_R_SQ   = SHOCK_R * SHOCK_R;
 
   let dpr, W, H, cx, cy;
-  let points = [];                 // { x, y, vx, vy, tx, ty }
+  let cellH = 12;                  // character row height (set in buildTargets)
+  let points = [];                 // { x, y, vx, vy, tx, ty, bit }
   let bbox = { minX: 0, minY: 0, maxX: 0, maxY: 0 };
   let cursor = { x: -9999, y: -9999, active: false };
   let lastMoveTime = 0;
@@ -75,7 +77,8 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  // Render "SN" to an offscreen canvas and sample its filled pixels into targets.
+  // Render "SN" to an offscreen canvas, then sample it on a regular monospace
+  // grid (ASCII-art style): one target per grid cell the letters cover.
   function buildTargets() {
     const off = document.createElement("canvas");
     off.width = W;
@@ -89,19 +92,20 @@
     octx.fillText("SN", cx, cy);
 
     const data = octx.getImageData(0, 0, W, H).data;
-    const candidates = [];
-    for (let y = 0; y < H; y += SAMPLE_STRIDE) {
-      for (let x = 0; x < W; x += SAMPLE_STRIDE) {
-        if (data[(y * W + x) * 4 + 3] > 128) candidates.push({ x, y });
+    cellH = fontSize / GRID_ROWS;
+    const cellW = cellH * CELL_ASPECT;
+
+    const targets = [];
+    for (let y = cellH / 2; y < H; y += cellH) {
+      const yi = y | 0;
+      for (let x = cellW / 2; x < W; x += cellW) {
+        const xi = x | 0;
+        if (data[(yi * W + xi) * 4 + 3] > COVER_ALPHA) {
+          targets.push({ x, y }); // exact grid coords keep columns/rows aligned
+        }
       }
     }
-
-    // Subsample down to MAX_POINTS (Fisher–Yates partial shuffle).
-    for (let i = candidates.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const tmp = candidates[i]; candidates[i] = candidates[j]; candidates[j] = tmp;
-    }
-    return candidates.slice(0, Math.min(candidates.length, MAX_POINTS));
+    return targets;
   }
 
   // Build (or rebuild) the point set, seeding particles at random scattered spots.
@@ -216,7 +220,7 @@
   function draw(formation) {
     ctx.clearRect(0, 0, W, H);
     const alpha = SCATTER_ALPHA + (FORMED_ALPHA - SCATTER_ALPHA) * formation + energy * ENERGY_GLOW;
-    const fontPx = GLYPH_MIN + GLYPH_GROW * formation + energy * ENERGY_GLYPH;
+    const fontPx = cellH * (GLYPH_FORM_BASE + GLYPH_FORM_GROW * formation + energy * GLYPH_ENERGY_F);
     ctx.fillStyle = `hsla(220, 13%, 52%, ${Math.min(alpha, 0.85).toFixed(3)})`;
     ctx.font = `600 ${fontPx.toFixed(1)}px "Courier New", monospace`;
     ctx.textAlign = "center";
