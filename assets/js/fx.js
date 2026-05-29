@@ -8,6 +8,7 @@
    perspective projection, back-face culling, painter's-algorithm face sort,
    and Lambert shading from a fixed light. The "S" is sampled from an offscreen
    text render and laid onto the top face's plane.
+   Click / tap anywhere to press the key.
    Sits behind all content (z-index: -1) as a living watermark.
    ============================================================================ */
 
@@ -34,6 +35,13 @@
   const LEGEND_LIGHT = 255; // dark engraved legend (reads on the light page)
   const LEGEND_ALPHA = 1;
 
+  // Press animation — damped oscillation: y(t) = D · e^(−ζωt) · sin(ωd·t)
+  const PRESS_DEPTH = 65; // world-Y amplitude (peak ≈ 16 px on screen)
+  const PRESS_WN = 0.012; // natural frequency (rad/ms) — controls snap speed
+  const PRESS_ZETA = 0.45; // damping ratio (<1 = underdamped → small bounce)
+  const PRESS_WD = PRESS_WN * Math.sqrt(1 - PRESS_ZETA * PRESS_ZETA);
+  const PRESS_DUR = 1400; // ms after which we stop computing (fully settled)
+
   // Light direction (upper-left-front), normalized.
   const LIGHT = (() => {
     const v = [-0.35, -0.72, -0.6];
@@ -45,6 +53,7 @@
   let rafId = null,
     lastTs = 0;
   let rotY = 0;
+  let pressT = -1e9; // timestamp (ms) of last press; far in the past = idle
 
   let outline = []; // unit rounded-square profile [[x,z], ...]
   let verts = []; // [[x,y,z], ...]
@@ -67,7 +76,6 @@
     const SIZE = Math.min(W, H) * 0.17;
     const HH = SIZE * 0.6;
 
-    // Three rings lofted top→bottom: flat top, rounded shoulder, tapered base.
     const rings = [
       { y: -HH, r: SIZE * 0.72 }, // top flat (legend sits here)
       { y: -HH * 0.45, r: SIZE * 0.8 }, // shoulder — softens the top edge
@@ -80,12 +88,10 @@
         verts.push([o[0] * ring.r, ring.y, o[1] * ring.r]);
 
     faces = [];
-    // Top cap.
     const top = [];
     for (let i = 0; i < SEG; i++) top.push(i);
     faces.push({ idx: top, legend: true });
 
-    // Side bands between consecutive rings.
     for (let r = 0; r < rings.length - 1; r++) {
       const a = r * SEG,
         b = (r + 1) * SEG;
@@ -95,7 +101,6 @@
       }
     }
 
-    // Bottom cap (reversed so winding faces down).
     const last = (rings.length - 1) * SEG;
     const bottom = [];
     for (let i = SEG - 1; i >= 0; i--) bottom.push(last + i);
@@ -104,7 +109,6 @@
     buildLegend(rings[0].y, rings[0].r);
   }
 
-  // Sample an "S" from an offscreen render and lay the points on the top plane.
   function buildLegend(yTop, topR) {
     const fs = 200;
     const offW = Math.ceil(fs * 1.1);
@@ -161,10 +165,25 @@
     return [rp[0] * sc + W / 2, rp[1] * sc + H / 2, sc];
   }
 
-  function drawFrame() {
+  function drawFrame(ts) {
     ctx.clearRect(0, 0, W, H);
     cosY = Math.cos(rotY);
     sinY = Math.sin(rotY);
+
+    // --- Press animation ---
+    // Damped oscillation — world Y offset projected onto screen Y.
+    const elapsed = ts - pressT;
+    const pressOffset =
+      elapsed < PRESS_DUR
+        ? PRESS_DEPTH *
+          Math.exp(-PRESS_ZETA * PRESS_WN * elapsed) *
+          Math.sin(PRESS_WD * elapsed)
+        : 0;
+    // cosX converts world-Y travel to screen-Y (camera is tilted by TILT_X).
+    const screenPressY = pressOffset * cosX;
+
+    ctx.save();
+    ctx.translate(0, screenPressY);
 
     const RV = verts.map(rotate); // rotated verts
     const PV = RV.map(project); // projected verts
@@ -253,6 +272,8 @@
         ctx.fill();
       }
     }
+
+    ctx.restore();
   }
 
   function loop(ts) {
@@ -260,13 +281,13 @@
     const dt = Math.min((ts - lastTs) / 16.667, 3);
     lastTs = ts;
     rotY += ROT_SPEED * dt;
-    drawFrame();
+    drawFrame(ts);
     rafId = requestAnimationFrame(loop);
   }
 
   function renderStaticFrame() {
     rotY = -0.6; // pleasant 3/4 view for the static snapshot
-    drawFrame();
+    drawFrame(0); // pressT = -1e9 → elapsed = 1e9 > PRESS_DUR → no offset
   }
 
   // --- Bootstrap ---
@@ -290,7 +311,14 @@
     rafId = null;
   }
 
+  function onPress() {
+    pressT = performance.now();
+  }
+
   start();
+
+  document.addEventListener("click", onPress);
+  document.addEventListener("touchstart", onPress, { passive: true });
 
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
