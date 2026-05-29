@@ -1,9 +1,10 @@
 "use strict";
 
 /* ============================================================================
-   DODGING SWARM — an autonomous boids flock that banks away from the cursor
-   (a "predator") and scatters from a strike shockwave on click. A nod to the
-   dodge-timing and spacing of the Pugilist combat work. Sits behind content.
+   COALESCING MONOGRAM — a faint drifting cloud of points that gathers into an
+   "SN" monogram, holds, bursts apart, and reforms on a loop. The cursor wipes
+   through and disturbs the points (they spring back); a click bursts them.
+   Sits behind all content as a living watermark.
    ============================================================================ */
 
 (function () {
@@ -14,232 +15,211 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // --- Tuning ---
-  const COUNT        = 48;
-  const MAX_SPEED    = 1.4;
-  const MIN_SPEED    = 0.35;
-  const MAX_FORCE    = 0.035;
-  const PERCEPTION   = 56;
-  const SEPARATION_R = 22;
-  const W_SEP        = 1.6;
-  const W_ALI        = 1.0;
-  const W_COH        = 0.9;
-  const FLEE_RADIUS  = 150;
-  const W_FLEE       = 2.4;
-  const FLEE_FORCE   = 0.12;
-  const SHOCK_RADIUS = 170;
-  const SHOCK_IMPULSE = 9.0;
-  const EDGE_MARGIN  = 40;
-  const AGENT_LEN    = 6.5;
-  const AGENT_HALF   = 3.0;
-  const BASE_ALPHA   = 0.34;
-  const IDLE_MS      = 2500;
+  const MAX_POINTS    = 520;   // cap on sampled monogram points
+  const SAMPLE_STRIDE = 5;     // px between offscreen samples
+  const SPRING        = 0.085; // pull toward target while assembling/holding
+  const FRICTION      = 0.80;  // damping during assemble/hold
+  const DRIFT_FRICTION = 0.985;// damping while scattered
+  const FORMED_ALPHA  = 0.55;
+  const SCATTER_ALPHA = 0.16;
+  const DOT_MIN_R     = 1.3;
+  const DOT_GROW_R    = 0.7;   // extra radius when fully formed
+  const DISTURB_R     = 88;
+  const DISTURB_PUSH  = 1.6;
+  const SHOCK_R       = 190;
+  const SHOCK_IMPULSE = 14;
+  const BURST_SPEED   = 4.5;   // outward kick when the form breaks apart
+  const IDLE_MS       = 2200;
 
-  const PERCEPTION_SQ   = PERCEPTION * PERCEPTION;
-  const SEPARATION_R_SQ = SEPARATION_R * SEPARATION_R;
-  const FLEE_RADIUS_SQ  = FLEE_RADIUS * FLEE_RADIUS;
-  const SHOCK_RADIUS_SQ = SHOCK_RADIUS * SHOCK_RADIUS;
+  const ASSEMBLE_MS = 2200;
+  const HOLD_MS     = 3000;
+  const SCATTER_MS  = 2200;
 
-  let dpr, W, H;
-  let agents = [];
+  const DISTURB_R_SQ = DISTURB_R * DISTURB_R;
+  const SHOCK_R_SQ   = SHOCK_R * SHOCK_R;
+
+  let dpr, W, H, cx, cy;
+  let points = [];                 // { x, y, vx, vy, tx, ty }
   let cursor = { x: -9999, y: -9999, active: false };
   let lastMoveTime = 0;
   let rafId = null;
   let lastTs = 0;
+  let phase = "assemble";
+  let phaseT = 0;
+
+  const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
   // --- KEEP: canvas sizing with dpr cap ---
   function setupCanvas() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = window.innerWidth;
     H = window.innerHeight;
+    cx = W / 2;
+    cy = H / 2;
     canvas.width  = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function initAgents() {
-    agents = [];
-    for (let i = 0; i < COUNT; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      agents.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: Math.cos(angle) * MAX_SPEED,
-        vy: Math.sin(angle) * MAX_SPEED,
-      });
-    }
-  }
+  // Render "SN" to an offscreen canvas and sample its filled pixels into targets.
+  function buildTargets() {
+    const off = document.createElement("canvas");
+    off.width = W;
+    off.height = H;
+    const octx = off.getContext("2d");
+    const fontSize = Math.min(W * 0.4, H * 0.55);
+    octx.fillStyle = "#000";
+    octx.font = `700 ${fontSize}px sans-serif`;
+    octx.textAlign = "center";
+    octx.textBaseline = "middle";
+    octx.fillText("SN", cx, cy);
 
-  // Clamp a vector to a maximum magnitude, returned via the shared scratch object.
-  const scratch = { x: 0, y: 0 };
-  function clampVec(x, y, max) {
-    const m = Math.sqrt(x * x + y * y);
-    if (m > max && m > 0) {
-      x = (x / m) * max;
-      y = (y / m) * max;
-    }
-    scratch.x = x;
-    scratch.y = y;
-    return scratch;
-  }
-
-  // Reynolds steering: desired (normalized to MAX_SPEED) minus current velocity,
-  // clamped to MAX_FORCE. Writes into scratch.
-  function steer(dx, dy, a) {
-    const m = Math.sqrt(dx * dx + dy * dy);
-    if (m === 0) { scratch.x = 0; scratch.y = 0; return scratch; }
-    const desX = (dx / m) * MAX_SPEED;
-    const desY = (dy / m) * MAX_SPEED;
-    return clampVec(desX - a.vx, desY - a.vy, MAX_FORCE);
-  }
-
-  // Combined neighbour pass (separation + alignment + cohesion) plus predator flee.
-  function flock(a) {
-    let sepX = 0, sepY = 0;
-    let aliX = 0, aliY = 0, aliN = 0;
-    let cohX = 0, cohY = 0, cohN = 0;
-
-    for (let j = 0; j < agents.length; j++) {
-      const o = agents[j];
-      if (o === a) continue;
-      const dx = a.x - o.x;
-      const dy = a.y - o.y;
-      const d2 = dx * dx + dy * dy;
-      if (d2 > PERCEPTION_SQ || d2 === 0) continue;
-
-      aliX += o.vx; aliY += o.vy; aliN++;
-      cohX += o.x;  cohY += o.y;  cohN++;
-
-      if (d2 < SEPARATION_R_SQ) {
-        const d = Math.sqrt(d2);
-        sepX += (dx / d) / d;
-        sepY += (dy / d) / d;
+    const data = octx.getImageData(0, 0, W, H).data;
+    const candidates = [];
+    for (let y = 0; y < H; y += SAMPLE_STRIDE) {
+      for (let x = 0; x < W; x += SAMPLE_STRIDE) {
+        if (data[(y * W + x) * 4 + 3] > 128) candidates.push({ x, y });
       }
     }
 
-    let ax = 0, ay = 0;
+    // Subsample down to MAX_POINTS (Fisher–Yates partial shuffle).
+    for (let i = candidates.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = candidates[i]; candidates[i] = candidates[j]; candidates[j] = tmp;
+    }
+    return candidates.slice(0, Math.min(candidates.length, MAX_POINTS));
+  }
 
-    if (sepX !== 0 || sepY !== 0) {
-      const s = steer(sepX, sepY, a);
-      ax += s.x * W_SEP; ay += s.y * W_SEP;
-    }
-    if (aliN > 0) {
-      const s = steer(aliX / aliN, aliY / aliN, a);
-      ax += s.x * W_ALI; ay += s.y * W_ALI;
-    }
-    if (cohN > 0) {
-      const s = steer(cohX / cohN - a.x, cohY / cohN - a.y, a);
-      ax += s.x * W_COH; ay += s.y * W_COH;
-    }
-
-    // Predator avoidance — bank away from the cursor.
-    if (cursor.active) {
-      const dx = a.x - cursor.x;
-      const dy = a.y - cursor.y;
-      const d2 = dx * dx + dy * dy;
-      if (d2 < FLEE_RADIUS_SQ && d2 > 0) {
-        const d = Math.sqrt(d2);
-        const desX = (dx / d) * MAX_SPEED;
-        const desY = (dy / d) * MAX_SPEED;
-        const s = clampVec(desX - a.vx, desY - a.vy, FLEE_FORCE);
-        const t = 1 - d / FLEE_RADIUS;
-        const ease = t * t;
-        ax += s.x * W_FLEE * ease;
-        ay += s.y * W_FLEE * ease;
-      }
-    }
-
-    return { ax, ay };
+  // Build (or rebuild) the point set, seeding particles at random scattered spots.
+  function initPoints() {
+    const targets = buildTargets();
+    points = targets.map((t) => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: 0,
+      vy: 0,
+      tx: t.x,
+      ty: t.y,
+    }));
   }
 
   // One-shot radial impulse — the "strike".
-  function applyShock(cx, cy) {
-    for (let i = 0; i < agents.length; i++) {
-      const a = agents[i];
-      const dx = a.x - cx;
-      const dy = a.y - cy;
+  function applyShock(sx, sy) {
+    for (let i = 0; i < points.length; i++) {
+      const p = points[i];
+      const dx = p.x - sx;
+      const dy = p.y - sy;
       const d2 = dx * dx + dy * dy;
-      if (d2 < SHOCK_RADIUS_SQ) {
+      if (d2 < SHOCK_R_SQ) {
         const d = Math.sqrt(d2) || 0.0001;
-        const falloff = 1 - d / SHOCK_RADIUS;
+        const falloff = 1 - d / SHOCK_R;
         const kick = SHOCK_IMPULSE * falloff * falloff;
-        a.vx += (dx / d) * kick;
-        a.vy += (dy / d) * kick;
+        p.vx += (dx / d) * kick;
+        p.vy += (dy / d) * kick;
       }
     }
   }
 
-  function drawAgent(a) {
-    const sp = Math.sqrt(a.vx * a.vx + a.vy * a.vy);
-    const ratio = Math.min(sp / MAX_SPEED, 1.6);
-    const alpha = Math.min(BASE_ALPHA * (0.7 + 0.3 * ratio), 0.42);
-    const ang = Math.atan2(a.vy, a.vx);
-
-    ctx.save();
-    ctx.translate(a.x, a.y);
-    ctx.rotate(ang);
-    ctx.beginPath();
-    ctx.moveTo(AGENT_LEN, 0);
-    ctx.lineTo(-AGENT_LEN * 0.6, AGENT_HALF);
-    ctx.lineTo(-AGENT_LEN * 0.6, -AGENT_HALF);
-    ctx.closePath();
-    ctx.fillStyle = `hsla(220, 13%, 52%, ${alpha.toFixed(3)})`;
-    ctx.fill();
-    ctx.restore();
+  // Kick every point outward from the monogram centre when the form breaks apart.
+  function burstApart() {
+    for (let i = 0; i < points.length; i++) {
+      const p = points[i];
+      const dx = p.x - cx;
+      const dy = p.y - cy;
+      const d = Math.sqrt(dx * dx + dy * dy) || 0.0001;
+      const jitter = 0.6 + Math.random() * 0.8;
+      p.vx += (dx / d) * BURST_SPEED * jitter;
+      p.vy += (dy / d) * BURST_SPEED * jitter;
+    }
   }
 
-  function stepAgent(a, dtScale) {
-    const { ax, ay } = flock(a);
-    a.vx += ax * dtScale;
-    a.vy += ay * dtScale;
+  function formationFactor() {
+    if (phase === "assemble") return easeInOut(Math.min(phaseT / ASSEMBLE_MS, 1));
+    if (phase === "hold") return 1;
+    return 1 - easeInOut(Math.min(phaseT / SCATTER_MS, 1)); // scatter
+  }
 
-    // Speed clamp: ease over-speed down (~15%/frame) so a strike settles smoothly,
-    // and keep a floor so the flock never freezes.
-    let sp = Math.sqrt(a.vx * a.vx + a.vy * a.vy);
-    if (sp > MAX_SPEED) {
-      const factor = Math.max(MAX_SPEED / sp, 0.85);
-      a.vx *= factor; a.vy *= factor;
-    } else if (sp > 0 && sp < MIN_SPEED) {
-      const factor = MIN_SPEED / sp;
-      a.vx *= factor; a.vy *= factor;
-    } else if (sp === 0) {
-      const angle = Math.random() * Math.PI * 2;
-      a.vx = Math.cos(angle) * MIN_SPEED;
-      a.vy = Math.sin(angle) * MIN_SPEED;
+  function advancePhase(dtMs) {
+    phaseT += dtMs;
+    if (phase === "assemble" && phaseT >= ASSEMBLE_MS) { phase = "hold"; phaseT = 0; }
+    else if (phase === "hold" && phaseT >= HOLD_MS) { phase = "scatter"; phaseT = 0; burstApart(); }
+    else if (phase === "scatter" && phaseT >= SCATTER_MS) { phase = "assemble"; phaseT = 0; }
+  }
+
+  function stepPoint(p, dtScale, springFr, driftFr) {
+    if (phase === "scatter") {
+      p.vx *= driftFr;
+      p.vy *= driftFr;
+      p.vx += (Math.random() - 0.5) * 0.05 * dtScale;
+      p.vy += (Math.random() - 0.5) * 0.05 * dtScale;
+    } else {
+      p.vx = (p.vx + (p.tx - p.x) * SPRING * dtScale) * springFr;
+      p.vy = (p.vy + (p.ty - p.y) * SPRING * dtScale) * springFr;
     }
 
-    a.x += a.vx * dtScale;
-    a.y += a.vy * dtScale;
+    // Cursor disturbance — push points away (they spring back).
+    if (cursor.active) {
+      const dx = p.x - cursor.x;
+      const dy = p.y - cursor.y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < DISTURB_R_SQ && d2 > 0) {
+        const d = Math.sqrt(d2);
+        const f = (1 - d / DISTURB_R) * DISTURB_PUSH * dtScale;
+        p.vx += (dx / d) * f;
+        p.vy += (dy / d) * f;
+      }
+    }
 
-    // Wrap-around with margin for continuous flow.
-    if (a.x < -EDGE_MARGIN) a.x = W + EDGE_MARGIN;
-    else if (a.x > W + EDGE_MARGIN) a.x = -EDGE_MARGIN;
-    if (a.y < -EDGE_MARGIN) a.y = H + EDGE_MARGIN;
-    else if (a.y > H + EDGE_MARGIN) a.y = -EDGE_MARGIN;
+    p.x += p.vx * dtScale;
+    p.y += p.vy * dtScale;
+
+    // Soft wrap while scattered so the cloud keeps wandering on screen.
+    if (phase === "scatter") {
+      if (p.x < 0) p.x += W; else if (p.x > W) p.x -= W;
+      if (p.y < 0) p.y += H; else if (p.y > H) p.y -= H;
+    }
+  }
+
+  function draw(formation) {
+    ctx.clearRect(0, 0, W, H);
+    const alpha = SCATTER_ALPHA + (FORMED_ALPHA - SCATTER_ALPHA) * formation;
+    const r = DOT_MIN_R + DOT_GROW_R * formation;
+    ctx.fillStyle = `hsla(220, 13%, 52%, ${alpha.toFixed(3)})`;
+    for (let i = 0; i < points.length; i++) {
+      ctx.beginPath();
+      ctx.arc(points[i].x, points[i].y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
 
   function loop(ts) {
-    const dtScale = lastTs ? Math.min(Math.max((ts - lastTs) / 16.667, 0), 3) : 1;
+    const dtMs = lastTs ? Math.min(ts - lastTs, 50) : 16.667;
+    const dtScale = Math.min(Math.max(dtMs / 16.667, 0), 3);
     lastTs = ts;
 
     cursor.active = Date.now() - lastMoveTime < IDLE_MS;
+    advancePhase(dtMs);
 
-    ctx.clearRect(0, 0, W, H);
-    for (let i = 0; i < agents.length; i++) {
-      stepAgent(agents[i], dtScale);
-      drawAgent(agents[i]);
-    }
+    const springFr = Math.pow(FRICTION, dtScale);
+    const driftFr = Math.pow(DRIFT_FRICTION, dtScale);
+    for (let i = 0; i < points.length; i++) stepPoint(points[i], dtScale, springFr, driftFr);
 
+    draw(formationFactor());
     rafId = requestAnimationFrame(loop);
   }
 
   function renderStaticFrame() {
-    ctx.clearRect(0, 0, W, H);
-    agents.forEach(drawAgent);
+    // Reduced motion: snap points onto the monogram and draw once.
+    for (let i = 0; i < points.length; i++) {
+      points[i].x = points[i].tx;
+      points[i].y = points[i].ty;
+    }
+    draw(1);
   }
 
   // --- Bootstrap ---
   setupCanvas();
-  initAgents();
+  initPoints();
 
   if (reducedMotion) {
     renderStaticFrame();
@@ -288,11 +268,9 @@
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       setupCanvas();
-      // Keep the existing flock; just pull any strays back in-bounds.
-      agents.forEach((a) => {
-        if (a.x < 0) a.x = 0; else if (a.x > W) a.x = W;
-        if (a.y < 0) a.y = 0; else if (a.y > H) a.y = H;
-      });
+      initPoints();
+      phase = "assemble";
+      phaseT = 0;
     }, 150);
   }, { passive: true });
 })();
