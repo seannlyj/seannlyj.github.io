@@ -16,15 +16,15 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // --- Tuning ---
-  const MAX_POINTS    = 520;   // cap on sampled monogram points
+  const MAX_POINTS    = 440;   // cap on sampled monogram points
   const SAMPLE_STRIDE = 5;     // px between offscreen samples
   const SPRING        = 0.085; // pull toward target while assembling/holding
   const FRICTION      = 0.80;  // damping during assemble/hold
   const DRIFT_FRICTION = 0.985;// damping while scattered
   const FORMED_ALPHA  = 0.55;
   const SCATTER_ALPHA = 0.16;
-  const DOT_MIN_R     = 1.3;
-  const DOT_GROW_R    = 0.7;   // extra radius when fully formed
+  const GLYPH_MIN     = 7;     // glyph font px when scattered
+  const GLYPH_GROW    = 3;     // extra px when fully formed
   const DISTURB_R     = 88;
   const DISTURB_PUSH  = 1.6;
   const SHOCK_R       = 190;
@@ -40,7 +40,7 @@
   const SCALE_MAX     = 0.45;   // monogram grows up to 1 + this at full charge
   const ENERGY_SHAKE  = 0.9;    // point vibration amplitude at full charge
   const ENERGY_GLOW   = 0.18;   // extra alpha at full charge
-  const ENERGY_DOT_R  = 0.8;    // extra radius at full charge
+  const ENERGY_GLYPH  = 4;      // extra glyph px at full charge
   const CLICK_ENERGY  = 0.2;    // charge added by a click/tap
 
   const ASSEMBLE_MS = 2200;
@@ -111,7 +111,10 @@
     points = targets.map((t) => {
       if (t.x < minX) minX = t.x; if (t.x > maxX) maxX = t.x;
       if (t.y < minY) minY = t.y; if (t.y > maxY) maxY = t.y;
-      return { x: Math.random() * W, y: Math.random() * H, vx: 0, vy: 0, tx: t.x, ty: t.y };
+      return {
+        x: Math.random() * W, y: Math.random() * H, vx: 0, vy: 0,
+        tx: t.x, ty: t.y, bit: Math.random() < 0.5 ? "0" : "1",
+      };
     });
     bbox = { minX, minY, maxX, maxY };
   }
@@ -198,6 +201,11 @@
     p.x += p.vx * dtScale;
     p.y += p.vy * dtScale;
 
+    // Flicker the bit — a faint ambient shimmer that intensifies with charge.
+    if (Math.random() < (0.004 + energy * 0.06) * dtScale) {
+      p.bit = p.bit === "0" ? "1" : "0";
+    }
+
     // Soft wrap while scattered so the cloud keeps wandering on screen.
     if (phase === "scatter") {
       if (p.x < 0) p.x += W; else if (p.x > W) p.x -= W;
@@ -208,12 +216,13 @@
   function draw(formation) {
     ctx.clearRect(0, 0, W, H);
     const alpha = SCATTER_ALPHA + (FORMED_ALPHA - SCATTER_ALPHA) * formation + energy * ENERGY_GLOW;
-    const r = DOT_MIN_R + DOT_GROW_R * formation + energy * ENERGY_DOT_R;
+    const fontPx = GLYPH_MIN + GLYPH_GROW * formation + energy * ENERGY_GLYPH;
     ctx.fillStyle = `hsla(220, 13%, 52%, ${Math.min(alpha, 0.85).toFixed(3)})`;
+    ctx.font = `600 ${fontPx.toFixed(1)}px "Courier New", monospace`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
     for (let i = 0; i < points.length; i++) {
-      ctx.beginPath();
-      ctx.arc(points[i].x, points[i].y, r, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.fillText(points[i].bit, points[i].x, points[i].y);
     }
   }
 
