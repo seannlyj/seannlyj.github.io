@@ -22,8 +22,8 @@
   const SPRING        = 0.085; // pull toward target while assembling/holding
   const FRICTION      = 0.80;  // damping during assemble/hold
   const DRIFT_FRICTION = 0.985;// damping while scattered
-  const FORMED_ALPHA  = 0.55;
-  const SCATTER_ALPHA = 0.16;
+  const FORMED_ALPHA  = 0.3;
+  const SCATTER_ALPHA = 0.08;
   const GLYPH_FORM_BASE = 0.7;  // glyph size (× cellH) when scattered
   const GLYPH_FORM_GROW = 0.25; // extra (× cellH) when fully formed
   const GLYPH_ENERGY_F  = 0.3;  // extra (× cellH) at full charge
@@ -41,7 +41,7 @@
   const ENERGY_DECAY  = 0.0035; // drained per 60fps frame when not charging
   const SCALE_MAX     = 0.45;   // monogram grows up to 1 + this at full charge
   const ENERGY_SHAKE  = 0.9;    // point vibration amplitude at full charge
-  const ENERGY_GLOW   = 0.18;   // extra alpha at full charge
+  const ENERGY_GLOW   = 0.12;   // extra alpha at full charge
   const CLICK_ENERGY  = 0.2;    // charge added by a click/tap
 
   const ASSEMBLE_MS = 2200;
