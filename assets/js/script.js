@@ -167,16 +167,19 @@ document.addEventListener("DOMContentLoaded", () => {
     moveMiniCircle(activeLink);
   }
 
-  // Adjust the mini circle position on window resize
+  // Adjust the mini circle position on window resize (throttled to one update per frame)
+  let resizeScheduled = false;
   window.addEventListener("resize", () => {
-    const activeLink = document.querySelector(".navbar-link.active");
-    if (activeLink) {
-      moveMiniCircle(activeLink);
-    }
+    if (resizeScheduled) return;
+    resizeScheduled = true;
+    requestAnimationFrame(() => {
+      resizeScheduled = false;
+      const activeLink = document.querySelector(".navbar-link.active");
+      if (activeLink) {
+        moveMiniCircle(activeLink);
+      }
+    });
   });
-
-  // Preload all modal images for instant display
-  preloadAllModalImages();
 });
 
 // ============================================================================
@@ -203,50 +206,6 @@ const preloadImage = (src) => {
       reject(new Error(`Failed to preload image: ${src}`));
     };
     img.src = src;
-  });
-};
-
-/**
- * Preload all modal images when the page loads
- */
-const preloadAllModalImages = () => {
-  const projectItems = document.querySelectorAll(".project-item");
-  const imagePromises = [];
-
-  projectItems.forEach((item) => {
-    // Parse the data-media attribute to get all images
-    const mediaData = item.getAttribute("data-media");
-    if (mediaData) {
-      try {
-        const mediaArray = JSON.parse(mediaData);
-        mediaArray.forEach((media) => {
-          if (
-            media.type === "image" &&
-            media.src &&
-            !preloadedImages.has(media.src)
-          ) {
-            imagePromises.push(preloadImage(media.src));
-          }
-        });
-      } catch (e) {
-        console.warn("Error parsing media data for project item:", e);
-      }
-    }
-
-    // Also check for legacy data-image attribute as fallback
-    const imageSrc = item.getAttribute("data-image");
-    if (imageSrc && !preloadedImages.has(imageSrc)) {
-      imagePromises.push(preloadImage(imageSrc));
-    }
-  });
-
-  // Log progress
-  Promise.allSettled(imagePromises).then((results) => {
-    const successful = results.filter(
-      (result) => result.status === "fulfilled"
-    ).length;
-    const total = results.length;
-    console.log(`Preloaded ${successful}/${total} modal images`);
   });
 };
 
@@ -566,3 +525,29 @@ document.querySelectorAll(".project-item").forEach((item) => {
     openModal(title, subtitle, description, mediaArray, videoLink, siteLink);
   });
 });
+
+// ============================================================================
+// DEVLOG VIDEO PLAYBACK
+// ============================================================================
+
+// Play a devlog clip only while it is on-screen, so the browser never decodes all
+// of them at once. Because the clips live in a hidden tab, this also defers their
+// download until the Devlog tab is opened and a clip nears the viewport.
+const devlogVideos = document.querySelectorAll(".post-gif");
+if (devlogVideos.length > 0) {
+  const videoObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target;
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    },
+    { rootMargin: "200px 0px", threshold: 0.25 }
+  );
+
+  devlogVideos.forEach((video) => videoObserver.observe(video));
+}
