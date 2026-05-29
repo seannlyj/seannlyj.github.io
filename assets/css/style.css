@@ -108,6 +108,8 @@ body {
   height: 100%;
   z-index: -1;
   pointer-events: none;
+  filter: blur(2.5px);
+  -webkit-filter: blur(2.5px);
 }
 
 a {
