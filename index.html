@@ -18,6 +18,9 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="./assets/css/style.css">
 
+  <!-- Particle background (loaded early, deferred execution) -->
+  <script src="./assets/js/particles.js" defer></script>
+
   <!-- Google Fonts: Space Grotesk (display) + Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +30,9 @@
 </head>
 
 <body>
+
+  <!-- Particle background canvas -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
   <!-- Sentinel for header scroll observer — zero visible footprint -->
   <div id="scroll-sentinel" style="position:absolute;top:8px;height:1px;width:1px;pointer-events:none;" aria-hidden="true"></div>
