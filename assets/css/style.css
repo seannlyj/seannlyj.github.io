@@ -108,8 +108,6 @@ body {
   height: 100%;
   z-index: -1;
   pointer-events: none;
-  filter: blur(2.5px);
-  -webkit-filter: blur(2.5px);
 }
 
 a {
@@ -264,8 +262,11 @@ footer[id] {
   padding: 13px 26px;
   border-radius: 999px;
   border: 1px solid transparent;
-  transition: transform var(--t-fast), background var(--t-fast),
-    color var(--t-fast), border-color var(--t-fast);
+  transition:
+    transform var(--t-fast),
+    background var(--t-fast),
+    color var(--t-fast),
+    border-color var(--t-fast);
 }
 
 .btn:hover {
@@ -301,7 +302,9 @@ footer[id] {
   height: var(--header-h);
   display: flex;
   align-items: center;
-  transition: background var(--t-fast), border-color var(--t-fast),
+  transition:
+    background var(--t-fast),
+    border-color var(--t-fast),
     box-shadow var(--t-fast);
   border-bottom: 1px solid transparent;
 }
@@ -345,7 +348,9 @@ footer[id] {
   color: var(--muted);
   padding: 8px 14px;
   border-radius: 999px;
-  transition: color var(--t-fast), background var(--t-fast);
+  transition:
+    color var(--t-fast),
+    background var(--t-fast);
 }
 
 .nav-link::after {
@@ -392,7 +397,9 @@ footer[id] {
   background: var(--ink);
   border-radius: 2px;
   transform: translateX(-50%);
-  transition: transform var(--t-fast), opacity var(--t-fast);
+  transition:
+    transform var(--t-fast),
+    opacity var(--t-fast);
 }
 
 .nav-toggle-bar:nth-child(1) {
@@ -470,7 +477,9 @@ footer[id] {
   border: 1px solid var(--line-strong);
   color: var(--ink-soft);
   font-size: 1.2rem;
-  transition: color var(--t-fast), border-color var(--t-fast),
+  transition:
+    color var(--t-fast),
+    border-color var(--t-fast),
     transform var(--t-fast);
 }
 
@@ -606,7 +615,9 @@ footer[id] {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--t-fast), border-color var(--t-fast),
+  transition:
+    transform var(--t-fast),
+    border-color var(--t-fast),
     box-shadow var(--t-fast);
 }
 
@@ -774,7 +785,9 @@ footer[id] {
   padding: 8px 18px;
   border-radius: 999px;
   border: 1px solid var(--line-strong);
-  transition: color var(--t-fast), background var(--t-fast),
+  transition:
+    color var(--t-fast),
+    background var(--t-fast),
     border-color var(--t-fast);
 }
 
@@ -869,7 +882,9 @@ footer[id] {
   font-size: 1.4rem;
   transform: translate(-50%, -50%) scale(0.7);
   opacity: 0;
-  transition: transform var(--t-fast), opacity var(--t-fast);
+  transition:
+    transform var(--t-fast),
+    opacity var(--t-fast);
 }
 
 .project-link:hover .project-item-icon-box {
@@ -980,7 +995,9 @@ footer[id] {
   color: #fff;
   font-size: 1.2rem;
   pointer-events: auto;
-  transition: background var(--t-fast), transform var(--t-fast);
+  transition:
+    background var(--t-fast),
+    transform var(--t-fast);
 }
 
 .modal-nav-btn:hover {
@@ -1003,7 +1020,9 @@ footer[id] {
   border-radius: 50%;
   background: hsla(0, 0%, 100%, 0.45);
   cursor: pointer;
-  transition: background var(--t-fast), transform var(--t-fast);
+  transition:
+    background var(--t-fast),
+    transform var(--t-fast);
 }
 
 .modal-indicator.active {
@@ -1052,7 +1071,9 @@ footer[id] {
   border-radius: 999px;
   border: 1px solid var(--line-strong);
   color: var(--ink);
-  transition: background var(--t-fast), color var(--t-fast),
+  transition:
+    background var(--t-fast),
+    color var(--t-fast),
     border-color var(--t-fast);
 }
 
@@ -1199,7 +1220,9 @@ footer[id] {
   color: var(--seasalt);
   border-bottom: 1px solid var(--line-invert);
   padding-bottom: 4px;
-  transition: color var(--t-fast), border-color var(--t-fast);
+  transition:
+    color var(--t-fast),
+    border-color var(--t-fast);
 }
 
 .footer-email:hover {
@@ -1261,7 +1284,9 @@ footer[id] {
 .js .reveal {
   opacity: 0;
   transform: translateY(22px);
-  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
 }
 
 .js .reveal.is-visible {
@@ -1313,7 +1338,9 @@ footer[id] {
     transform: translateY(-130%);
     opacity: 0;
     visibility: hidden;
-    transition: transform var(--t-med), opacity var(--t-med),
+    transition:
+      transform var(--t-med),
+      opacity var(--t-med),
       visibility var(--t-med);
   }
 
