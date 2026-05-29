@@ -28,6 +28,9 @@
 
 <body>
 
+  <!-- Sentinel for header scroll observer — zero visible footprint -->
+  <div id="scroll-sentinel" style="position:absolute;top:8px;height:1px;width:1px;pointer-events:none;" aria-hidden="true"></div>
+
   <!-- Skip link for keyboard / screen-reader users -->
   <a href="#main" class="skip-link">Skip to content</a>
 
@@ -760,9 +763,9 @@
 
           <article class="devlog-post reveal">
             <div class="devlog-media">
-              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+              <video class="post-video" autoplay loop muted playsinline preload="none" data-lazy-video
                 aria-label="Overhauling the game and the road ahead">
-                <source src="./assets/videos/08jan-overhaul.mp4" type="video/mp4">
+                <source data-src="./assets/videos/08jan-overhaul.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -790,9 +793,9 @@
 
           <article class="devlog-post reveal">
             <div class="devlog-media">
-              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+              <video class="post-video" autoplay loop muted playsinline preload="none" data-lazy-video
                 aria-label="Multiplayer: LAN and combat replication">
-                <source src="./assets/videos/18sep-multiplayercombat.mp4" type="video/mp4">
+                <source data-src="./assets/videos/18sep-multiplayercombat.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -814,9 +817,9 @@
 
           <article class="devlog-post reveal">
             <div class="devlog-media">
-              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+              <video class="post-video" autoplay loop muted playsinline preload="none" data-lazy-video
                 aria-label="Multiplayer: Basic movement and replication">
-                <source src="./assets/videos/11sep-multiplayermovement.mp4" type="video/mp4">
+                <source data-src="./assets/videos/11sep-multiplayermovement.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -835,9 +838,9 @@
 
           <article class="devlog-post reveal">
             <div class="devlog-media">
-              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+              <video class="post-video" autoplay loop muted playsinline preload="none" data-lazy-video
                 aria-label="Camera lock-on and refraction trails">
-                <source src="./assets/videos/04sep-punchtrails.mp4" type="video/mp4">
+                <source data-src="./assets/videos/04sep-punchtrails.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -857,9 +860,9 @@
 
           <article class="devlog-post reveal">
             <div class="devlog-media">
-              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+              <video class="post-video" autoplay loop muted playsinline preload="none" data-lazy-video
                 aria-label="Hit feedback">
-                <source src="./assets/videos/26aug-hitfeedback.mp4" type="video/mp4">
+                <source data-src="./assets/videos/26aug-hitfeedback.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -876,9 +879,9 @@
 
           <article class="devlog-post reveal">
             <div class="devlog-media">
-              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+              <video class="post-video" autoplay loop muted playsinline preload="none" data-lazy-video
                 aria-label="Extending the combat mechanics">
-                <source src="./assets/videos/19aug-fluidcombo.mp4" type="video/mp4">
+                <source data-src="./assets/videos/19aug-fluidcombo.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -894,9 +897,9 @@
 
           <article class="devlog-post reveal">
             <div class="devlog-media">
-              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+              <video class="post-video" autoplay loop muted playsinline preload="none" data-lazy-video
                 aria-label="Prototyping a combo system">
-                <source src="./assets/videos/5aug-combo.mp4" type="video/mp4">
+                <source data-src="./assets/videos/5aug-combo.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -913,9 +916,9 @@
 
           <article class="devlog-post reveal">
             <div class="devlog-media">
-              <video class="post-video" autoplay loop muted playsinline preload="metadata"
+              <video class="post-video" autoplay loop muted playsinline preload="none" data-lazy-video
                 aria-label="Locomotion">
-                <source src="./assets/videos/31jul-movement.mp4" type="video/mp4">
+                <source data-src="./assets/videos/31jul-movement.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
             </div>

@@ -6,12 +6,10 @@
 
 const header = document.querySelector("[data-header]");
 
-const updateHeader = () => {
-  header.classList.toggle("scrolled", window.scrollY > 8);
-};
-
-window.addEventListener("scroll", updateHeader, { passive: true });
-updateHeader();
+const sentinel = document.getElementById("scroll-sentinel");
+new IntersectionObserver(([entry]) => {
+  header.classList.toggle("scrolled", !entry.isIntersecting);
+}).observe(sentinel);
 
 /* ============================================================================
    MOBILE NAVIGATION
@@ -75,7 +73,15 @@ if (prefersReducedMotion) {
     (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
+          entry.target.style.willChange = "opacity, transform";
+          requestAnimationFrame(() => {
+            entry.target.classList.add("is-visible");
+            entry.target.addEventListener(
+              "transitionend",
+              () => { entry.target.style.willChange = ""; },
+              { once: true }
+            );
+          });
           observer.unobserve(entry.target);
         }
       });
@@ -84,6 +90,33 @@ if (prefersReducedMotion) {
   );
 
   revealEls.forEach((el) => revealObserver.observe(el));
+}
+
+/* ============================================================================
+   VIDEO LAZY-LOAD — defer video loading until each enters the viewport
+   ============================================================================ */
+
+const lazyVideos = document.querySelectorAll("video[data-lazy-video]");
+
+if (lazyVideos.length > 0) {
+  const videoObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting) return;
+        const source = target.querySelector("source[data-src]");
+        if (source) {
+          source.src = source.dataset.src;
+          source.removeAttribute("data-src");
+          target.load();
+          target.play().catch(() => {});
+        }
+        observer.unobserve(target);
+      });
+    },
+    { rootMargin: "0px 0px 300px 0px" }
+  );
+
+  lazyVideos.forEach((v) => videoObserver.observe(v));
 }
 
 /* ============================================================================
@@ -298,8 +331,11 @@ const openModal = (title, subtitle, description, mediaArray, videoLink, siteLink
   // Re-trigger the entrance animation on every open
   const modalContent = modal.querySelector(".modal-content");
   modalContent.style.animation = "none";
-  void modalContent.offsetWidth; // force reflow
-  modalContent.style.animation = "popUp 0.28s cubic-bezier(0.22, 0.61, 0.36, 1)";
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      modalContent.style.animation = "popUp 0.28s cubic-bezier(0.22, 0.61, 0.36, 1)";
+    });
+  });
 };
 
 /**
@@ -367,7 +403,18 @@ document.querySelectorAll(".project-item").forEach((item) => {
   });
 });
 
-// Preload all modal imagery once the rest of the page has loaded
-window.addEventListener("load", () => {
-  document.querySelectorAll(".project-item").forEach(preloadProjectMedia);
+// Preload modal imagery only when a project card approaches the viewport
+const preloadObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach(({ target, isIntersecting }) => {
+      if (!isIntersecting) return;
+      preloadProjectMedia(target);
+      observer.unobserve(target);
+    });
+  },
+  { rootMargin: "200px" }
+);
+
+document.querySelectorAll(".project-item").forEach((item) => {
+  preloadObserver.observe(item);
 });

@@ -1252,7 +1252,6 @@ footer[id] {
   opacity: 0;
   transform: translateY(22px);
   transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
-  will-change: opacity, transform;
 }
 
 .js .reveal.is-visible {
