@@ -132,7 +132,7 @@
       for (let px = 0; px < offW; px += SAMPLE_STEP) {
         if (data[(py * offW + px) * 4 + 3] < 128) continue;
         const lx = ((px - offW / 2) / norm) * span;
-        const lz = ((py - offH / 2) / norm) * span;
+        const lz = -((py - offH / 2) / norm) * span;
         legendPts.push([lx, y, lz]);
       }
     }

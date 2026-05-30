@@ -974,7 +974,7 @@ footer[id] {
   background: hsla(0, 0%, 100%, 0.16);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
-  border: 1px solid hsla(0, 0%, 100%, 0.24);
+  border: 0px solid hsla(0, 0%, 100%, 0.24);
   border-radius: 999px;
   padding: 2px 9px;
 }
@@ -1137,13 +1137,13 @@ footer[id] {
 
 /* Light tech chip — light-surface counterpart of the card's glass .project-tag */
 .modal-tag {
-  font-family: var(--ff-body);
+  font-family: var(--ff-display);
   font-size: 0.78rem;
   font-weight: 500;
   line-height: 1.5;
-  color: var(--ink-soft);
+  color: var(--ink);
+  border: 0px solid var(--line);
   background: var(--seasalt-darker);
-  border: 1px solid var(--line);
   border-radius: 999px;
   padding: 4px 12px;
   white-space: nowrap;
