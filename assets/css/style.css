@@ -805,7 +805,7 @@ footer[id] {
 .project-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
-  gap: 22px;
+  gap: 18px;
 }
 
 .project-item {
@@ -828,79 +828,97 @@ footer[id] {
   }
 }
 
-/* --- Card --- */
+/* --- Poster card: full-bleed image with title + tags overlaid --- */
 .project-link {
+  position: relative;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  justify-content: flex-end;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  isolation: isolate;
+  background: var(--eerieblack);
   box-shadow: var(--shadow-sm);
   transition:
-    transform var(--t-fast),
-    box-shadow var(--t-fast),
-    border-color var(--t-fast);
+    transform var(--t-med),
+    box-shadow var(--t-med);
 }
 
 .project-link:hover,
 .project-link:focus-visible {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--line-strong);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
   outline: none;
 }
 
 .project-link:focus-visible {
   box-shadow:
-    var(--shadow-md),
-    0 0 0 2px var(--ink);
+    var(--shadow-lg),
+    0 0 0 3px var(--ink);
 }
 
+/* Image fills the whole card */
 .project-img {
-  position: relative;
-  flex-shrink: 0;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background: var(--seasalt-darker);
-  border-bottom: 1px solid var(--line);
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
 }
 
 .project-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--t-med);
+  transition:
+    transform 0.6s var(--ease),
+    filter 0.6s var(--ease);
 }
 
 .project-link:hover .project-img img,
 .project-link:focus-visible .project-img img {
-  transform: scale(1.05);
+  transform: scale(1.06);
+  filter: brightness(0.9);
 }
 
-/* Hover "view" badge */
+/* Gradient scrim keeps the overlaid text readable on any image */
+.project-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    hsla(0, 0%, 5%, 0.88) 0%,
+    hsla(0, 0%, 5%, 0.55) 24%,
+    hsla(0, 0%, 5%, 0.12) 48%,
+    hsla(0, 0%, 5%, 0) 70%
+  );
+}
+
+/* "Open" badge, top-right */
 .project-item-icon-box {
   position: absolute;
-  z-index: 2;
-  top: 12px;
-  right: 12px;
+  z-index: 3;
+  top: 14px;
+  right: 14px;
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: hsla(0, 0%, 100%, 0.92);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  color: var(--ink);
-  font-size: 1.05rem;
-  box-shadow: var(--shadow-sm);
+  background: hsla(0, 0%, 100%, 0.16);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid hsla(0, 0%, 100%, 0.3);
+  color: #fff;
+  font-size: 1.15rem;
   opacity: 0;
-  transform: translateY(-6px) scale(0.9);
+  transform: translateY(-6px) scale(0.92);
   transition:
     transform var(--t-fast),
-    opacity var(--t-fast);
+    opacity var(--t-fast),
+    background var(--t-fast);
 }
 
 .project-link:hover .project-item-icon-box,
@@ -917,41 +935,46 @@ footer[id] {
   }
 }
 
-/* --- Card body --- */
+/* --- Overlaid text (sits above the scrim) --- */
 .project-title {
+  position: relative;
+  z-index: 2;
+  margin: 0 18px;
   font-family: var(--ff-display);
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  line-height: 1.35;
-  padding: 16px 16px 0;
-  transition: color var(--t-fast);
+  line-height: 1.25;
+  color: var(--seasalt);
+  text-shadow: 0 1px 14px hsla(0, 0%, 0%, 0.4);
+  transition: transform var(--t-med);
 }
 
 .project-link:hover .project-title,
 .project-link:focus-visible .project-title {
-  color: var(--accent);
+  transform: translateY(-2px);
 }
 
 .project-category {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: auto;
-  padding: 10px 16px 16px;
-  font-size: 0.86rem;
-  color: var(--muted);
+  margin: 10px 18px 18px;
 }
 
-/* Tag chips — rendered from the comma-separated category by JS.
+/* Glass tag chips — rendered from the comma-separated category by JS.
    The raw text stays as a graceful fallback when JS is unavailable. */
 .project-tag {
   font-family: var(--ff-body);
   font-size: 0.72rem;
   font-weight: 500;
   line-height: 1.5;
-  color: var(--ink-soft);
-  background: var(--seasalt-darker);
-  border: 1px solid var(--line);
+  color: hsla(0, 0%, 100%, 0.92);
+  background: hsla(0, 0%, 100%, 0.16);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border: 1px solid hsla(0, 0%, 100%, 0.24);
   border-radius: 999px;
   padding: 2px 9px;
 }
@@ -1454,16 +1477,11 @@ footer[id] {
   }
 
   .project-list {
-    gap: 16px;
+    gap: 14px;
   }
 
   .project-title {
-    font-size: 1rem;
-    padding: 14px 14px 0;
-  }
-
-  .project-category {
-    padding: 9px 14px 14px;
+    font-size: 1.35rem;
   }
 
   .hero-actions {
