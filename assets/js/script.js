@@ -157,6 +157,28 @@ filterBtns.forEach((btn) => {
 });
 
 /* ============================================================================
+   PROJECT TAG CHIPS
+   Split the comma-separated category line into individual chips so each card
+   reads cleanly. The original text remains as a fallback when JS is disabled.
+   ============================================================================ */
+
+document.querySelectorAll(".project-category").forEach((el) => {
+  const tags = el.textContent
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+  if (tags.length === 0) return;
+
+  el.textContent = "";
+  tags.forEach((tag) => {
+    const chip = document.createElement("span");
+    chip.className = "project-tag";
+    chip.textContent = tag;
+    el.appendChild(chip);
+  });
+});
+
+/* ============================================================================
    PROJECT MODAL
    ============================================================================ */
 

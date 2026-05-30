@@ -804,8 +804,8 @@ footer[id] {
 
 .project-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+  gap: 22px;
 }
 
 .project-item {
@@ -828,18 +828,43 @@ footer[id] {
   }
 }
 
+/* --- Card --- */
 .project-link {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--t-fast),
+    box-shadow var(--t-fast),
+    border-color var(--t-fast);
+}
+
+.project-link:hover,
+.project-link:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--line-strong);
+  outline: none;
+}
+
+.project-link:focus-visible {
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 2px var(--ink);
 }
 
 .project-img {
   position: relative;
+  flex-shrink: 0;
   aspect-ratio: 4 / 3;
-  border-radius: var(--radius);
   overflow: hidden;
-  margin-bottom: 16px;
   background: var(--seasalt-darker);
-  border: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .project-img img {
@@ -849,64 +874,86 @@ footer[id] {
   transition: transform var(--t-med);
 }
 
-.project-img::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: hsla(0, 0%, 11%, 0);
-  transition: background var(--t-fast);
+.project-link:hover .project-img img,
+.project-link:focus-visible .project-img img {
+  transform: scale(1.05);
 }
 
-.project-link:hover .project-img::before {
-  background: hsla(0, 0%, 11%, 0.45);
-}
-
-.project-link:hover .project-img img {
-  transform: scale(1.06);
-}
-
-/* Hover "view" icon */
+/* Hover "view" badge */
 .project-item-icon-box {
   position: absolute;
   z-index: 2;
-  top: 50%;
-  left: 50%;
+  top: 12px;
+  right: 12px;
   display: grid;
   place-items: center;
-  width: 52px;
-  height: 52px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: var(--seasalt);
-  color: var(--eerieblack);
-  font-size: 1.4rem;
-  transform: translate(-50%, -50%) scale(0.7);
+  background: hsla(0, 0%, 100%, 0.92);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  color: var(--ink);
+  font-size: 1.05rem;
+  box-shadow: var(--shadow-sm);
   opacity: 0;
+  transform: translateY(-6px) scale(0.9);
   transition:
     transform var(--t-fast),
     opacity var(--t-fast);
 }
 
-.project-link:hover .project-item-icon-box {
+.project-link:hover .project-item-icon-box,
+.project-link:focus-visible .project-item-icon-box {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translateY(0) scale(1);
 }
 
+/* Touch devices have no hover, so keep the affordance visible */
+@media (hover: none) {
+  .project-item-icon-box {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Card body --- */
 .project-title {
   font-family: var(--ff-display);
-  font-size: 1.08rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  margin-bottom: 4px;
+  line-height: 1.35;
+  padding: 16px 16px 0;
   transition: color var(--t-fast);
 }
 
-.project-link:hover .project-title {
+.project-link:hover .project-title,
+.project-link:focus-visible .project-title {
   color: var(--accent);
 }
 
 .project-category {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+  padding: 10px 16px 16px;
   font-size: 0.86rem;
   color: var(--muted);
+}
+
+/* Tag chips — rendered from the comma-separated category by JS.
+   The raw text stays as a graceful fallback when JS is unavailable. */
+.project-tag {
+  font-family: var(--ff-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  background: var(--seasalt-darker);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 9px;
 }
 
 /* ============================================================================
@@ -1299,10 +1346,6 @@ footer[id] {
    ============================================================================ */
 
 @media (max-width: 960px) {
-  .project-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .hero-inner {
     grid-template-columns: 1fr;
   }
@@ -1411,7 +1454,16 @@ footer[id] {
   }
 
   .project-list {
-    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .project-title {
+    font-size: 1rem;
+    padding: 14px 14px 0;
+  }
+
+  .project-category {
+    padding: 9px 14px 14px;
   }
 
   .hero-actions {
