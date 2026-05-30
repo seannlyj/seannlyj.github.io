@@ -313,6 +313,21 @@ const showPrevMedia = () =>
 const openModal = (title, subtitle, description, mediaArray, videoLink, siteLink) => {
   modalTitle.textContent = title;
   modalSubtitle.textContent = subtitle;
+
+  // Render the comma-separated tech list as light chips (mirrors the card pattern).
+  // Runs every open: clear the line above, then rebuild so projects don't stack chips.
+  const techTags = (subtitle || "")
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  modalSubtitle.textContent = "";
+  techTags.forEach((tag) => {
+    const chip = document.createElement("span");
+    chip.className = "modal-tag";
+    chip.textContent = tag;
+    modalSubtitle.appendChild(chip);
+  });
+
   modalDescription.innerHTML = description;
 
   currentMediaArray = mediaArray || [];
