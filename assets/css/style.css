@@ -1476,6 +1476,132 @@ footer[id] {
 }
 
 /* ============================================================================
+   PROJECT MODAL — MOBILE (full-screen, tall dark hero)
+   ============================================================================ */
+
+@media (max-width: 600px) {
+  .modal {
+    overflow: hidden; /* inner body scrolls, not the backdrop */
+  }
+
+  /* Full-screen sheet. dvh handles the mobile URL-bar; vh is the fallback. */
+  .modal-content {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+    margin: 0;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: none;
+  }
+
+  /* Tall dark hero: short wide banner centred in a taller dark band. */
+  .modal-media-container {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: clamp(220px, 34vh, 300px);
+    overflow: hidden;
+    touch-action: pan-y; /* keep vertical scroll; we own horizontal swipes */
+  }
+
+  .modal-header-image,
+  .modal-header-video {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain; /* never crop the banner */
+  }
+
+  .modal-header-iframe {
+    width: 100%;
+    max-height: 100%;
+  }
+
+  /* Scrollable content region. */
+  .modal-body {
+    flex: 1 1 auto;
+    min-height: 0; /* CRITICAL: lets the flex child scroll */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding: 24px 20px max(24px, env(safe-area-inset-bottom)) 20px;
+  }
+
+  /* Larger touch targets. */
+  .close {
+    width: 44px;
+    height: 44px;
+    top: max(12px, env(safe-area-inset-top));
+    right: 12px;
+    font-size: 1.8rem;
+  }
+
+  .modal-nav-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.35rem;
+  }
+
+  .modal-media-nav {
+    padding: 0 10px;
+  }
+
+  .modal-media-indicators {
+    bottom: 12px;
+    gap: 10px;
+  }
+
+  .modal-indicator {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Type + actions. */
+  .modal-title {
+    font-size: 1.4rem;
+  }
+
+  .modal-description {
+    font-size: 1rem;
+  }
+
+  .modal-links {
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  /* JS shows these as inline-flex; these props apply to inline-flex too. */
+  .modal-link {
+    flex: 1 1 140px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .modal-body {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .modal-title {
+    font-size: 1.3rem;
+  }
+
+  .modal-link {
+    flex-basis: 100%; /* stack actions full-width on tiny phones */
+  }
+}
+
+/* ============================================================================
    REDUCED MOTION
    ============================================================================ */
 

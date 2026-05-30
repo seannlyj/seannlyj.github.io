@@ -401,6 +401,35 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowRight") showNextMedia();
 });
 
+// --- Touch swipe navigation for the media carousel (mobile) ---
+const modalMediaContainer = modal.querySelector(".modal-media-container");
+let mediaTouchStartX = 0;
+let mediaTouchStartY = 0;
+
+modalMediaContainer.addEventListener(
+  "touchstart",
+  (event) => {
+    mediaTouchStartX = event.changedTouches[0].clientX;
+    mediaTouchStartY = event.changedTouches[0].clientY;
+  },
+  { passive: true }
+);
+
+modalMediaContainer.addEventListener(
+  "touchend",
+  (event) => {
+    if (currentMediaArray.length < 2) return;
+    const dx = event.changedTouches[0].clientX - mediaTouchStartX;
+    const dy = event.changedTouches[0].clientY - mediaTouchStartY;
+    // Only act on a clearly horizontal swipe so vertical scrolling still works.
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx < 0) showNextMedia();
+      else showPrevMedia();
+    }
+  },
+  { passive: true }
+);
+
 // --- Wire up each project card ---
 document.querySelectorAll(".project-item").forEach((item) => {
   item.addEventListener("mouseenter", () => preloadProjectMedia(item));
