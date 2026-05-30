@@ -1001,7 +1001,6 @@ footer[id] {
   margin: 7vh auto;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  border: 1px solid var(--line);
   box-shadow: var(--shadow-lg);
   animation: popUp 0.28s var(--ease);
 }
@@ -1031,7 +1030,11 @@ footer[id] {
 .modal-media-container {
   position: relative;
   background: var(--eerieblack-bg);
-  border-bottom: 1px solid var(--line);
+}
+
+/* Vertical media stack — hidden on desktop (the carousel is used there) */
+.modal-media-stack {
+  display: none;
 }
 
 .modal-header-image,
@@ -1220,7 +1223,7 @@ footer[id] {
   backdrop-filter: blur(8px);
   border: 1px solid hsla(0, 0%, 100%, 0.18);
   color: #fff;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   line-height: 1;
   transition: background var(--t-fast);
 }
@@ -1549,7 +1552,7 @@ footer[id] {
     overflow: hidden; /* inner body scrolls, not the backdrop */
   }
 
-  /* Full-screen sheet. dvh handles the mobile URL-bar; vh is the fallback. */
+  /* Full-screen sheet that scrolls as one (media stack + content together). */
   .modal-content {
     width: 100%;
     height: 100vh;
@@ -1558,54 +1561,47 @@ footer[id] {
     max-height: 100dvh;
     margin: 0;
     border-radius: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
     border: none;
     box-shadow: none;
-  }
-
-  /* Tall dark hero: short wide banner centred in a taller dark band. */
-  .modal-media-container {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: clamp(220px, 34vh, 300px);
-    overflow: hidden;
-    touch-action: pan-y; /* keep vertical scroll; we own horizontal swipes */
-  }
-
-  .modal-header-image,
-  .modal-header-video {
-    width: 100%;
-    height: auto;
-    max-height: 100%;
-    object-fit: contain; /* never crop the banner */
-  }
-
-  .modal-header-iframe {
-    width: 100%;
-    max-height: 100%;
-  }
-
-  /* Scrollable content region. */
-  .modal-body {
-    flex: 1 1 auto;
-    min-height: 0; /* CRITICAL: lets the flex child scroll */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    padding: 24px 20px max(24px, env(safe-area-inset-bottom)) 20px;
   }
 
-  /* Larger touch targets. */
+  /* Media shown as a full-width vertical stack (no carousel, no dark hero). */
+  .modal-media-container {
+    background: var(--seasalt-darker);
+  }
+
+  .modal-media-stack {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-stack-item {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .modal-stack-iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+  }
+
+  /* Close stays pinned while the sheet scrolls. */
   .close {
+    position: fixed;
     width: 44px;
     height: 44px;
     top: max(12px, env(safe-area-inset-top));
     right: 12px;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+  }
+
+  .modal-body {
+    padding: 24px 20px max(24px, env(safe-area-inset-bottom)) 20px;
   }
 
   .modal-nav-btn {

@@ -224,6 +224,8 @@ const modalSiteLink = document.getElementById("modalSiteLink");
 const modalNavPrev = document.getElementById("modalNavPrev");
 const modalNavNext = document.getElementById("modalNavNext");
 const modalMediaIndicators = document.getElementById("modalMediaIndicators");
+const modalMediaStack = document.getElementById("modalMediaStack");
+const mobileMediaQuery = window.matchMedia("(max-width: 600px)");
 
 let currentMediaIndex = 0;
 let currentMediaArray = [];
@@ -308,6 +310,55 @@ const showPrevMedia = () =>
   );
 
 /**
+ * Build the full-width vertical media stack used on mobile.
+ */
+const renderMediaStack = () => {
+  modalMediaStack.innerHTML = "";
+  currentMediaArray.forEach((media) => {
+    if (media.type === "video") {
+      const videoId = getYouTubeVideoId(media.src);
+      if (videoId) {
+        const iframe = document.createElement("iframe");
+        iframe.className = "modal-stack-item modal-stack-iframe";
+        iframe.src = `https://www.youtube.com/embed/${videoId}?rel=0`;
+        iframe.setAttribute("frameborder", "0");
+        iframe.setAttribute("allowfullscreen", "");
+        modalMediaStack.appendChild(iframe);
+        return;
+      }
+    }
+    const img = document.createElement("img");
+    img.className = "modal-stack-item";
+    img.src = media.src;
+    img.alt = media.alt || "";
+    img.loading = "lazy";
+    modalMediaStack.appendChild(img);
+  });
+};
+
+/**
+ * Choose how media is shown: a vertical stack on mobile, the carousel on
+ * larger screens. Safe to re-run when the viewport crosses the breakpoint.
+ */
+const setupMediaView = () => {
+  if (mobileMediaQuery.matches) {
+    // Mobile: hide the single-item carousel + its controls, show the stack.
+    modalImage.style.display = "none";
+    modalVideo.style.display = "none";
+    modalIframe.style.display = "none";
+    if (modalIframe.src) modalIframe.src = "";
+    modalNavPrev.style.display = "none";
+    modalNavNext.style.display = "none";
+    modalMediaIndicators.style.display = "none";
+    renderMediaStack();
+  } else {
+    // Desktop: clear the stack (stops any embeds) and use the carousel.
+    modalMediaStack.innerHTML = "";
+    if (currentMediaArray.length > 0) showMedia(currentMediaIndex);
+  }
+};
+
+/**
  * Populate and open the modal.
  */
 const openModal = (title, subtitle, description, mediaArray, videoLink, siteLink) => {
@@ -332,7 +383,7 @@ const openModal = (title, subtitle, description, mediaArray, videoLink, siteLink
 
   currentMediaArray = mediaArray || [];
   currentMediaIndex = 0;
-  if (currentMediaArray.length > 0) showMedia(0);
+  setupMediaView();
 
   // Optional "Video Demo" link
   if (videoLink) {
@@ -384,6 +435,7 @@ const closeModal = () => {
     modalVideo.pause();
     modalVideo.removeAttribute("src");
   }
+  modalMediaStack.innerHTML = "";
 
   const modalContent = modal.querySelector(".modal-content");
   modalContent.style.animation = "popDown 0.16s ease forwards";
@@ -416,7 +468,12 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowRight") showNextMedia();
 });
 
-// --- Touch swipe navigation for the media carousel (mobile) ---
+// Re-render the media view if the viewport crosses the mobile breakpoint.
+mobileMediaQuery.addEventListener("change", () => {
+  if (modal.style.display === "block") setupMediaView();
+});
+
+// --- Touch swipe navigation for the media carousel (desktop/tablet only) ---
 const modalMediaContainer = modal.querySelector(".modal-media-container");
 let mediaTouchStartX = 0;
 let mediaTouchStartY = 0;
@@ -433,7 +490,7 @@ modalMediaContainer.addEventListener(
 modalMediaContainer.addEventListener(
   "touchend",
   (event) => {
-    if (currentMediaArray.length < 2) return;
+    if (mobileMediaQuery.matches || currentMediaArray.length < 2) return;
     const dx = event.changedTouches[0].clientX - mediaTouchStartX;
     const dy = event.changedTouches[0].clientY - mediaTouchStartY;
     // Only act on a clearly horizontal swipe so vertical scrolling still works.
