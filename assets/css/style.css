@@ -1154,6 +1154,31 @@ footer[id] {
   font-size: 1rem;
   line-height: 1.7;
   max-width: 62ch;
+  /* Cap the height so a long write-up scrolls inside its box instead of
+     stretching the whole modal taller. */
+  max-height: clamp(140px, 32vh, 320px);
+  overflow-y: auto;
+  padding-right: 12px;       /* keep text off the scrollbar track */
+  scrollbar-gutter: stable;  /* avoid a horizontal shift when the scrollbar toggles */
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+.modal-description::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-description::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-description::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+}
+
+.modal-description::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-soft);
 }
 
 .modal-description p {
@@ -1164,7 +1189,10 @@ footer[id] {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 28px;
+  /* Buttons now sit under the chip divider (which already provides the gap
+     above) and above the description, so own only the gap below. */
+  margin-top: 0;
+  margin-bottom: 24px;
 }
 
 .modal-link {
@@ -1637,11 +1665,18 @@ footer[id] {
 
   .modal-description {
     font-size: 1rem;
+    /* The mobile sheet scrolls as one unit — undo the desktop height cap so
+       the description grows naturally instead of nesting a second scroll. */
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+    scrollbar-gutter: auto;
   }
 
   .modal-links {
     gap: 10px;
-    margin-top: 24px;
+    margin-top: 0;
+    margin-bottom: 20px;
   }
 
   /* JS shows these as inline-flex; these props apply to inline-flex too. */
