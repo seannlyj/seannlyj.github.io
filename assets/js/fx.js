@@ -8,7 +8,7 @@
    perspective projection, back-face culling, painter's-algorithm face sort,
    and Lambert shading from a fixed light. The "S" is sampled from an offscreen
    text render and laid onto the top face's plane.
-   Click / tap anywhere to press the key.
+   Press and hold anywhere to depress the key; release to let it spring back.
    Sits behind all content (z-index: -1) as a living watermark.
    ============================================================================ */
 
@@ -35,12 +35,17 @@
   const LEGEND_LIGHT = 255; // dark engraved legend (reads on the light page)
   const LEGEND_ALPHA = 1;
 
-  // Press animation — damped oscillation: y(t) = D · e^(−ζωt) · sin(ωd·t)
-  const PRESS_DEPTH = 65; // world-Y amplitude (peak ≈ 16 px on screen)
-  const PRESS_WN = 0.012; // natural frequency (rad/ms) — controls snap speed
-  const PRESS_ZETA = 0.45; // damping ratio (<1 = underdamped → small bounce)
-  const PRESS_WD = PRESS_WN * Math.sqrt(1 - PRESS_ZETA * PRESS_ZETA);
-  const PRESS_DUR = 1400; // ms after which we stop computing (fully settled)
+  // Press animation — a real keycap. The key travels DOWN and HOLDS while the
+  // pointer is held, then SPRINGS back up with a little overshoot on release.
+  // A spring-damper is integrated per frame toward a moving target (depth while
+  // held, 0 when released), so the hold duration is honoured exactly.
+  const PRESS_DEPTH = 52; // world-Y travel at full depress (~28 px on screen)
+  // Going down: stiff + well-damped, snaps to the bottom and stays put.
+  const DOWN_OMEGA = 42; // natural frequency (rad/s)
+  const DOWN_ZETA = 0.82; // damping ratio (firm bottom-out, barely a bounce)
+  // Coming up: a touch springier, pops just past rest, then settles.
+  const UP_OMEGA = 30;
+  const UP_ZETA = 0.38; // underdamped, small overshoot above rest
 
   // Light direction (upper-left-front), normalized.
   const LIGHT = (() => {
@@ -53,7 +58,9 @@
   let rafId = null,
     lastTs = 0;
   let rotY = 0;
-  let pressT = -1e9; // timestamp (ms) of last press; far in the past = idle
+  let pressTarget = 0; // 0 = released (up), PRESS_DEPTH = held (down)
+  let pressPos = 0; // current depth (world-Y), integrated each frame
+  let pressVel = 0; // depth velocity (world-Y per second)
 
   let outline = []; // unit rounded-square profile [[x,z], ...]
   let verts = []; // [[x,y,z], ...]
@@ -165,22 +172,31 @@
     return [rp[0] * sc + W / 2, rp[1] * sc + H / 2, sc];
   }
 
-  function drawFrame(ts) {
+  // Advance the press spring toward its target. Fixed sub-steps keep the stiff
+  // spring stable regardless of frame pacing.
+  function stepPress(dtSec) {
+    const omega = pressTarget > 0 ? DOWN_OMEGA : UP_OMEGA;
+    const zeta = pressTarget > 0 ? DOWN_ZETA : UP_ZETA;
+    let t = Math.min(dtSec, 0.05);
+    const h = 1 / 240;
+    while (t > 0) {
+      const step = Math.min(h, t);
+      const a =
+        omega * omega * (pressTarget - pressPos) - 2 * zeta * omega * pressVel;
+      pressVel += a * step;
+      pressPos += pressVel * step;
+      t -= step;
+    }
+  }
+
+  function drawFrame() {
     ctx.clearRect(0, 0, W, H);
     cosY = Math.cos(rotY);
     sinY = Math.sin(rotY);
 
-    // --- Press animation ---
-    // Damped oscillation — world Y offset projected onto screen Y.
-    const elapsed = ts - pressT;
-    const pressOffset =
-      elapsed < PRESS_DUR
-        ? PRESS_DEPTH *
-          Math.exp(-PRESS_ZETA * PRESS_WN * elapsed) *
-          Math.sin(PRESS_WD * elapsed)
-        : 0;
+    // --- Press: spring-driven depth, held while the pointer is down ---
     // cosX converts world-Y travel to screen-Y (camera is tilted by TILT_X).
-    const screenPressY = pressOffset * cosX;
+    const screenPressY = pressPos * cosX;
 
     ctx.save();
     ctx.translate(0, screenPressY);
@@ -278,16 +294,18 @@
 
   function loop(ts) {
     if (!lastTs) lastTs = ts;
-    const dt = Math.min((ts - lastTs) / 16.667, 3);
+    const rawMs = ts - lastTs;
     lastTs = ts;
+    const dt = Math.min(rawMs / 16.667, 3);
     rotY += ROT_SPEED * dt;
-    drawFrame(ts);
+    stepPress(rawMs / 1000);
+    drawFrame();
     rafId = requestAnimationFrame(loop);
   }
 
   function renderStaticFrame() {
     rotY = -0.6; // pleasant 3/4 view for the static snapshot
-    drawFrame(0); // pressT = -1e9 → elapsed = 1e9 > PRESS_DUR → no offset
+    drawFrame(); // pressPos = 0, key sits at rest
   }
 
   // --- Bootstrap ---
@@ -311,14 +329,22 @@
     rafId = null;
   }
 
-  function onPress() {
-    pressT = performance.now();
+  function pressDown() {
+    pressTarget = PRESS_DEPTH;
+  }
+  function pressUp() {
+    pressTarget = 0;
   }
 
   start();
 
-  document.addEventListener("click", onPress);
-  document.addEventListener("touchstart", onPress, { passive: true });
+  // Press-and-hold: depress on pointer-down, spring back up on release.
+  // Pointer events unify mouse, touch and pen.
+  document.addEventListener("pointerdown", pressDown);
+  // Release is caught on window so a pointer-up outside the page still counts.
+  window.addEventListener("pointerup", pressUp);
+  window.addEventListener("pointercancel", pressUp);
+  window.addEventListener("blur", pressUp);
 
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
