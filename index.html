@@ -31,6 +31,18 @@
 
 <body>
 
+  <div id="cursor" aria-hidden="true">
+    <div id="cursorDot">
+      <svg id="cursorArrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7"></line>
+        <polyline points="9 7 17 7 17 15"></polyline>
+      </svg>
+
+      <span id="cursorRipple"></span>
+    </div>
+  </div>
+
   <!-- Living background canvas (coalescing "SN" monogram of 0/1 glyphs) -->
   <canvas id="fx-canvas" aria-hidden="true"></canvas>
 
@@ -1024,5 +1036,7 @@
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 </body>
+
+
 
 </html>

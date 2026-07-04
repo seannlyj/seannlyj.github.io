@@ -52,7 +52,7 @@ const spyObserver = new IntersectionObserver(
       if (entry.isIntersecting) setActiveLink(entry.target.id);
     });
   },
-  { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+  { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
 );
 
 spyTargets.forEach((target) => spyObserver.observe(target));
@@ -63,7 +63,7 @@ spyTargets.forEach((target) => spyObserver.observe(target));
 
 const revealEls = document.querySelectorAll(".reveal");
 const prefersReducedMotion = window.matchMedia(
-  "(prefers-reduced-motion: reduce)"
+  "(prefers-reduced-motion: reduce)",
 ).matches;
 
 if (prefersReducedMotion) {
@@ -78,15 +78,17 @@ if (prefersReducedMotion) {
             entry.target.classList.add("is-visible");
             entry.target.addEventListener(
               "transitionend",
-              () => { entry.target.style.willChange = ""; },
-              { once: true }
+              () => {
+                entry.target.style.willChange = "";
+              },
+              { once: true },
             );
           });
           observer.unobserve(entry.target);
         }
       });
     },
-    { rootMargin: "0px 0px -8% 0px", threshold: 0.12 }
+    { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
   );
 
   revealEls.forEach((el) => revealObserver.observe(el));
@@ -113,7 +115,7 @@ if (lazyVideos.length > 0) {
         observer.unobserve(target);
       });
     },
-    { rootMargin: "0px 0px 300px 0px" }
+    { rootMargin: "0px 0px 300px 0px" },
   );
 
   lazyVideos.forEach((v) => videoObserver.observe(v));
@@ -201,7 +203,11 @@ const preloadProjectMedia = (item) => {
   if (!mediaData) return;
   try {
     JSON.parse(mediaData).forEach((media) => {
-      if (media.type === "image" && media.src && !preloadedImages.has(media.src)) {
+      if (
+        media.type === "image" &&
+        media.src &&
+        !preloadedImages.has(media.src)
+      ) {
         preloadImage(media.src).catch(() => {});
       }
     });
@@ -306,7 +312,7 @@ const showNextMedia = () =>
 const showPrevMedia = () =>
   showMedia(
     (currentMediaIndex - 1 + currentMediaArray.length) %
-      currentMediaArray.length
+      currentMediaArray.length,
   );
 
 /**
@@ -361,7 +367,14 @@ const setupMediaView = () => {
 /**
  * Populate and open the modal.
  */
-const openModal = (title, subtitle, description, mediaArray, videoLink, siteLink) => {
+const openModal = (
+  title,
+  subtitle,
+  description,
+  mediaArray,
+  videoLink,
+  siteLink,
+) => {
   modalTitle.textContent = title;
   modalSubtitle.textContent = subtitle;
 
@@ -404,7 +417,9 @@ const openModal = (title, subtitle, description, mediaArray, videoLink, siteLink
       modalSiteLink.onclick = (e) => {
         e.preventDefault();
         closeModal();
-        document.querySelector(siteLink)?.scrollIntoView({ behavior: "smooth" });
+        document
+          .querySelector(siteLink)
+          ?.scrollIntoView({ behavior: "smooth" });
       };
     } else {
       modalSiteLink.setAttribute("target", "_blank");
@@ -421,7 +436,8 @@ const openModal = (title, subtitle, description, mediaArray, videoLink, siteLink
   modalContent.style.animation = "none";
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      modalContent.style.animation = "popUp 0.28s cubic-bezier(0.22, 0.61, 0.36, 1)";
+      modalContent.style.animation =
+        "popUp 0.28s cubic-bezier(0.22, 0.61, 0.36, 1)";
     });
   });
 };
@@ -448,7 +464,7 @@ const closeModal = () => {
       currentMediaArray = [];
       currentMediaIndex = 0;
     },
-    { once: true }
+    { once: true },
   );
 };
 
@@ -484,7 +500,7 @@ modalMediaContainer.addEventListener(
     mediaTouchStartX = event.changedTouches[0].clientX;
     mediaTouchStartY = event.changedTouches[0].clientY;
   },
-  { passive: true }
+  { passive: true },
 );
 
 modalMediaContainer.addEventListener(
@@ -499,7 +515,7 @@ modalMediaContainer.addEventListener(
       else showPrevMedia();
     }
   },
-  { passive: true }
+  { passive: true },
 );
 
 // --- Wire up each project card ---
@@ -535,9 +551,155 @@ const preloadObserver = new IntersectionObserver(
       observer.unobserve(target);
     });
   },
-  { rootMargin: "200px" }
+  { rootMargin: "200px" },
 );
 
 document.querySelectorAll(".project-item").forEach((item) => {
   preloadObserver.observe(item);
 });
+
+/* ========== Custom frosted cursor ========== */
+(function () {
+  // ---- TUNE ME ----
+  const CONFIG = {
+    color: "#26262b", // ← COLOR of the circle
+    alpha: 0.5, // ← transparency (0 = clear, 1 = solid)
+    dotSize: 8, // ← resting dot SIZE (px)
+    ringSize: 40, // ← expanded circle SIZE over links (px)
+    ease: 0.1, // ← LERP / follow speed (lower = more lag, higher = snappier)
+    blur: 0.2, // ← frosted blur strength (px)
+  };
+  // -----------------
+
+  const cur = document.getElementById("cursor");
+  const dot = document.getElementById("cursorDot");
+  const arrow = document.getElementById("cursorArrow");
+  const ripple = document.getElementById("cursorRipple");
+  if (!cur || !dot) return;
+  if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return; // touch → skip
+
+  let ease = CONFIG.ease;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches)
+    ease = Math.max(ease, 0.5);
+
+  const toRGBA = (hex, a) => {
+    let h = String(hex).replace("#", "");
+    if (h.length === 3)
+      h = h
+        .split("")
+        .map((c) => c + c)
+        .join("");
+    const n = parseInt(h, 16);
+    return isNaN(n)
+      ? `rgba(40,40,46,${a})`
+      : `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+  };
+
+  const rest = CONFIG.dotSize / CONFIG.ringSize;
+  dot.style.width = CONFIG.ringSize + "px";
+  dot.style.height = CONFIG.ringSize + "px";
+  dot.style.background = toRGBA(CONFIG.color, CONFIG.alpha);
+  dot.style.backdropFilter =
+    dot.style.webkitBackdropFilter = `blur(${CONFIG.blur}px) saturate(160%)`;
+  dot.style.transform = `translate(-50%,-50%) scale(${rest})`;
+
+  let mx = innerWidth / 2,
+    my = innerHeight / 2,
+    x = mx,
+    y = my,
+    shown = false;
+
+  // PERF: the follow loop runs only while the dot is catching up to the pointer,
+  // then parks itself. A custom cursor that rAF-loops forever keeps the
+  // compositor busy every frame (the more so with a backdrop-filter over the
+  // animated background canvas) and makes the whole page feel sluggish. Idling
+  // when there's nothing to move hands those frames back to scrolling + the
+  // keycap. The loop is woken again on the next mouse move.
+  let rafId = null;
+
+  function tick() {
+    x += (mx - x) * ease;
+    y += (my - y) * ease;
+    cur.style.left = x + "px"; // left/top, NOT transform — keeps the blur working
+    cur.style.top = y + "px";
+    // Settled? (within half a pixel of the target on both axes) → stop.
+    if (Math.abs(mx - x) < 0.5 && Math.abs(my - y) < 0.5) {
+      x = mx;
+      y = my;
+      cur.style.left = x + "px";
+      cur.style.top = y + "px";
+      rafId = null;
+      return;
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function wake() {
+    if (rafId == null) rafId = requestAnimationFrame(tick);
+  }
+
+  const LINK = 'a[href], [data-cursor="link"]';
+  const SOFT = 'button, [data-cursor="soft"]';
+
+  addEventListener(
+    "mousemove",
+    (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+      if (!shown) {
+        x = mx;
+        y = my;
+        shown = true;
+        cur.style.opacity = 1;
+      }
+      wake(); // resume the follow loop only while the pointer is moving
+    },
+    { passive: true },
+  );
+
+  // PERF: only touch the DOM when the hover MODE actually changes. mouseover
+  // fires for every descendant entered; re-writing identical styles each time
+  // forces needless style recalcs.
+  let mode = "";
+  const setMode = (next) => {
+    if (next === mode) return;
+    mode = next;
+    if (next === "link") {
+      // links → diagonal arrow
+      dot.style.transform = "translate(-50%,-50%) scale(1)";
+      if (arrow) {
+        arrow.style.opacity = 1;
+        arrow.style.transform = "scale(1)";
+      }
+      if (ripple) ripple.style.animation = "none";
+    } else if (next === "soft") {
+      // buttons → pulsing click ripple
+      dot.style.transform = "translate(-50%,-50%) scale(1)";
+      if (arrow) {
+        arrow.style.opacity = 0;
+        arrow.style.transform = "scale(.5)";
+      }
+      if (ripple)
+        ripple.style.animation = "cursorRipple 1.1s ease-out infinite";
+    } else {
+      // everything else → small dot
+      dot.style.transform = `translate(-50%,-50%) scale(${rest})`;
+      if (arrow) {
+        arrow.style.opacity = 0;
+        arrow.style.transform = "scale(.5)";
+      }
+      if (ripple) ripple.style.animation = "none";
+    }
+  };
+
+  addEventListener("mouseover", (e) => {
+    const t = e.target;
+    if (t.closest && t.closest(LINK)) setMode("link");
+    else if (t.closest && t.closest(SOFT)) setMode("soft");
+    else setMode("rest");
+  });
+  document.addEventListener("mouseleave", () => (cur.style.opacity = 0));
+  document.addEventListener("mouseenter", () => {
+    if (shown) cur.style.opacity = 1;
+  });
+})();
