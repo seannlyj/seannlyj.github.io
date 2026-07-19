@@ -135,6 +135,19 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 const filterBtns = document.querySelectorAll("[data-filter-btn]");
 const filterItems = document.querySelectorAll("[data-filter-item]");
 
+// --- Work index: sticky hover-preview ---
+const workPreviewImg = document.querySelector(".work-preview-img");
+
+/** Point the sticky preview pane at a given project's thumbnail. */
+const setWorkPreview = (item) => {
+  if (!workPreviewImg || !item) return;
+  const thumb = item.querySelector(".project-row-thumb");
+  const src = thumb ? thumb.getAttribute("src") : null;
+  if (src && workPreviewImg.getAttribute("src") !== src) {
+    workPreviewImg.setAttribute("src", src);
+  }
+};
+
 /**
  * Show only the project items matching the selected category.
  * @param {string} value - The category to filter by ("all" shows everything)
@@ -144,6 +157,8 @@ const filterProjects = (value) => {
     const match = value === "all" || value === item.dataset.category;
     item.classList.toggle("active", match);
   });
+  // Keep the preview on a currently-visible project.
+  setWorkPreview(document.querySelector(".project-item.active"));
 };
 
 let activeFilterBtn = filterBtns[0];
@@ -155,28 +170,6 @@ filterBtns.forEach((btn) => {
     if (activeFilterBtn) activeFilterBtn.classList.remove("active");
     this.classList.add("active");
     activeFilterBtn = this;
-  });
-});
-
-/* ============================================================================
-   PROJECT TAG CHIPS
-   Split the comma-separated category line into individual chips so each card
-   reads cleanly. The original text remains as a fallback when JS is disabled.
-   ============================================================================ */
-
-document.querySelectorAll(".project-category").forEach((el) => {
-  const tags = el.textContent
-    .split(",")
-    .map((tag) => tag.trim())
-    .filter(Boolean);
-  if (tags.length === 0) return;
-
-  el.textContent = "";
-  tags.forEach((tag) => {
-    const chip = document.createElement("span");
-    chip.className = "project-tag";
-    chip.textContent = tag;
-    el.appendChild(chip);
   });
 });
 
@@ -520,7 +513,12 @@ modalMediaContainer.addEventListener(
 
 // --- Wire up each project card ---
 document.querySelectorAll(".project-item").forEach((item) => {
-  item.addEventListener("mouseenter", () => preloadProjectMedia(item));
+  item.addEventListener("mouseenter", () => {
+    preloadProjectMedia(item);
+    setWorkPreview(item);
+  });
+  // Keyboard users: sync the preview when a row receives focus.
+  item.addEventListener("focusin", () => setWorkPreview(item));
 
   item.addEventListener("click", (event) => {
     event.preventDefault();
@@ -557,149 +555,3 @@ const preloadObserver = new IntersectionObserver(
 document.querySelectorAll(".project-item").forEach((item) => {
   preloadObserver.observe(item);
 });
-
-/* ========== Custom frosted cursor ========== */
-(function () {
-  // ---- TUNE ME ----
-  const CONFIG = {
-    color: "#26262b", // ← COLOR of the circle
-    alpha: 0.5, // ← transparency (0 = clear, 1 = solid)
-    dotSize: 8, // ← resting dot SIZE (px)
-    ringSize: 40, // ← expanded circle SIZE over links (px)
-    ease: 0.1, // ← LERP / follow speed (lower = more lag, higher = snappier)
-    blur: 0.2, // ← frosted blur strength (px)
-  };
-  // -----------------
-
-  const cur = document.getElementById("cursor");
-  const dot = document.getElementById("cursorDot");
-  const arrow = document.getElementById("cursorArrow");
-  const ripple = document.getElementById("cursorRipple");
-  if (!cur || !dot) return;
-  if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return; // touch → skip
-
-  let ease = CONFIG.ease;
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches)
-    ease = Math.max(ease, 0.5);
-
-  const toRGBA = (hex, a) => {
-    let h = String(hex).replace("#", "");
-    if (h.length === 3)
-      h = h
-        .split("")
-        .map((c) => c + c)
-        .join("");
-    const n = parseInt(h, 16);
-    return isNaN(n)
-      ? `rgba(40,40,46,${a})`
-      : `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
-  };
-
-  const rest = CONFIG.dotSize / CONFIG.ringSize;
-  dot.style.width = CONFIG.ringSize + "px";
-  dot.style.height = CONFIG.ringSize + "px";
-  dot.style.background = toRGBA(CONFIG.color, CONFIG.alpha);
-  dot.style.backdropFilter =
-    dot.style.webkitBackdropFilter = `blur(${CONFIG.blur}px) saturate(160%)`;
-  dot.style.transform = `translate(-50%,-50%) scale(${rest})`;
-
-  let mx = innerWidth / 2,
-    my = innerHeight / 2,
-    x = mx,
-    y = my,
-    shown = false;
-
-  // PERF: the follow loop runs only while the dot is catching up to the pointer,
-  // then parks itself. A custom cursor that rAF-loops forever keeps the
-  // compositor busy every frame (the more so with a backdrop-filter over the
-  // animated background canvas) and makes the whole page feel sluggish. Idling
-  // when there's nothing to move hands those frames back to scrolling + the
-  // keycap. The loop is woken again on the next mouse move.
-  let rafId = null;
-
-  function tick() {
-    x += (mx - x) * ease;
-    y += (my - y) * ease;
-    cur.style.left = x + "px"; // left/top, NOT transform — keeps the blur working
-    cur.style.top = y + "px";
-    // Settled? (within half a pixel of the target on both axes) → stop.
-    if (Math.abs(mx - x) < 0.5 && Math.abs(my - y) < 0.5) {
-      x = mx;
-      y = my;
-      cur.style.left = x + "px";
-      cur.style.top = y + "px";
-      rafId = null;
-      return;
-    }
-    rafId = requestAnimationFrame(tick);
-  }
-
-  function wake() {
-    if (rafId == null) rafId = requestAnimationFrame(tick);
-  }
-
-  const LINK = 'a[href], [data-cursor="link"]';
-  const SOFT = 'button, [data-cursor="soft"]';
-
-  addEventListener(
-    "mousemove",
-    (e) => {
-      mx = e.clientX;
-      my = e.clientY;
-      if (!shown) {
-        x = mx;
-        y = my;
-        shown = true;
-        cur.style.opacity = 1;
-      }
-      wake(); // resume the follow loop only while the pointer is moving
-    },
-    { passive: true },
-  );
-
-  // PERF: only touch the DOM when the hover MODE actually changes. mouseover
-  // fires for every descendant entered; re-writing identical styles each time
-  // forces needless style recalcs.
-  let mode = "";
-  const setMode = (next) => {
-    if (next === mode) return;
-    mode = next;
-    if (next === "link") {
-      // links → diagonal arrow
-      dot.style.transform = "translate(-50%,-50%) scale(1)";
-      if (arrow) {
-        arrow.style.opacity = 1;
-        arrow.style.transform = "scale(1)";
-      }
-      if (ripple) ripple.style.animation = "none";
-    } else if (next === "soft") {
-      // buttons → pulsing click ripple
-      dot.style.transform = "translate(-50%,-50%) scale(1)";
-      if (arrow) {
-        arrow.style.opacity = 0;
-        arrow.style.transform = "scale(.5)";
-      }
-      if (ripple)
-        ripple.style.animation = "cursorRipple 1.1s ease-out infinite";
-    } else {
-      // everything else → small dot
-      dot.style.transform = `translate(-50%,-50%) scale(${rest})`;
-      if (arrow) {
-        arrow.style.opacity = 0;
-        arrow.style.transform = "scale(.5)";
-      }
-      if (ripple) ripple.style.animation = "none";
-    }
-  };
-
-  addEventListener("mouseover", (e) => {
-    const t = e.target;
-    if (t.closest && t.closest(LINK)) setMode("link");
-    else if (t.closest && t.closest(SOFT)) setMode("soft");
-    else setMode("rest");
-  });
-  document.addEventListener("mouseleave", () => (cur.style.opacity = 0));
-  document.addEventListener("mouseenter", () => {
-    if (shown) cur.style.opacity = 1;
-  });
-})();

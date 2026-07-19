@@ -1,15 +1,16 @@
 "use strict";
 
 /* ============================================================================
-   ROTATING KEYCAP — a 3D keyboard keycap with an "S" legend, spinning on its
-   vertical axis behind the page content. Built from scratch on the 2D canvas:
-   a rounded-square (superellipse) profile lofted through three rings into a
-   tapered, soft-edged mesh, a Y-rotation matrix + fixed camera tilt,
-   perspective projection, back-face culling, painter's-algorithm face sort,
-   and Lambert shading from a fixed light. The "S" is sampled from an offscreen
-   text render and laid onto the top face's plane.
-   Press and hold anywhere to depress the key; release to let it spring back.
-   Sits behind all content (z-index: -1) as a living watermark.
+   ROTATING KEYCAP — a 3D keyboard keycap with an "S" legend, spinning behind
+   the page as a living watermark. Built on the 2D canvas: a rounded-square
+   profile lofted into a tapered mesh, Y-rotation + fixed camera tilt,
+   perspective projection, back-face culling, painter's-algorithm sort, and
+   Lambert shading. Press and hold anywhere to depress the key; release to
+   spring it back. Sits behind all content (z-index: -1).
+
+   Performance: the loop is capped to ~30fps, pauses entirely while the hero is
+   scrolled out of view, and blits the "S" legend as a pre-rendered texture with
+   a single drawImage per frame instead of sampling it dot-by-dot.
    ============================================================================ */
 
 (function () {
@@ -27,24 +28,18 @@
   const TILT_X = 1; // fixed camera tilt so the top + legend stay visible
   const SEG = 44; // points around the profile (higher = smoother)
   const ROUND = 8; // superellipse exponent (2 = circle, ∞ = square)
-  const SAMPLE_STEP = 3; // pixel stride when sampling the offscreen "S"
-  const DOT_R = 1; // legend dot radius at scale=1 (overlap into a solid S)
   const HUE = 220,
     SAT = 15; // cool-gray palette (matches --coolgray)
   const FACE_ALPHA = 0.1; // subtle so body text stays readable
-  const LEGEND_LIGHT = 255; // dark engraved legend (reads on the light page)
-  const LEGEND_ALPHA = 1;
+  const LEGEND_ALPHA = 1; // legend opacity when the top fully faces the camera
+  const FRAME_MIN_MS = 1000 / 30; // frame-rate cap — the rotation is slow
 
   // Press animation — a real keycap. The key travels DOWN and HOLDS while the
   // pointer is held, then SPRINGS back up with a little overshoot on release.
-  // A spring-damper is integrated per frame toward a moving target (depth while
-  // held, 0 when released), so the hold duration is honoured exactly.
   const PRESS_DEPTH = 52; // world-Y travel at full depress (~28 px on screen)
-  // Going down: stiff + well-damped, snaps to the bottom and stays put.
-  const DOWN_OMEGA = 42; // natural frequency (rad/s)
-  const DOWN_ZETA = 0.82; // damping ratio (firm bottom-out, barely a bounce)
-  // Coming up: a touch springier, pops just past rest, then settles.
-  const UP_OMEGA = 30;
+  const DOWN_OMEGA = 42; // natural frequency (rad/s) — firm bottom-out
+  const DOWN_ZETA = 0.82;
+  const UP_OMEGA = 30; // springier on the way up
   const UP_ZETA = 0.38; // underdamped, small overshoot above rest
 
   // Light direction (upper-left-front), normalized.
@@ -55,8 +50,7 @@
   })();
 
   let dpr, W, H;
-  let rafId = null,
-    lastTs = 0;
+  let rafId = null;
   let rotY = 0;
   let pressTarget = 0; // 0 = released (up), PRESS_DEPTH = held (down)
   let pressPos = 0; // current depth (world-Y), integrated each frame
@@ -65,7 +59,10 @@
   let outline = []; // unit rounded-square profile [[x,z], ...]
   let verts = []; // [[x,y,z], ...]
   let faces = []; // [{ idx:[..], legend? }]
-  let legendPts = []; // [[x,y,z], ...] points just above the top face
+  let legendCanvas = null; // pre-rendered "S" glyph texture
+  let legendW = 0,
+    legendH = 0; // texture dimensions
+  let legendCorners = null; // [P00, P10, P01] local coords of the texture corners
 
   function buildOutline() {
     outline = [];
@@ -116,6 +113,9 @@
     buildLegend(rings[0].y, rings[0].r);
   }
 
+  // Render the "S" once to an offscreen canvas and record the three corners of
+  // its plane (in local space). Each frame we project those corners and blit the
+  // texture with one affine drawImage — no per-pixel sampling.
   function buildLegend(yTop, topR) {
     const fs = 200;
     const offW = Math.ceil(fs * 1.1);
@@ -129,20 +129,20 @@
     oc.textAlign = "center";
     oc.textBaseline = "middle";
     oc.fillText("S", offW / 2, offH / 2);
-    const { data } = oc.getImageData(0, 0, offW, offH);
 
-    const norm = offH / 2; // map glyph height to [-1, 1]
     const span = topR * 0.78; // legend extent on the top face
     const y = yTop - 0.5; // a hair above the top to avoid z-fighting
-    legendPts = [];
-    for (let py = 0; py < offH; py += SAMPLE_STEP) {
-      for (let px = 0; px < offW; px += SAMPLE_STEP) {
-        if (data[(py * offW + px) * 4 + 3] < 128) continue;
-        const lx = ((px - offW / 2) / norm) * span;
-        const lz = -((py - offH / 2) / norm) * span;
-        legendPts.push([lx, y, lz]);
-      }
-    }
+    const ax = (offW / offH) * span; // half-width in world X
+
+    legendCanvas = off;
+    legendW = offW;
+    legendH = offH;
+    // Image (0,0) → top-left, (offW,0) → top-right, (0,offH) → bottom-left.
+    legendCorners = [
+      [-ax, y, span],
+      [ax, y, span],
+      [-ax, y, -span],
+    ];
   }
 
   // --- KEEP: canvas sizing with dpr cap ---
@@ -273,34 +273,44 @@
       ctx.stroke();
     }
 
-    // Legend: only when the top faces the camera; fade as it turns edge-on.
-    if (topVisible && legendPts.length) {
+    // Legend: blit the pre-rendered "S" texture onto the top face with a single
+    // affine drawImage (perspective is mild at this scale). Only while the top
+    // faces the camera; fade as it turns edge-on.
+    if (topVisible && legendCanvas) {
       const a = LEGEND_ALPHA * Math.min(1, topFacing * 1.7);
       if (a > 0.01) {
-        ctx.fillStyle = `hsla(${HUE},${SAT}%,${LEGEND_LIGHT}%,${a.toFixed(3)})`;
-        ctx.beginPath();
-        for (const lp of legendPts) {
-          const [sx, sy, sc] = project(rotate(lp));
-          const r = DOT_R * Math.max(0.5, sc);
-          ctx.moveTo(sx + r, sy);
-          ctx.arc(sx, sy, r, 0, Math.PI * 2);
-        }
-        ctx.fill();
+        const s00 = project(rotate(legendCorners[0]));
+        const s10 = project(rotate(legendCorners[1]));
+        const s01 = project(rotate(legendCorners[2]));
+        ctx.save();
+        ctx.globalAlpha = a;
+        ctx.transform(
+          (s10[0] - s00[0]) / legendW,
+          (s10[1] - s00[1]) / legendW,
+          (s01[0] - s00[0]) / legendH,
+          (s01[1] - s00[1]) / legendH,
+          s00[0],
+          s00[1],
+        );
+        ctx.drawImage(legendCanvas, 0, 0);
+        ctx.restore();
       }
     }
 
     ctx.restore();
   }
 
+  let lastFrame = 0;
   function loop(ts) {
-    if (!lastTs) lastTs = ts;
-    const rawMs = ts - lastTs;
-    lastTs = ts;
+    rafId = requestAnimationFrame(loop);
+    // Frame-rate cap: skip until at least FRAME_MIN_MS has elapsed.
+    if (lastFrame && ts - lastFrame < FRAME_MIN_MS) return;
+    const rawMs = lastFrame ? ts - lastFrame : 16.667;
+    lastFrame = ts;
     const dt = Math.min(rawMs / 16.667, 3);
     rotY += ROT_SPEED * dt;
     stepPress(rawMs / 1000);
     drawFrame();
-    rafId = requestAnimationFrame(loop);
   }
 
   function renderStaticFrame() {
@@ -320,13 +330,21 @@
 
   function start() {
     if (!rafId) {
-      lastTs = 0;
+      lastFrame = 0;
       rafId = requestAnimationFrame(loop);
     }
   }
   function stop() {
     cancelAnimationFrame(rafId);
     rafId = null;
+  }
+
+  // Run only while the page is visible AND the hero (top) is on screen.
+  let heroVisible = true;
+  let docVisible = !document.hidden;
+  function updateRunning() {
+    if (heroVisible && docVisible) start();
+    else stop();
   }
 
   function pressDown() {
@@ -336,10 +354,9 @@
     pressTarget = 0;
   }
 
-  start();
+  updateRunning();
 
   // Press-and-hold: depress on pointer-down, spring back up on release.
-  // Pointer events unify mouse, touch and pen.
   document.addEventListener("pointerdown", pressDown);
   // Release is caught on window so a pointer-up outside the page still counts.
   window.addEventListener("pointerup", pressUp);
@@ -347,12 +364,23 @@
   window.addEventListener("blur", pressUp);
 
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      stop();
-    } else {
-      start();
-    }
+    docVisible = !document.hidden;
+    updateRunning();
   });
+
+  // Pause the render loop while the hero is scrolled out of view — the keycap is
+  // barely visible behind lower sections, so this hands those frames back to
+  // scrolling the heavier sections below (e.g. Work).
+  const heroEl = document.getElementById("home");
+  if (heroEl && "IntersectionObserver" in window) {
+    new IntersectionObserver(
+      ([entry]) => {
+        heroVisible = entry.isIntersecting;
+        updateRunning();
+      },
+      { threshold: 0 },
+    ).observe(heroEl);
+  }
 
   let resizeTimer;
   window.addEventListener(
@@ -363,7 +391,7 @@
         stop();
         setupCanvas();
         buildGeometry();
-        start();
+        updateRunning();
       }, 150);
     },
     { passive: true },

@@ -31,19 +31,7 @@
 
 <body>
 
-  <div id="cursor" aria-hidden="true">
-    <div id="cursorDot">
-      <svg id="cursorArrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="7" y1="17" x2="17" y2="7"></line>
-        <polyline points="9 7 17 7 17 15"></polyline>
-      </svg>
-
-      <span id="cursorRipple"></span>
-    </div>
-  </div>
-
-  <!-- Living background canvas (coalescing "SN" monogram of 0/1 glyphs) -->
+  <!-- Rotating 3D keycap watermark (drawn in fx.js) -->
   <canvas id="fx-canvas" aria-hidden="true"></canvas>
 
   <!-- Sentinel for header scroll observer — zero visible footprint -->
@@ -89,8 +77,8 @@
       <div class="container hero-inner">
 
         <div class="hero-text reveal">
-          <p class="eyebrow">Software/Game Engineer · Singapore</p>
-          <h1 class="hero-title">Sean Neo</h1>
+          <p class="eyebrow hero-status">Software/Game Engineer · Singapore</p>
+          <h1 class="hero-title">Sean Neo<span class="hero-caret" aria-hidden="true"></span></h1>
           <p class="hero-lede">
             Computer Science undergraduate at NTU with a lifelong passion for games —
             building thoughtful software and crafting interactive experiences.
@@ -350,8 +338,9 @@
           <li><button class="filter-btn" data-filter-btn>Software/Apps</button></li>
         </ul>
 
-        <!-- Project grid -->
-        <ul class="project-list">
+        <!-- Project index — a typographic list; hovering a row previews it at right -->
+        <div class="work-index">
+          <ul class="project-list" data-project-list>
 
           <!-- Overtone Project -->
           <li class="project-item active reveal" data-filter-item data-category="games"
@@ -372,16 +361,12 @@
                 {"type": "image", "src": "./assets/images/featuregraphic-overtone-4.png", "alt": "Overtone Feature Graphic"}
               ]'
               data-video-link="https://youtu.be/s939wd4GPQg">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-overtone.png" alt="Overtone" loading="lazy">
-              </figure>
-              <h3 class="project-title">Overtone</h3>
-              <p class="project-category">Rythm, Action, Unity</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-overtone.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">Overtone</span>
+              <span class="project-row-meta">Rythm · Action · Unity</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- Pugilist Project -->
@@ -403,16 +388,12 @@
               ]'
               data-video-link="https://youtu.be/ALtFc9skRVk"
               data-site-link="#devlog">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-pugilist.png" alt="Pugilist" loading="lazy">
-              </figure>
-              <h3 class="project-title">Pugilist</h3>
-              <p class="project-category">Action, Combat, Multiplayer, Unreal</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-pugilist.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">Pugilist</span>
+              <span class="project-row-meta">Action · Combat · Multiplayer · Unreal</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- Mudra Project -->
@@ -434,16 +415,12 @@
                 {"type": "image", "src": "./assets/images/featuregraphic-mudra-3.png", "alt": "Mudra Feature Graphic"}
               ]'
               data-video-link="https://youtu.be/oIdJtR5jeBc">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-mudra-2.png" alt="Mudra" loading="lazy">
-              </figure>
-              <h3 class="project-title">MUDRA</h3>
-              <p class="project-category">Action, Combat, Unity</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-mudra-2.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">MUDRA</span>
+              <span class="project-row-meta">Action · Combat · Unity</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- I be Bottle Project -->
@@ -463,16 +440,12 @@
                 {"type": "image", "src": "./assets/images/featuregraphic-i-be-bottle.png", "alt": "I be Bottle Feature Graphic"}
               ]'
               data-video-link="https://youtube.com/shorts/vGNl9JY1fWU?feature=share">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-i-be-bottle.png" alt="I be Bottle" loading="lazy">
-              </figure>
-              <h3 class="project-title">I be Bottle.</h3>
-              <p class="project-category">Hyper-casual, Arcade, Mobile, Unity</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-i-be-bottle.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">I be Bottle.</span>
+              <span class="project-row-meta">Hyper-casual · Arcade · Mobile · Unity</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- Downtime Project -->
@@ -493,16 +466,12 @@
               ]'
               data-video-link="https://www.youtube.com/watch?v=LfGkPay0ZP0"
               data-site-link="https://na-es.itch.io/downtime">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-downtime.png" alt="downtime" loading="lazy">
-              </figure>
-              <h3 class="project-title">Downtime</h3>
-              <p class="project-category">FPS, Unity</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-downtime.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">Downtime</span>
+              <span class="project-row-meta">FPS · Unity</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- Slime Arena Project -->
@@ -518,16 +487,12 @@
                 {"type": "image", "src": "./assets/images/featuregraphic-slimearena.png", "alt": "Slime Arena Feature Graphic"}
               ]'
               data-site-link="https://na-es.itch.io/slimearena">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-slimearena.png" alt="slime arena" loading="lazy">
-              </figure>
-              <h3 class="project-title">Slime Arena</h3>
-              <p class="project-category">Action, Arena, Unity, Game Jam Submission</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-slimearena.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">Slime Arena</span>
+              <span class="project-row-meta">Action · Arena · Unity · Game Jam</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- WASD+E Project -->
@@ -542,16 +507,12 @@
                 {"type": "image", "src": "./assets/images/featuregraphic-wasde.png", "alt": "WASD+E Feature Graphic"}
               ]'
               data-site-link="https://na-es.itch.io/wasde">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-wasde.png" alt="wasd+e" loading="lazy">
-              </figure>
-              <h3 class="project-title">WASD+E</h3>
-              <p class="project-category">Puzzle, 2D, Unity, Game Jam Submission</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-wasde.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">WASD+E</span>
+              <span class="project-row-meta">Puzzle · 2D · Unity · Game Jam</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- Monochrome Project -->
@@ -565,16 +526,12 @@
                 {"type": "image", "src": "./assets/images/featuregraphic-monochrome.png", "alt": "Monochrome Feature Graphic"}
               ]'
               data-video-link="https://www.youtube.com/watch?v=Qqa2SdD7biI">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-monochrome.png" alt="monochrome" loading="lazy">
-              </figure>
-              <h3 class="project-title">Monochrome</h3>
-              <p class="project-category">2D, Platformer, Unity</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-monochrome.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">Monochrome</span>
+              <span class="project-row-meta">2D · Platformer · Unity</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- Pathfinder Project -->
@@ -588,16 +545,12 @@
                 {"type": "image", "src": "./assets/images/featuregraphic-pathfinder.png", "alt": "Pathfinder Feature Graphic"}
               ]'
               data-video-link="https://www.youtube.com/watch?v=h3zYvY9v424">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-pathfinder.png" alt="pathfinder" loading="lazy">
-              </figure>
-              <h3 class="project-title">Pathfinder</h3>
-              <p class="project-category">3D, Multiplayer, Puzzle, Unity</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-pathfinder.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">Pathfinder</span>
+              <span class="project-row-meta">3D · Multiplayer · Puzzle · Unity</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- Vital Blue Project -->
@@ -617,16 +570,12 @@
                 {"type": "image", "src": "./assets/images/featuregraphic-codeblue.png", "alt": "Vital Blue Feature Graphic"}
               ]'
               data-video-link="https://www.youtube.com/watch?v=LtsA_CYyad8">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-codeblue.png" alt="code blue" loading="lazy">
-              </figure>
-              <h3 class="project-title">Vital Blue</h3>
-              <p class="project-category">2D, Education, Healthcare, Unity</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-codeblue.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">Vital Blue</span>
+              <span class="project-row-meta">2D · Education · Healthcare · Unity</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- AI Assessor Project -->
@@ -646,16 +595,12 @@
                 {"type": "image", "src": "./assets/images/featuregraphic-aiassessor-2.png", "alt": "AI Assessor Feature Graphic"},
                 {"type": "image", "src": "./assets/images/featuregraphic-aiassessor-3.png", "alt": "AI Assessor Feature Graphic"}
               ]'>
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-aiassessor-2.png" alt="AI Assessor" loading="eager">
-              </figure>
-              <h3 class="project-title">AI Assessor</h3>
-              <p class="project-category">React, TypeScript, Ant Design</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-aiassessor-2.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">AI Assessor</span>
+              <span class="project-row-meta">React · TypeScript · Ant Design</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- SunnySide Project -->
@@ -673,16 +618,12 @@
                 {"type": "image", "src": "./assets/images/featuregraphic-sunnyside-landing.png", "alt": "SunnySide Feature Graphic"}
               ]'
               data-video-link="https://youtu.be/zVc8yq4cGzw">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-sunnyside.png" alt="sunnyside" loading="lazy">
-              </figure>
-              <h3 class="project-title">SunnySide</h3>
-              <p class="project-category">React, MongoDB, NodeJS</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-sunnyside.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">SunnySide</span>
+              <span class="project-row-meta">React · MongoDB · NodeJS</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- Pomosimple Project -->
@@ -700,16 +641,12 @@
                 {"type": "image", "src": "./assets/images/featuregraphic-pomosimple.png", "alt": "Pomosimple Feature Graphic"}
               ]'
               data-site-link="https://play.google.com/store/apps/details?id=com.seannlyj.pomosimple&hl=en">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-pomosimple.png" alt="pomosimple" loading="lazy">
-              </figure>
-              <h3 class="project-title">Pomosimple</h3>
-              <p class="project-category">Android Studio, Firebase, Java</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-pomosimple.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">Pomosimple</span>
+              <span class="project-row-meta">Android Studio · Firebase · Java</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
           <!-- Vocal Insights Project -->
@@ -729,19 +666,22 @@
               ]'
               data-video-link="https://www.youtube.com/watch?v=23vTC4eCH6Y&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE"
               data-site-link="https://devpost.com/software/vocal-insights?ref_content=user-portfolio&ref_feature=in_progress">
-            <a href="#" class="project-link">
-              <figure class="project-img">
-                <div class="project-item-icon-box">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <img src="./assets/images/project-vocal-insights.png" alt="vocal insights" loading="lazy">
-              </figure>
-              <h3 class="project-title">Vocal Insights</h3>
-              <p class="project-category">AI/NLP, Flask, SQLite, Python</p>
-            </a>
+            <button class="project-row" type="button">
+              <img class="project-row-thumb" src="./assets/images/project-vocal-insights.png" alt="" loading="lazy" aria-hidden="true">
+              <span class="project-row-title">Vocal Insights</span>
+              <span class="project-row-meta">AI/NLP · Flask · SQLite · Python</span>
+              <span class="project-row-cue" aria-hidden="true"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+            </button>
           </li>
 
-        </ul>
+          </ul>
+
+          <aside class="work-preview" aria-hidden="true">
+            <div class="work-preview-inner">
+              <img class="work-preview-img" src="./assets/images/project-overtone.png" alt="">
+            </div>
+          </aside>
+        </div>
 
       </div>
 
