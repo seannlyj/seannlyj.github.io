@@ -152,6 +152,11 @@
     H = window.innerHeight;
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
+    // Pin the element box to exactly one viewport (it is position:absolute at the
+    // top of the page), so the buffer and displayed size match and the keycap
+    // covers just the first screen, scrolling away with the hero.
+    canvas.style.width = W + "px";
+    canvas.style.height = H + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
