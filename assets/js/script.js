@@ -135,19 +135,6 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 const filterBtns = document.querySelectorAll("[data-filter-btn]");
 const filterItems = document.querySelectorAll("[data-filter-item]");
 
-// --- Work index: sticky hover-preview ---
-const workPreviewImg = document.querySelector(".work-preview-img");
-
-/** Point the sticky preview pane at a given project's thumbnail. */
-const setWorkPreview = (item) => {
-  if (!workPreviewImg || !item) return;
-  const thumb = item.querySelector(".project-row-thumb");
-  const src = thumb ? thumb.getAttribute("src") : null;
-  if (src && workPreviewImg.getAttribute("src") !== src) {
-    workPreviewImg.setAttribute("src", src);
-  }
-};
-
 /**
  * Show only the project items matching the selected category.
  * @param {string} value - The category to filter by ("all" shows everything)
@@ -157,8 +144,6 @@ const filterProjects = (value) => {
     const match = value === "all" || value === item.dataset.category;
     item.classList.toggle("active", match);
   });
-  // Keep the preview on a currently-visible project.
-  setWorkPreview(document.querySelector(".project-item.active"));
 };
 
 let activeFilterBtn = filterBtns[0];
@@ -513,12 +498,7 @@ modalMediaContainer.addEventListener(
 
 // --- Wire up each project card ---
 document.querySelectorAll(".project-item").forEach((item) => {
-  item.addEventListener("mouseenter", () => {
-    preloadProjectMedia(item);
-    setWorkPreview(item);
-  });
-  // Keyboard users: sync the preview when a row receives focus.
-  item.addEventListener("focusin", () => setWorkPreview(item));
+  item.addEventListener("mouseenter", () => preloadProjectMedia(item));
 
   item.addEventListener("click", (event) => {
     event.preventDefault();
